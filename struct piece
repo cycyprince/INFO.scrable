@@ -1,7 +1,189 @@
-public struct PIECE
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        public static void afficheMain(ref char[,] tabMains, int num_Joueur)
         {
-            public int val;
-            public char nom;
-            public int nb_restant;
+            int i;
+            i = 0;
+            Console.Write(" \nvotre main : \n");
+            Console.Write("\n=============================\n");
+            while (i < 7)
+            {
+
+                Console.Write("| {0} ", tabMains[num_Joueur - 1, i]);
+                i++;
+            }
+            Console.Write("|");
+            Console.Write("\n=============================\n");
         }
-bskbn sn
+
+       static void affichecurseur(char[,] tabcoef,int k, int l)
+        {
+
+            
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n\n=============================================================");
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    Console.Write("|");
+                    if ((i == j || i == 14 - j || j == i - 14))
+                    { Console.BackgroundColor = ConsoleColor.Magenta; } // mot compte double
+
+                    if ((i == 0 && (j == 3 || j == 11)) ||
+                        (i == 2 && (j == 6 || j == 8)) ||
+                        (i == 3 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 6 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 7 && (j == 3 || j == 11)) ||
+                        (i == 8 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 11 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 12 && (j == 6 || j == 8)) ||
+                        (i == 14 && (j == 3 || j == 11)))
+                    { Console.BackgroundColor = ConsoleColor.DarkCyan; }// lettre compte double
+
+
+                    if ((i == 1 && (j == 5 || j == 9)) ||
+                        (i == 5 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 9 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 13 && (j == 5 || j == 9)))
+                    { Console.BackgroundColor = ConsoleColor.DarkBlue; }// lettre compte tripple
+
+
+                    if ((i == 0 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 7 && (j == 0 || j == 14)) ||
+                        (i == 14 && (j == 0 || j == 7 || j == 14)))
+                    { Console.BackgroundColor = ConsoleColor.Red; }// mot compte triple
+                    if (i == k && j == l)
+                    { Console.BackgroundColor = ConsoleColor.Yellow; }// couleur du curseur
+                    Console.Write(' ');
+                    Console.Write(tabcoef[i, j]);
+                    Console.Write(' ');// espace plus grand avec la valeur de la case au milieu
+                }
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Write("|");
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine(" " + (i + 1));
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+
+                Console.WriteLine("=============================================================");
+            }
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine("  A   B   C   D   E   F   G   H   I   J   K   L   M   N   O");
+
+        }
+        static void Main(string[] args)// mettre joueur en paramètre de la fonction
+        {
+            char[,] tabcoef = new char[15, 15];// paramètres de la fonction créé pour tester la fonction
+
+            ConsoleKeyInfo cki;
+            for (int k = 0; k < tabcoef.GetLength(0); k++)
+            {
+                for (int l = 0; l < tabcoef.GetLength(0); l++)
+                {
+                    tabcoef[k, l] = ' ';
+                }
+            }// paramètres de la fonction créé pour tester la fonction
+            char[,] tabMains ={ { 'A', 'B', 'C', 'D', 'E', 'E', 'H' }, { 'A', 'B', 'C', 'D', 'E', 'E', 'H' } };
+            int compte = 1;
+            int a = 0;
+            int b = 0;
+            int joueur=1; // paramètres de la fonction créé pour tester la fonction
+            char[] curseur = new char[7];
+            for (int i = 0; i < 7; i++)
+            { curseur[i] = ' '; }
+            
+
+            do
+            {   ConsoleKeyInfo touche; // touche rentrée pour déplacer le curseur
+                curseur[0]='*';
+                curseur = new char[7];// remet le tableau curseur à 0
+                int i=0;
+                int j = 0;
+                do
+                {
+                    affichecurseur(tabcoef, a, b);
+                    afficheMain(ref tabMains, joueur);// affiche le tableau et la main
+                    for (i = 0; i < 7; i++)
+                    { Console.Write(' ');
+                        Console.Write(' ');
+                        Console.Write(curseur[i]);
+                        Console.Write(' ');
+                    }// affichage du tableau curseur
+
+                    touche = Console.ReadKey();// demande d'un caractère
+                    if (touche.Key == ConsoleKey.RightArrow && j < 6)// si flèche de droite
+                    {
+                        curseur[j] = ' ';
+                        curseur[j+1]='*';
+                        j++;
+
+                    }
+                    if (touche.Key == ConsoleKey.LeftArrow && j > 0)// si flèche de gauche
+                    {
+                        curseur[j-1 ] = '*';
+                        curseur[j] = ' ';
+                        j--;
+                    }
+                    Console.Clear();
+                }
+                while (touche.Key != ConsoleKey.Enter&&j>=0&&j<7);
+
+                char lettre = tabMains[joueur, j];
+                
+              tabMains[joueur, j] =' ';
+            
+            
+            do
+            {
+                affichecurseur(tabcoef,a,b);
+
+
+                cki = Console.ReadKey();// initialisation du caractère rentré
+                if (cki.Key == ConsoleKey.RightArrow && b < tabcoef.GetLength(0) - 1)// si flèche de droite
+                {
+                    b++;
+                }
+                if (cki.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
+                {
+                    b--;
+                }
+                if (cki.Key == ConsoleKey.DownArrow &&a< tabcoef.GetLength(1) - 1)// si flèche du bas
+                {
+                   a ++;
+                }
+                if (cki.Key == ConsoleKey.UpArrow && a >0)// flèche du haut;
+                {a--;
+                }
+
+
+
+                Console.Clear();
+            }
+            while (cki.Key != ConsoleKey.Enter || (tabcoef[a, b]!=' '));
+
+            tabcoef[a, b] = lettre;
+            
+            affichecurseur(tabcoef,a,b);
+                Console.Clear();
+            compte++;
+             }
+             while (compte!=7 || (cki.Key != ConsoleKey.Escape));
+        
+        }
+
+        private static void affiche(char[,] tabcoef, int a, int b)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
