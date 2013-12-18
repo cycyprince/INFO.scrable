@@ -20,7 +20,7 @@ public static void pioche(ref char[,] tabMains, ref PIECE[] tabLettre, int nbJou
                     }
                     j++;                    
                 }
-                i++;++++++++++++++++;
+                i++;
             }
         }
 
