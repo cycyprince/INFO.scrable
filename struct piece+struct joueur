@@ -1,0 +1,13 @@
+public struct PIECE
+        {
+            public int val;
+            public char nom;
+            public int nb_restant;
+
+        }
+
+public struct JOUEUR
+        {
+            public string nom;
+            public int point;
+        }
