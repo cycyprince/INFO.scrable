@@ -1,0 +1,26 @@
+public static void pioche(ref char[,] tabMains, ref PIECE[] tabLettre, int nbJoueurs)
+        {
+            int i = 0; int j = 0;
+            Random rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
+            int lettreChoisie = 0;
+            while (i < nbJoueurs)
+            {
+                j = 0;
+                while (j < 7)
+                {
+                    if (tabMains[i, j] == ' ')
+                    {
+                        lettreChoisie = rndNumbers.Next(0, 26);
+                        while (tabLettre[lettreChoisie].nb_restant == 0)// on prends une autre lettre si il n'y en a plus dans la pioche
+                        {
+                            lettreChoisie = rndNumbers.Next(0, 26);
+                        }
+                        tabMains[i, j] = tabLettre[lettreChoisie].nom;
+                        tabLettre[lettreChoisie].nb_restant = tabLettre[lettreChoisie].nb_restant - 1;
+                    }
+                    j++;                    
+                }
+                i++;
+            }
+        }
+
