@@ -1,0 +1,42 @@
+int[,] tabcoef = new int[15, 15];
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    tabcoef[i, j] = 1;// case sans coeff particulier
+                    if ((i == j || i == 14 - j || j == i - 14))
+                    { tabcoef[i, j] = 4; } // mot compte double
+                    
+                    if ((i == 0 && (j == 3 || j == 11)) ||
+                        (i == 2 && (j == 6 || j == 8)) ||
+                        (i == 3 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 6 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 7 && (j == 3 || j == 11)) ||
+                        (i == 8 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 11 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 12 && (j == 6 || j == 8)) ||
+                        (i == 14 && (j == 3 || j == 11)))
+                    { tabcoef[i, j] = 2; }// lettre compte double
+
+
+                    if ((i == 1 && (j == 5 || j == 9)) ||
+                        (i == 5 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 9 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 13 && (j == 5 || j == 9)))
+                    { tabcoef[i, j] = 3; }// lettre compte tripple
+
+
+                    if ((i == 0 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 7 && (j == 0 || j == 14)) ||
+                        (i == 14 && (j == 0 || j == 7 || j == 14)))
+                    { tabcoef[i, j] = 5; }// mot compte triple
+                    Console.Write(" " + tabcoef[i, j]);
+                }
+                Console.Write("\n");
+                }
+          
+            
+                   
+
+            
+            Console.ReadLine();
