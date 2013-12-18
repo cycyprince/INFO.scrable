@@ -4,3 +4,4 @@ public struct PIECE
             public char nom;
             public int nb_restant;
         }
+bskbn sn
