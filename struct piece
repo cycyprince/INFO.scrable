@@ -1,0 +1,6 @@
+public struct PIECE
+        {
+            public int val;
+            public char nom;
+            public int nb_restant;
+        }
