@@ -1,0 +1,24 @@
+ using System.IO;
+ // le fichier texte est à mettre dans le débug et moi je l'ai appelé "dico"
+ 
+ public static bool vérifMot(string mot_a_trouver)
+        {
+            System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+            StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
+            Console.Write("Lecture du dictionnaire, veuillez patienter...");
+            bool existe= false;
+            string mot;
+            int compteur = 0; // pour arréter la boucle dés que le mot est trouvé
+            mot = monStreamReader.ReadLine();
+             while (mot != mot_a_trouver && compteur==0)
+             {
+                 mot = monStreamReader.ReadLine();
+                 if (mot == mot_a_trouver)
+                 {
+                     existe = true;
+                     compteur = 1;
+                 }
+             }
+            monStreamReader.Close();
+            return existe;
+        }
