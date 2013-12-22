@@ -1,0 +1,64 @@
+static void choixEmplacementLettre(char[,] tab, char lettre,char [] tab_main)// 
+        {
+
+            tab[0, 0] = lettre;// lettre choisie par l’utilisateur, qu’il veut entrer dans la grille, par défaut en 0,0
+
+            int i = 0;
+            int j = 0;
+            ConsoleKeyInfo cki;
+            do
+            {
+                affiche(tab);
+                afficheMain(tab_main ); // ré-affiche la main pour qu’il choisisse une lettre
+               do { Console.WriteLine(“quelle lettre voulez-vous jouer”);
+		char lettre= char.Parse(Console.ReadLine());
+		Console.Clear();
+		}
+while (!verifieMain); // on redemande une nouvelle lettre temps qu’elle n’appartient pas à la main
+
+
+
+  cki = Console.ReadKey(); // initialise la touche choisie
+                if (cki.Key == ConsoleKey.DownArrow && i < tab.GetLength(0) - 1)// passe à la case suivante si flèche du bas
+                {
+                    tab[i + 1, j] = tab[i, j];
+                    tab[i, j] = ' ';
+                    i++;
+                }
+                if (cki.Key == ConsoleKey.UpArrow && i > 0)// passe à la case suivante si flèche du haut
+                {
+                    tab[i - 1, j] = tab[i, j];
+                    tab[i, j] = ' ';
+                    j--;
+                }
+                if (cki.Key == ConsoleKey.RightArrow && j < tab.GetLength(1) - 1)// passe à la case suivante si flèche droite
+                {
+                    tab[i, j + 1] = tab[i, j];
+                    tab[i, j] = ' ';
+                    j++;
+                }
+                if (cki.Key == ConsoleKey.LeftArrow && j > 0)// passe à la case suivante si flèche gauche
+                {
+                    tab[i, j - 1] = tab[i, j];
+                    tab[i, j] = ' ';
+                    i--;
+                }
+
+
+
+                Console.Clear();
+            }
+            while (cki.Key != ConsoleKey.Enter);//déplacement de la pièce jusqu’à ce qu’on valide avec “enter”
+
+            tab[i, j] = char.Parse(Console.ReadLine());// si validation, la case prend le nom du caractère
+            Console.Clear();
+            affiche(tab);
+            afficheMain(tab_main);// ré-affiche la main pour qu’il en choisisse une
+
+            Console.ReadLine();
+
+
+
+        }
+
+
