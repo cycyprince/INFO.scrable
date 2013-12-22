@@ -1,0 +1,45 @@
+static void choixlettre (char[,] tabMains, int num_joueur,char[,] tabcoef, int a, int b, out char lettre)
+        {char[] curseur = new char[7];
+            for (int l = 0; l < 7; l++)
+            { curseur[l] = ' '; }
+             ConsoleKeyInfo touche; // touche entrée pour déplacer le curseur
+                curseur[0]='*';
+                curseur = new char[7];// remet le tableau curseur à 0
+                int i=0;
+                int j = 0;
+                do
+                {
+                    
+                    afficheMain(ref tabMains, num_joueur);// affiche le tableau et la main
+                    for (i = 0; i < 7; i++)
+                    { Console.Write(' ');
+                        Console.Write(' ');
+                        Console.Write(curseur[i]);
+                        Console.Write(' ');
+                    }// affichage du tableau curseur
+
+                    touche = Console.ReadKey();// demande d'un caractère
+                    if (touche.Key == ConsoleKey.RightArrow && j < 6)// si flèche de droite
+                    {
+                        curseur[j] = ' ';
+                        curseur[j+1]='*';
+                        j++;
+
+                    }
+                    if (touche.Key == ConsoleKey.LeftArrow && j > 0)// si flèche de gauche
+                    {
+                        curseur[j-1 ] = '*';
+                        curseur[j] = ' ';
+                        j--;
+                    }
+                    Console.Clear();
+                    affichecurseur(tabcoef, a, b);
+                }
+                while (touche.Key != ConsoleKey.Enter&&j>=0&&j<7);
+
+                lettre = tabMains[num_joueur-1, j];
+                
+              tabMains[num_joueur-1, j] =' ';
+            
+            
+        }
