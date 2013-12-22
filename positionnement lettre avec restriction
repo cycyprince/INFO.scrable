@@ -1,0 +1,71 @@
+static vo int compte = 0;
+            int a = 0;
+            int b = 0;
+            int num_joueur=1; // paramètres de la fonction créé pour tester la fonction
+            char[] curseur = new char[7];
+            for (int i = 0; i < 7; i++)
+            { curseur[i] = ' '; }
+            char lettre;
+            int[,] positionlettre = new int[2,2];
+            bool verifA=false;
+            bool verifB=false;
+
+            do
+            {
+             affichecurseur(tabcoef,a,b);
+                choixlettre(tabMains,num_joueur,tabcoef, a, b ,out lettre);
+            
+
+
+               do
+               {
+                   Console.Clear();
+                   affichecurseur(tabcoef, a, b);
+                   afficheMain(ref tabMains, num_joueur);
+                   cki = Console.ReadKey();// choix du caractère de déplacement
+                if (cki.Key == ConsoleKey.RightArrow && b < tabcoef.GetLength(0) - 1)// si flèche de droite
+                {
+                    b++;
+                }
+                if (cki.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
+                {
+                    b--;
+                }
+                if (cki.Key == ConsoleKey.DownArrow &&a< tabcoef.GetLength(1) - 1)// si flèche du bas
+                {
+                   a ++;
+                }
+                if (cki.Key == ConsoleKey.UpArrow && a >0)// flèche du haut;
+                {a--;
+                }
+
+
+
+                Console.Clear();
+            
+            }
+               while (cki.Key != ConsoleKey.Enter || (tabcoef[a, b] != ' ') || (compte==1&&( positionlettre[compte-1, 0] != a &&positionlettre[compte-1, 1] != b)) || (verifA && a != positionlettre[1, 0]) || (verifB && a != positionlettre[1, 1]));
+                // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
+                // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
+               if (compte <= 1)
+               {
+                   positionlettre[compte, 0] = a;
+                   positionlettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
+               }
+               if (compte == 1)
+               {
+                   if (positionlettre[0, 0] == positionlettre[1, 0])
+                   {verifA = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
+                   if (positionlettre[0, 1] == positionlettre[1, 1])
+                   { verifB = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
+               }
+
+            tabcoef[a, b] = lettre;
+            
+            affichecurseur(tabcoef,a,b);
+                Console.Clear();
+            compte++;
+             }
+             while (compte<7 || (cki.Key != ConsoleKey.Escape));
+        
+        }
