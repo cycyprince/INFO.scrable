@@ -1,63 +1,56 @@
 static void choixEmplacementLettre(char[,] tab, char lettre,char [] tab_main)// 
-        {
+        {int compte = 1;
+            int a = 0;
+            int b = 0;
+            char[] curseur = new char[7];
+            for (int i = 0; i < 7; i++)
+            { curseur[i] = ' '; }
+            char lettre;
+            ConsoleKeyInfo cki; // initialisation
 
-            tab[0, 0] = lettre;// lettre choisie par l’utilisateur, qu’il veut entrer dans la grille, par défaut en 0,0
-
-            int i = 0;
-            int j = 0;
-            ConsoleKeyInfo cki;
-            do
+           do
             {
-                affiche(tab);
-                afficheMain(tab_main ); // ré-affiche la main pour qu’il choisisse une lettre
-               do { Console.WriteLine(“quelle lettre voulez-vous jouer”);
-		char lettre= char.Parse(Console.ReadLine());
-		Console.Clear();
-		}
-while (!verifieMain); // on redemande une nouvelle lettre temps qu’elle n’appartient pas à la main
+             affichecurseur(tabcoef,a,b);
+                choixlettre(tabMains,num_joueur,tabcoef, a, b ,out lettre);
+            
 
 
-
-  cki = Console.ReadKey(); // initialise la touche choisie
-                if (cki.Key == ConsoleKey.DownArrow && i < tab.GetLength(0) - 1)// passe à la case suivante si flèche du bas
+               do
+               {
+                   Console.Clear();
+                   affichecurseur(tabcoef, a, b);
+                   afficheMain(ref tabMains, num_joueur);
+                   cki = Console.ReadKey();// initialisation du caractère rentré
+                if (cki.Key == ConsoleKey.RightArrow && b < tabcoef.GetLength(0) - 1)// si flèche de droite
                 {
-                    tab[i + 1, j] = tab[i, j];
-                    tab[i, j] = ' ';
-                    i++;
+                    b++;
                 }
-                if (cki.Key == ConsoleKey.UpArrow && i > 0)// passe à la case suivante si flèche du haut
+                if (cki.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
                 {
-                    tab[i - 1, j] = tab[i, j];
-                    tab[i, j] = ' ';
-                    j--;
+                    b--;
                 }
-                if (cki.Key == ConsoleKey.RightArrow && j < tab.GetLength(1) - 1)// passe à la case suivante si flèche droite
+                if (cki.Key == ConsoleKey.DownArrow &&a< tabcoef.GetLength(1) - 1)// si flèche du bas
                 {
-                    tab[i, j + 1] = tab[i, j];
-                    tab[i, j] = ' ';
-                    j++;
+                   a ++;
                 }
-                if (cki.Key == ConsoleKey.LeftArrow && j > 0)// passe à la case suivante si flèche gauche
-                {
-                    tab[i, j - 1] = tab[i, j];
-                    tab[i, j] = ' ';
-                    i--;
+                if (cki.Key == ConsoleKey.UpArrow && a >0)// flèche du haut;
+                {a--;
                 }
 
 
 
                 Console.Clear();
             }
-            while (cki.Key != ConsoleKey.Enter);//déplacement de la pièce jusqu’à ce qu’on valide avec “enter”
+            while (cki.Key != ConsoleKey.Enter || (tabcoef[a, b]!=' '));
 
-            tab[i, j] = char.Parse(Console.ReadLine());// si validation, la case prend le nom du caractère
-            Console.Clear();
-            affiche(tab);
-            afficheMain(tab_main);// ré-affiche la main pour qu’il en choisisse une
-
-            Console.ReadLine();
-
-
+            tabcoef[a, b] = lettre;
+            
+            affichecurseur(tabcoef,a,b);
+                Console.Clear();
+            compte++;
+             }
+             while (compte!=7 || (cki.Key != ConsoleKey.Escape));
+        
 
         }
 
