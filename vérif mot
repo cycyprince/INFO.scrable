@@ -1,6 +1,8 @@
  using System.IO;
  // le fichier texte est à mettre dans le débug et moi je l'ai appelé "dico"
  
+ // ce programme va renvoyer un booléen pour dire si le mot existe dans le dico
+ 
  public static bool vérifMot(string mot_a_trouver)
         {
             System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
@@ -18,7 +20,7 @@
                      existe = true;
                      compteur = 1;
                  }
-             }++++
+             }
             monStreamReader.Close();
             return existe;
         }
