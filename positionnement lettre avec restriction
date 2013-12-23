@@ -1,13 +1,15 @@
-static vo int compte = 0; // tu peux mettre l'appel de la fonction pls ?
-
+static void positionnerPiece(char[,] tabcoef, char[,] tabMains,int num_joueur )// mettre joueur en paramètre de la fonction
+        {
+            ConsoleKeyInfo cki;
+            int compte = 0;
             int a = 0;
             int b = 0;
-            int num_joueur=1; // paramètres de la fonction créé pour tester la fonction
+           
             char[] curseur = new char[7];
             for (int i = 0; i < 7; i++)
             { curseur[i] = ' '; }
             char lettre;
-            int[,] positionlettre = new int[7,2];// tableau pour stocker les poistions des lettres
+            int[,] positionlettre = new int[7,2];
             bool verifA=false;
             bool verifB=false;
 
@@ -48,11 +50,9 @@ static vo int compte = 0; // tu peux mettre l'appel de la fonction pls ?
                while (cki.Key != ConsoleKey.Enter || (tabcoef[a, b] != ' ') || (compte==1&&( positionlettre[compte-1, 0] != a &&positionlettre[compte-1, 1] != b)) || (verifA && a != positionlettre[1, 0]) || (verifB && a != positionlettre[1, 1]));
                 // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
                 // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
-               if (compte <= 1)
-               {
                    positionlettre[compte, 0] = a;
                    positionlettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
-               }
+               
                if (compte == 1)
                {
                    if (positionlettre[0, 0] == positionlettre[1, 0])
