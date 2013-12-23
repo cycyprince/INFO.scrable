@@ -242,7 +242,7 @@ namespace scrabble
 
 
         }
-        static void positionnerPiece(int joueur, char[,] tabcoef, char[,] tabMains, JOUEUR[] tabJoueur,int num_joueur)// mettre joueur en paramètre de la fonction
+        static void positionnerPiece(int num_joueur, char[,] tabcoef, char[,] tabMains, JOUEUR[] tabJoueur)// mettre joueur en paramètre de la fonction
         {
 
 
