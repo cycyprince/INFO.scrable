@@ -7,7 +7,7 @@ static vo int compte = 0; // tu peux mettre l'appel de la fonction pls ?
             for (int i = 0; i < 7; i++)
             { curseur[i] = ' '; }
             char lettre;
-            int[,] positionlettre = new int[2,2];
+            int[,] positionlettre = new int[7,2];// tableau pour stocker les poistions des lettres
             bool verifA=false;
             bool verifB=false;
 
@@ -67,6 +67,6 @@ static vo int compte = 0; // tu peux mettre l'appel de la fonction pls ?
                 Console.Clear();
             compte++;
              }
-             while (compte<7 || (cki.Key != ConsoleKey.Escape));
+             while (compte<7 && (cki.Key != ConsoleKey.Escape));
         
         }
