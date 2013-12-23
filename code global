@@ -56,7 +56,7 @@ namespace scrabble
             new PIECE() { nom = 'Z', val = 10, nb_restant = 1 },
             new PIECE() { nom ='*', val = 0 , nb_restant = 2} };
 
-            
+
             int nbJoueurs; int IA;
             Console.Write("combien de joueur humain ?\n");
             nbJoueurs = int.Parse(Console.ReadLine());
@@ -72,7 +72,7 @@ namespace scrabble
 
             }
 
-            char[,] tabMains = new char[nbJoueurs,7] ;
+            char[,] tabMains = new char[nbJoueurs, 7];
             i = 0; int j = 0;
             while (i < nbJoueurs)//initialisation du tableau de mains
             {
@@ -81,12 +81,12 @@ namespace scrabble
                 {
                     tabMains[i, j] = ' ';
                     j++;
-                }                
+                }
                 i++;
             }
-                          
+
             pioche(ref tabMains, ref tabLettre, nbJoueurs);
-            i=1;
+            i = 1;
             while (i <= nbJoueurs)
             {
                 afficheMain(ref tabMains, i, tabJoueur);
@@ -95,10 +95,10 @@ namespace scrabble
             Console.Write(" \n");
 
             Console.ReadLine();
-            int[,] tabcoef = new int [15, 15];
-            for ( i = 0; i < 15; i++)
+            int[,] tabcoef = new int[15, 15];
+            for (i = 0; i < 15; i++)
             {
-                for ( j = 0; j < 15; j++)
+                for (j = 0; j < 15; j++)
                 {
                     tabcoef[i, j] = 1;// case sans coeff particulier
                     if ((i == j || i == 14 - j || j == i - 14))
@@ -127,100 +127,51 @@ namespace scrabble
                         (i == 7 && (j == 0 || j == 14)) ||
                         (i == 14 && (j == 0 || j == 7 || j == 14)))
                     { tabcoef[i, j] = 5; }// mot compte triple
-                    Console.Write(" " + tabcoef[i, j]);
+                    
                 }
-                Console.Write("\n");
             }
 
-
-            Console.ReadLine();
-
             char[,] tabcurseur = new char[15, 15];
+
+
             for (int k = 0; k < tabcurseur.GetLength(0); k++)
             {
                 for (int l = 0; l < tabcurseur.GetLength(0); l++)
-                { tabcurseur[k, l] = ' '; }
-            }
-
-            i = 0;
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.WriteLine("\n\n=============================================================");
-            for ( i= 0; i < 15; i++)
-            {
-                for (j = 0; j < 15; j++)
-                {                    
-                    Console.BackgroundColor = ConsoleColor.Blue;
-                    Console.Write("|");
-                    if ((i == j || i == 14 - j || j == i - 14))
-                    { Console.BackgroundColor = ConsoleColor.Magenta; } // mot compte double
-
-                    if ((i == 0 && (j == 3 || j == 11)) ||
-                        (i == 2 && (j == 6 || j == 8)) ||
-                        (i == 3 && (j == 0 || j == 7 || j == 14)) ||
-                        (i == 6 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
-                        (i == 7 && (j == 3 || j == 11)) ||
-                        (i == 8 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
-                        (i == 11 && (j == 0 || j == 7 || j == 14)) ||
-                        (i == 12 && (j == 6 || j == 8)) ||
-                        (i == 14 && (j == 3 || j == 11)))
-                    { Console.BackgroundColor = ConsoleColor.Green; }// lettre compte double
-
-
-                    if ((i == 1 && (j == 5 || j == 9)) ||
-                        (i == 5 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
-                        (i == 9 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
-                        (i == 13 && (j == 5 || j == 9)))
-                    { Console.BackgroundColor = ConsoleColor.DarkGreen; }// lettre compte tripple
-
-
-                    if ((i == 0 && (j == 0 || j == 7 || j == 14)) ||
-                        (i == 7 && (j == 0 || j == 14)) ||
-                        (i == 14 && (j == 0 || j == 7 || j == 14)))
-                    { Console.BackgroundColor = ConsoleColor.Red; }// mot compte triple
-                    Console.Write(' ');
-                    Console.Write(tabcurseur[i, j]);
-                    Console.Write(' ');// espace plus grand avec la valeur de la case au milieu
+                {
+                    tabcurseur[k, l] = ' ';
                 }
-                Console.BackgroundColor = ConsoleColor.Blue;
-                Console.Write("|");
-                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine(" "+(i+1));
-                Console.BackgroundColor = ConsoleColor.Blue;
-
-                Console.WriteLine("=============================================================");
             }
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine("  A   B   C   D   E   F   G   H   I   J   K   L   M   N   O");
-            Console.ReadLine();
+            Console.Clear();
             i = 1;
             while (i <= nbJoueurs)
             {
                 Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[i - 1].nom);
-                positionnerPiece(tabcurseur,tabMains,i,tabJoueur );
+                positionnerPiece(tabcurseur, tabMains, i, tabJoueur);
                 i++;
             }
-            Console.ReadLine();           
-            
-            
-           
-        
-    }
+            Console.ReadLine();
 
-        public static void afficheMain(ref char [,] tabMains, int num_Joueur, JOUEUR [] tabJoueur)
+
+
+
+        }
+
+        public static void afficheMain(ref char[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur)
         {
-            int i ;
+            int i;
             i = 0;
-            Console.Write(" \nmain de {0} : \n", tabJoueur[num_Joueur-1].nom);
+            Console.Write(" \nmain de {0} : \n", tabJoueur[num_Joueur - 1].nom);
             Console.Write("\n=============================\n");
             while (i < 7)
             {
-                
-                Console.Write("| {0} ",tabMains[num_Joueur-1,i]);
+
+                Console.Write("| {0} ", tabMains[num_Joueur - 1, i]);
                 i++;
             }
             Console.Write("|");
+            Console.Write(" valider");
             Console.Write("\n=============================\n");
-        }  
+        }
          
         public static bool vérifMot(string mot_a_trouver)
         {
