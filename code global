@@ -374,7 +374,13 @@ namespace scrabble
                 }
             }
             while (compte < 7 && (lettre != '&'));
-            vérifMot(motPosé(verifhorizontal, verifvertical, tabcurseur, a, b));
+            string mot = motPosé(verifhorizontal, verifvertical, tabcurseur, a, b);
+            bool existe = vérifMot(mot);
+            if (!existe)
+            {
+                Console.Write(" \n le mot {0} n'existe pas\n",mot);
+            }
+            Console.ReadLine(); EX
             Console.ReadLine();
 
 
