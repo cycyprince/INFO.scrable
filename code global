@@ -87,14 +87,14 @@ namespace scrabble
 
             pioche(ref tabMains, ref tabLettre, nbJoueurs);
             i = 1;
-            while (i <= nbJoueurs)
+           /* while (i <= nbJoueurs)
             {
                 afficheMain(ref tabMains, i, tabJoueur);
                 i++;
             }
             Console.Write(" \n");
 
-            Console.ReadLine();
+            Console.ReadLine();*/ // ça ne me parait pas pertinent, on n'est pas sensé connaitre le jeu des autres joueurs
             int[,] tabcoef = new int[15, 15];
             for (i = 0; i < 15; i++)
             {
@@ -293,7 +293,7 @@ namespace scrabble
             }
             while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
             if (j == 7)
-            { lettre = '&'; }// si l'utilisateur choisit "valider", lettre ='&' . c'est une codition d'arrêt
+            { lettre = '&'; }
             else
             {
                 lettre = tabMains[num_joueur - 1, j];
@@ -323,54 +323,55 @@ namespace scrabble
                 {
 
 
-                do
-                {
-                    Console.Clear();
-                    affichecurseur(tabcurseur, a, b);
-                    afficheMain(ref tabMains, num_joueur, tabJoueur);
-                    cki = Console.ReadKey();// choix du caractère de déplacement
-                    if (cki.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1)// si flèche de droite
+                    do
                     {
-                        b++;
+                        Console.Clear();
+                        affichecurseur(tabcurseur, a, b);
+                        afficheMain(ref tabMains, num_joueur, tabJoueur);
+                        cki = Console.ReadKey();// choix du caractère de déplacement
+                        if (cki.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1)// si flèche de droite
+                        {
+                            b++;
+                        }
+                        if (cki.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
+                        {
+                            b--;
+                        }
+                        if (cki.Key == ConsoleKey.DownArrow && a < tabcurseur.GetLength(1) - 1)// si flèche du bas
+                        {
+                            a++;
+                        }
+                        if (cki.Key == ConsoleKey.UpArrow && a > 0)// flèche du haut;
+                        {
+                            a--;
+                        }
+
+
+
+                        Console.Clear();
+
                     }
-                    if (cki.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
+                    while (cki.Key != ConsoleKey.Enter || (tabcurseur[a, b] != ' ') || (compte == 1 && (positionlettre[compte - 1, 0] != a && positionlettre[compte - 1, 1] != b)) || (verifA && a != positionlettre[1, 0]) || (verifB && b != positionlettre[1, 1]));
+                    // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
+                    // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
+                    positionlettre[compte, 0] = a;
+                    positionlettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
+
+                    if (compte == 1)
                     {
-                        b--;
-                    }
-                    if (cki.Key == ConsoleKey.DownArrow && a < tabcurseur.GetLength(1) - 1)// si flèche du bas
-                    {
-                        a++;
-                    }
-                    if (cki.Key == ConsoleKey.UpArrow && a > 0)// flèche du haut;
-                    {
-                        a--;
+                        if (positionlettre[0, 0] == positionlettre[1, 0])
+                        { verifA = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
+                        if (positionlettre[0, 1] == positionlettre[1, 1])
+                        { verifB = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
                     }
 
-
-
-                    Console.Clear();
-
-                }
-                while (cki.Key != ConsoleKey.Enter || (tabcurseur[a, b] != ' ') || (compte == 1 && (positionlettre[compte - 1, 0] != a && positionlettre[compte - 1, 1] != b)) || (verifA && a != positionlettre[1, 0]) || (verifB && b != positionlettre[1, 1]));
-                // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
-                // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
-                positionlettre[compte, 0] = a;
-                positionlettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
-
-                if (compte == 1)
-                {
-                    if (positionlettre[0, 0] == positionlettre[1, 0])
-                    { verifA = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
-                    if (positionlettre[0, 1] == positionlettre[1, 1])
-                    { verifB = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
-                }
-                
                     tabcurseur[a, b] = lettre;
-                }
 
-                affichecurseur(tabcurseur, a, b);
-                Console.Clear();
-                compte++;
+
+                    affichecurseur(tabcurseur, a, b);
+                    Console.Clear();
+                    compte++;
+                }
             }
             while (compte < 7 && (lettre != '&'));
 
