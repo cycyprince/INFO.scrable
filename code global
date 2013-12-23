@@ -292,10 +292,14 @@ namespace scrabble
                 affichecurseur(tabcoef, a, b);
             }
             while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
+            if (j == 7)
+            { lettre = '&'; }
+            else
+            {
+                lettre = tabMains[num_joueur - 1, j];
 
-            lettre = tabMains[num_joueur - 1, j];
-
-            tabMains[num_joueur - 1, j] = ' ';
+                tabMains[num_joueur - 1, j] = ' ';
+            }
 
 
         }
@@ -315,7 +319,8 @@ namespace scrabble
             {
                 affichecurseur(tabcurseur, a, b);
                 choixlettre(tabMains, num_joueur, tabcurseur, a, b, out lettre, tabJoueur);
-
+                if (lettre != '&')
+                {
 
 
                 do
@@ -359,14 +364,15 @@ namespace scrabble
                     if (positionlettre[0, 1] == positionlettre[1, 1])
                     { verifB = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
                 }
-
-                tabcurseur[a, b] = lettre;
+                
+                    tabcurseur[a, b] = lettre;
+                }
 
                 affichecurseur(tabcurseur, a, b);
                 Console.Clear();
                 compte++;
             }
-            while (compte < 7 && (cki.Key != ConsoleKey.Escape));
+            while (compte < 7 && (lettre != '&'));
 
 
 
