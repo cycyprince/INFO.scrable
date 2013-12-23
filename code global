@@ -86,15 +86,17 @@ namespace scrabble
             }
 
             pioche(ref tabMains, ref tabLettre, nbJoueurs);
-            i = 1;
-           /* while (i <= nbJoueurs)
-            {
-                afficheMain(ref tabMains, i, tabJoueur);
-                i++;
-            }
-            Console.Write(" \n");
-
-            Console.ReadLine();*/ // ça ne me parait pas pertinent, on n'est pas sensé connaitre le jeu des autres joueurs
+           i=1;
+ -             while (i <= nbJoueurs)
+ +            while (i <= nbJoueurs)
+              {
+ -                Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[i - 1].nom);
+ -                positionnerPiece(tabcurseur,tabMains,i,tabJoueur );
+ +                afficheMain(ref tabMains, i, tabJoueur);
+                  i++;
+              }
+ -            Console.ReadLine(); 
+              Console.Write(" \n");
             int[,] tabcoef = new int[15, 15];
             for (i = 0; i < 15; i++)
             {
