@@ -248,7 +248,7 @@ namespace scrabble
                 Console.WriteLine("=============================================================");
             }
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine(" A B C D E F G H I J K L M N O");
+            Console.WriteLine("  A   B   C   D   E   F   G   H   I   J   K   L   M   N   O");
 
         }
 
