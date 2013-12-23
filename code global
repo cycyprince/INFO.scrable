@@ -293,7 +293,7 @@ namespace scrabble
             }
             while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
             if (j == 7)
-            { lettre = '&'; }
+            { lettre = '&'; }// si l'utilisateur choisit "valider", lettre ='&' . c'est une codition d'arrêt
             else
             {
                 lettre = tabMains[num_joueur - 1, j];
