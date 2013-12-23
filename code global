@@ -390,10 +390,10 @@ namespace scrabble
                 {
                     if (tabMains[i, j] == ' ')
                     {
-                        lettreChoisie = rndNumbers.Next(0, 27);
+                        lettreChoisie = rndNumbers.Next(0, 26);
                         while (tabLettre[lettreChoisie].nb_restant == 0)// on prends une autre lettre si il n'y en a plus dans la pioche
                         {
-                            lettreChoisie = rndNumbers.Next(0, 27);
+                            lettreChoisie = rndNumbers.Next(0, 26);
                         }
                         tabMains[i, j] = tabLettre[lettreChoisie].nom;
                         tabLettre[lettreChoisie].nb_restant = tabLettre[lettreChoisie].nb_restant - 1;
