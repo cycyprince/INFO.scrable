@@ -374,6 +374,8 @@ namespace scrabble
                 }
             }
             while (compte < 7 && (lettre != '&'));
+            vérifMot(motPosé(verifhorizontal, verifvertical, tabcurseur, a, b));
+            Console.ReadLine();
 
 
 
@@ -402,6 +404,52 @@ namespace scrabble
                 }
                 i++;
             }
+        }
+        public static string motPosé( bool horizontal, bool vertical, char [,]tabcurseur, int a,int b)
+        {
+            int i=0; // pour parcourir l'horizontale ou la verticale
+            char [] motPosé= new char [15];
+            
+            int compteLettre = 0;
+            if (horizontal)
+            {
+                // on cherhche la première lettre ( la plus a gauche)
+                while (b >= 0 && tabcurseur[a, b] != ' ')// on reste sur le plateau
+                {
+                    b--;// on se décale sur la gauche jusqu'à la première lettre
+                }
+
+                while (b <= 15 && tabcurseur[a, b + 1] != ' ') // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                {
+                    motPosé[i] = tabcurseur[a, b+1];
+                    i++;
+                    b++;
+                    compteLettre++;
+
+                }
+            }
+            if (vertical)
+            {
+                // on cherhche la première lettre ( la plus en haut)
+                while (a >= 0 && tabcurseur[a, b] != ' ')// on reste sur le plateau
+                {
+                    a--;// on se décale sur la gauche jusqu'à la première lettre
+                }
+
+                while ( a<= 15 && tabcurseur[a+1, b ] != ' ') // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                {
+                    motPosé[i] = tabcurseur[a+1, b ];
+                    i++;
+                    b++;
+                    compteLettre++;
+
+                }
+            }
+            string motAvérifier = new string(motPosé);
+            motAvérifier = motAvérifier.Substring(0, compteLettre);
+
+            return motAvérifier;
+
         }
 
     }
