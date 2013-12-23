@@ -35,7 +35,7 @@ static void choixlettre (char[,] tabMains, int num_joueur,char[,] tabcoef, int a
                     Console.Clear();
                     affichecurseur(tabcoef, a, b);
                 }
-                while (touche.Key != ConsoleKey.Enter&&j>=0&&j<7);
+                while (touche.Key != ConsoleKey.Enter&&j>=0&&j<7||tabMains[num_joueur-1, j]==' ');
 
                 lettre = tabMains[num_joueur-1, j];
                 
