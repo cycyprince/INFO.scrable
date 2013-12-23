@@ -1,4 +1,4 @@
-static void positionnerPiece(char[,] tabcoef, char[,] tabMains,int num_joueur )// mettre joueur en paramètre de la fonction
+static void positionnerPiece(char[,] tabcoef, char[,] tabMains,int num_joueur ,JOUEUR[] tabJoueur)// mettre joueur en paramètre de la fonction
         {
             ConsoleKeyInfo cki;
             int compte = 0;
@@ -16,7 +16,7 @@ static void positionnerPiece(char[,] tabcoef, char[,] tabMains,int num_joueur )/
             do
             {
              affichecurseur(tabcoef,a,b);
-                choixlettre(tabMains,num_joueur,tabcoef, a, b ,out lettre);
+                choixlettre(tabMains,num_joueur,tabcoef, a, b ,out lettre,tabJoueur);
             
 
 
