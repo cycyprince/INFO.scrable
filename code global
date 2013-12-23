@@ -127,7 +127,7 @@ namespace scrabble
                         (i == 7 && (j == 0 || j == 14)) ||
                         (i == 14 && (j == 0 || j == 7 || j == 14)))
                     { tabcoef[i, j] = 5; }// mot compte triple
-                    
+
                 }
             }
 
@@ -172,25 +172,25 @@ namespace scrabble
             Console.Write(" valider");
             Console.Write("\n=============================\n");
         }
-         
+
         public static bool vérifMot(string mot_a_trouver)
         {
             System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
             StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
             Console.Write("Lecture du dictionnaire, veuillez patienter...");
-            bool existe= false;
+            bool existe = false;
             string mot;
             int compteur = 0; // pour arréter la boucle dés que le mot est trouvé
             mot = monStreamReader.ReadLine();
-             while (mot != mot_a_trouver && compteur==0)
-             {
-                 mot = monStreamReader.ReadLine();
-                 if (mot == mot_a_trouver)
-                 {
-                     existe = true;
-                     compteur = 1;
-                 }
-             }
+            while (mot != mot_a_trouver && compteur == 0)
+            {
+                mot = monStreamReader.ReadLine();
+                if (mot == mot_a_trouver)
+                {
+                    existe = true;
+                    compteur = 1;
+                }
+            }
             monStreamReader.Close();
             return existe;
         }
@@ -254,19 +254,19 @@ namespace scrabble
 
         public static void choixlettre(char[,] tabMains, int num_joueur, char[,] tabcoef, int a, int b, out char lettre, JOUEUR[] tabJoueur)
         {
-            char[] curseur = new char[7];
-            for (int l = 0; l < 7; l++)
+            char[] curseur = new char[8];
+            for (int l = 0; l < 8; l++)
             { curseur[l] = ' '; }
             ConsoleKeyInfo touche; // touche entrée pour déplacer le curseur
             curseur[0] = '*';
-            curseur = new char[7];// remet le tableau curseur à 0
+            curseur = new char[8];// remet le tableau curseur à 0
             int i = 0;
             int j = 0;
             do
             {
 
-                afficheMain(ref tabMains, num_joueur,tabJoueur);// affiche le tableau et la main
-                for (i = 0; i < 7; i++)
+                afficheMain(ref tabMains, num_joueur, tabJoueur);// affiche le tableau et la main
+                for (i = 0; i < 8; i++)
                 {
                     Console.Write(' ');
                     Console.Write(' ');
@@ -275,7 +275,7 @@ namespace scrabble
                 }// affichage du tableau curseur
 
                 touche = Console.ReadKey();// demande d'un caractère
-                if (touche.Key == ConsoleKey.RightArrow && j < 6)// si flèche de droite
+                if (touche.Key == ConsoleKey.RightArrow && j < 7)// si flèche de droite
                 {
                     curseur[j] = ' ';
                     curseur[j + 1] = '*';
@@ -291,7 +291,7 @@ namespace scrabble
                 Console.Clear();
                 affichecurseur(tabcoef, a, b);
             }
-            while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 7);
+            while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
 
             lettre = tabMains[num_joueur - 1, j];
 
@@ -306,9 +306,6 @@ namespace scrabble
             int a = 0;
             int b = 0;
 
-            char[] curseur = new char[7];
-            for (int i = 0; i < 7; i++)
-            { curseur[i] = ' '; }
             char lettre;
             int[,] positionlettre = new int[7, 2];
             bool verifA = false;
@@ -317,7 +314,7 @@ namespace scrabble
             do
             {
                 affichecurseur(tabcurseur, a, b);
-                choixlettre(tabMains, num_joueur, tabcurseur, a, b, out lettre,tabJoueur);
+                choixlettre(tabMains, num_joueur, tabcurseur, a, b, out lettre, tabJoueur);
 
 
 
@@ -325,7 +322,7 @@ namespace scrabble
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    afficheMain(ref tabMains, num_joueur,tabJoueur);
+                    afficheMain(ref tabMains, num_joueur, tabJoueur);
                     cki = Console.ReadKey();// choix du caractère de déplacement
                     if (cki.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1)// si flèche de droite
                     {
@@ -399,6 +396,6 @@ namespace scrabble
                 i++;
             }
         }
- 
-       }
+
     }
+}
