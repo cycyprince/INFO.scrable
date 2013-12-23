@@ -1,4 +1,5 @@
-static vo int compte = 0;
+static vo int compte = 0; // tu peux mettre l'appel de la fonction pls ?
+
             int a = 0;
             int b = 0;
             int num_joueur=1; // paramètres de la fonction créé pour tester la fonction
