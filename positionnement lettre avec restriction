@@ -47,7 +47,7 @@ static void positionnerPiece(char[,] tabcoef, char[,] tabMains,int num_joueur ,J
                 Console.Clear();
             
             }
-               while (cki.Key != ConsoleKey.Enter || (tabcoef[a, b] != ' ') || (compte==1&&( positionlettre[compte-1, 0] != a &&positionlettre[compte-1, 1] != b)) || (verifA && a != positionlettre[1, 0]) || (verifB && a != positionlettre[1, 1]));
+               while (cki.Key != ConsoleKey.Enter || (tabcoef[a, b] != ' ') || (compte==1&&( positionlettre[compte-1, 0] != a &&positionlettre[compte-1, 1] != b)) || (verifA && a != positionlettre[1, 0]) || (verifB && b != positionlettre[1, 1]));
                 // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
                 // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
                    positionlettre[compte, 0] = a;
