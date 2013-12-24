@@ -305,7 +305,7 @@ namespace scrabble
             int compte = 0;
             int a = 0;
             int b = 0;
-            int score = 0;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
+            int score = 1;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
 
            PIECE lettre;
             int[,] positionlettre = new int[8, 2];
@@ -364,9 +364,12 @@ namespace scrabble
                     }
 
                     tabcurseur[a, b] = lettre;
-                    if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)
-                    { score = score + tabcoef[a, b] * tabcurseur[a, b].val; }
-                    else { score = score + tabcurseur[a, b].val; }
+                    if ((lettre.nom != '&'))
+                    {
+                        if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)
+                        { score = score + tabcoef[a, b] * tabcurseur[a, b].val; }
+                        else { score = score + tabcurseur[a, b].val; }
+                    }
                     
 
                     affichecurseur(tabcurseur, a, b);
