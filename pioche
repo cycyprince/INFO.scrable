@@ -1,26 +1,43 @@
 public static void pioche(ref char[,] tabMains, ref PIECE[] tabLettre, int nbJoueurs)
         {
-            int i = 0; int j = 0;
-            Random rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
             int lettreChoisie = 0;
+            int nbTot = 0;
+            int sommePartielle = 0;
+
+            int i = 0; int j = 0; int l = 0; int k; // pour parcourir les tableaux          
+            
+            Random rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
             while (i < nbJoueurs)
             {
                 j = 0;
                 while (j < 7)
                 {
+                    k = 0;
+                    nbTot = 0;
+                    while (k <27) // on calcule le nb de pieces qui restantes
+                    {
+                        nbTot = nbTot + tabLettre[k].nb_restant;
+                        k++;
+                    }
                     if (tabMains[i, j] == ' ')
                     {
-                        lettreChoisie = rndNumbers.Next(0, 26);
-                        while (tabLettre[lettreChoisie].nb_restant == 0)// on prends une autre lettre si il n'y en a plus dans la pioche
+                        lettreChoisie = rndNumbers.Next(1, nbTot); // on prend une pièce au hasard parmi toutes les pièces restantes
+
+                        l = 0;
+                        sommePartielle = 0;
+                        while (sommePartielle < lettreChoisie)// on cherche la plage de valeurs de la lettre correspondante au nombre aléatoire ( entre 1 et 9 = A entre 10 et 11 = B etc ...)
                         {
-                            lettreChoisie = rndNumbers.Next(0, 26);
+                            if (tabLettre[l].nb_restant != 0)// on saute la lettre si il n'en reste pas3
+                            {
+                                sommePartielle = sommePartielle + tabLettre[l].nb_restant;
+                            }
+                            l++;
                         }
-                        tabMains[i, j] = tabLettre[lettreChoisie].nom;
-                        tabLettre[lettreChoisie].nb_restant = tabLettre[lettreChoisie].nb_restant - 1;
+                        tabMains[i, j] = tabLettre[l-1].nom;
+                        tabLettre[l - 1].nb_restant = tabLettre[l - 1].nb_restant - 1;
                     }
-                    j++;                    
+                    j++;
                 }
                 i++;
             }
         }
-
