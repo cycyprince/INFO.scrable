@@ -365,7 +365,9 @@ namespace scrabble
 
                     tabcurseur[a, b] = lettre;
                     if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)
-                        score = score + tabcoef[a, b]*tabcurseur[a,b].val;
+                    { score = score + tabcoef[a, b] * tabcurseur[a, b].val; }
+                    else { score = score + tabcurseur[a, b].val; }
+                    
 
                     affichecurseur(tabcurseur, a, b);
                     Console.Clear();
@@ -373,6 +375,8 @@ namespace scrabble
                 }
             }
             while (compte < 7 && (lettre.nom != '&'));
+            Console.Write("score: {0}", score);
+            Console.ReadLine();
             string mot = motPosé(verifHorizontal, verifVertical, tabcurseur, a, b);
             bool existe = vérifMot(mot);
             if (!existe)
