@@ -466,7 +466,7 @@ namespace scrabble
                 {
                     motPosé[i] = tabcurseur[a + 1, b].nom;
                     i++;
-                    b++;
+                    a++;
                     compteLettre++;
 
                 }
