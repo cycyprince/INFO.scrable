@@ -424,7 +424,7 @@ namespace scrabble
                             }
                             l++;
                         }
-                        tabMains[num_Joueur, j].nom = tabLettre[l - 1].nom;
+                        tabMains[num_Joueur, j] = tabLettre[l - 1];
                         tabLettre[l - 1].nb_restant = tabLettre[l - 1].nb_restant - 1;
                     }
                     j++;
