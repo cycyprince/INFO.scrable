@@ -380,7 +380,7 @@ namespace scrabble
             {
                 Console.Write(" \n le mot {0} n'existe pas\n",mot);
             }
-            Console.ReadLine(); EX
+            Console.ReadLine(); 
             Console.ReadLine();
 
 
