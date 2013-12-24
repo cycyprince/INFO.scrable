@@ -318,6 +318,7 @@ namespace scrabble
 
             while (compte < 7 && (lettre.nom != '&'))
             {
+                pioche(ref tabMains, ref tabLettre, num_Joueur);
                 positionlettre[7, 1] = score;
                 affichecurseur(tabcurseur, a, b);
                 afficheMain(ref tabMains, num_Joueur, tabJoueur);
