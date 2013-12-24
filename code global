@@ -312,8 +312,8 @@ namespace scrabble
 
             char lettre;
             int[,] positionlettre = new int[7, 2];
-            bool verifA = false;
-            bool verifB = false;
+            bool verifHorizontal = false;
+            bool verifVertical= false;
 
             do
             {
@@ -360,9 +360,9 @@ namespace scrabble
                     if (compte == 1)
                     {
                         if (positionlettre[0, 0] == positionlettre[1, 0])
-                        { verifA = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
+                        { verifHorizontal = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
                         if (positionlettre[0, 1] == positionlettre[1, 1])
-                        { verifB = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
+                        { verifVertical= true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
                     }
 
                     tabcurseur[a, b] = lettre;
@@ -374,7 +374,7 @@ namespace scrabble
                 }
             }
             while (compte < 7 && (lettre != '&'));
-            string mot = motPosé(verifhorizontal, verifvertical, tabcurseur, a, b);
+            string mot = motPosé(verifHorizontal, verifVertical, tabcurseur, a, b);
             bool existe = vérifMot(mot);
             if (!existe)
             {
