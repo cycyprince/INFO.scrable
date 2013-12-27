@@ -87,11 +87,11 @@ namespace scrabble
                 i++;
             }
 
-            for (int joueur = 0; joueur < nbJoueurs; joueur++)
+            for (int joueur = 1; joueur <=nbJoueurs; joueur++)
             { pioche(ref tabMains, ref tabLettre, joueur); }
 
 
-            int[,] tabcoef = new int[15, 15];
+            int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
             for (i = 0; i < 15; i++)
             {
                 for (j = 0; j < 15; j++)
@@ -138,13 +138,13 @@ namespace scrabble
                 }
             }
             Console.Clear();
-            i = 1;
             bool partiFinie = false;
             while (!partiFinie)
             {
                 i = 1;
                 while (i <= nbJoueurs)
                 {
+                    Console.Clear();
                     Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[i - 1].nom);
                     positionnerPiece(tabcurseur, tabMains, i, tabJoueur, tabcoef, tabLettre);
                     i++;
@@ -157,7 +157,7 @@ namespace scrabble
         {
             int i;
             i = 0;
-            Console.Write(" \nmain de {0} : \n", tabJoueur[num_Joueur - 1].nom);
+            Console.Write(" \nmain de {0} : \n", tabJoueur[num_Joueur-1].nom);
             Console.Write("\n=============================\n");
             while (i < 7)
             {
@@ -294,7 +294,7 @@ namespace scrabble
             { lettre = tabLettre[28]; }// correspond à la validation
             else
             {
-                lettre = tabMains[num_Joueur - 1, j];
+                lettre = tabMains[num_Joueur-1, j];
 
                 tabMains[num_Joueur - 1, j].nom = ' ';
             }
@@ -302,7 +302,7 @@ namespace scrabble
 
         }
 
-        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)// mettre joueur en paramètre de la fonction
+        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)
         {
             ConsoleKeyInfo cki;
             int compte = 0;
@@ -449,7 +449,7 @@ namespace scrabble
                     nbTot = nbTot + tabLettre[k].nb_restant;
                     k++;
                 }
-                if (tabMains[num_Joueur, j].nom == ' ')
+                if (tabMains[num_Joueur-1, j].nom == ' ')
                 {
                     lettreChoisie = rndNumbers.Next(1, nbTot); // on prend une pièce au hasard parmi toutes les pièces restantes
 
@@ -463,7 +463,7 @@ namespace scrabble
                         }
                         l++;
                     }
-                    tabMains[num_Joueur, j] = tabLettre[l - 1];
+                    tabMains[num_Joueur-1, j] = tabLettre[l - 1];
                     tabLettre[l - 1].nb_restant = tabLettre[l - 1].nb_restant - 1;
                 }
                 j++;
