@@ -414,6 +414,10 @@ namespace scrabble
                 if (!existe)
                 {
                     Console.Write(" \n le mot {0} n'existe pas\n", mot);
+                    for (int i = 0; i < 7; i++)
+                    { tabcurseur[positionlettre[i, 0], positionlettre[i, 1]] = tabLettre[27]; } // si le mot n'existe pas, on l'efface de la grille
+
+
                 }
                 if (existe)
                 {
