@@ -422,6 +422,7 @@ namespace scrabble
                 if (existe)
                 {
                     Console.WriteLine("\nle mot {0} vous rapporte {1} points", mot, score);
+                    tabJoueur[num_Joueur - 1].point = tabJoueur[num_Joueur - 1].point + score;
                 }
             }
 
