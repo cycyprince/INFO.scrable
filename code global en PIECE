@@ -309,6 +309,8 @@ namespace scrabble
             int a = 0;
             int b = 0;
             int score = 1;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
+            int motcptdouble = 1;
+            int motcpttriple = 1;
 
             PIECE lettre;
             int[,] positionlettre = new int[8, 2];
@@ -380,13 +382,21 @@ namespace scrabble
                     tabcurseur[a, b] = lettre;
                     if ((lettre.nom != '&'))
                     {
-                        if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)
-                        { 
-                            score = score + tabcoef[a, b] * tabcurseur[a, b].val; 
+                        if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
+                        {
+                            score = score + tabcoef[a, b] * tabcurseur[a, b].val;// on multiplie la valeur de la piece par son coef approprié.
                         }
-                        else 
-                        { 
-                            score = score + tabcurseur[a, b].val; 
+                        else
+                        {
+                            score = score + tabcurseur[a, b].val;
+                        }
+                        if (tabcoef[a, b] == 4)
+                        {
+                            motcptdouble = 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
+                        }
+                        if (tabcoef[a, b] == 5)
+                        {
+                            motcptdouble = 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
                         }
                     }
 
@@ -396,9 +406,9 @@ namespace scrabble
                     compte++;
                 }
             }
-            
+            score = score * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
             string mot = motPosé(verifHorizontal, verifVertical, tabcurseur, a, b);
-            if ( mot!="")
+            if (mot != "")
             {
                 bool existe = vérifMot(mot);
                 if (!existe)
@@ -410,9 +420,9 @@ namespace scrabble
                     Console.WriteLine("\nle mot {0} vous rapporte {1} points", mot, score);
                 }
             }
-            
-            
-            
+
+
+
             Console.ReadLine();
             Console.ReadLine();
         }
