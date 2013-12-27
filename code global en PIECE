@@ -410,7 +410,7 @@ namespace scrabble
                        }
                        tabcurseur[positionlettre[i,0],positionlettre[i,1]]=tabLettre[27];
 
-                   }
+                   }//si la première case n'est pas remplie, le mot est mall placé: le joueur reprend ses lettres et peut réessayer de poser son mot
                     }
                 score = score * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
                 string mot = motPosé(verifHorizontal, verifVertical, tabcurseur, a, b);
