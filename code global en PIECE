@@ -398,20 +398,31 @@ namespace scrabble
 
                         compte++;
                     }
-                }
-                if (tabcurseur[7,7].nom==' ')
-                {Console.WriteLine("\n la case du milieu doit être utilisée au premier tour");
-                   for (int i=0;i<7;i++)
-                   {
-                       for (int j = 0; j < 7; j++)
-                       {
-                           if (tabMains[num_Joueur - 1, j].nom == ' ')
-                           { tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[i, 0], positionlettre[i, 1]]; }
-                       }
-                       tabcurseur[positionlettre[i,0],positionlettre[i,1]]=tabLettre[27];
+                    if (tabcurseur[7, 7].nom == ' '&& lettre.nom=='&')//si la première case n'est pas remplie, le mot est mal placé: le joueur reprend ses lettres et peut réessayer de poser son mot
+                    {
+                        Console.WriteLine("\n la case du milieu doit être utilisée au premier tour");
+                        Console.ReadLine();
+                        int j = 0;
 
-                   }//si la première case n'est pas remplie, le mot est mall placé: le joueur reprend ses lettres et peut réessayer de poser son mot
+                        for (int i = 0; i < 7 && tabcurseur[positionlettre[i, 0], positionlettre[i, 1]].nom != ' '; i++)
+                        {
+                            while (tabMains[num_Joueur - 1, j].nom != ' ')
+                            { j++; }
+                            tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[i, 0], positionlettre[i, 1]];
+                            tabcurseur[positionlettre[i, 0], positionlettre[i, 1]] = tabLettre[27];
+                            
+                            j++;
+                        }
+                        positionlettre = new int[7, 2];
+                        a = 0;
+                        b = 0;
+                        verifHorizontal = false;
+                        verifVertical = false;
+                        score = 1;
+                        compte=0;// on remet tout à 0
                     }
+                }
+                
                 score = score * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
                 string mot = motPosé(verifHorizontal, verifVertical, tabcurseur, a, b);
                 if (mot != "")
@@ -529,6 +540,7 @@ namespace scrabble
             return motAvérifier;
 
         }
+
 
     }
 }
