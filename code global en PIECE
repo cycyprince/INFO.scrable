@@ -147,6 +147,7 @@ namespace scrabble
                     Console.Clear();
                     Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[i - 1].nom);
                     positionnerPiece(tabcurseur, tabMains, i, tabJoueur, tabcoef, tabLettre);
+                    pioche(ref tabMains, ref tabLettre, i);
                     i++;
                 }
             }
@@ -459,7 +460,7 @@ namespace scrabble
                     }
                 }
 
-
+                Console.WriteLine(" vous avez un total de {0} points", tabJoueur[num_Joueur - 1].point);
                 Console.ReadLine();
             }
         }
