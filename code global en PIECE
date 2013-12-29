@@ -308,7 +308,7 @@ namespace scrabble
             int compte = 0;
             int a = 0;
             int b = 0;
-            int score = 1;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
+            int score = 0;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
             int motcptdouble = 1;
             int motcpttriple = 1;
 
@@ -323,12 +323,21 @@ namespace scrabble
             string défausse = Console.ReadLine();
             if (défausse == "oui")
             {
-                choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
-                lettre.nom = '&';//pour ne pas rentrer dans la boucle
+                int nbLettreEnlevee = 0;
+                do
+                {
+                    Console.Clear();
+                    affichecurseur(tabcurseur, a, b);
+                    Console.WriteLine(" quelles lettres-voulez-vous enlever?");
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
+                    nbLettreEnlevee++;
+                }
+                while (lettre.nom != '&' || nbLettreEnlevee == 7);
+
             }
             else
             {
-                while (compte < 7 && (lettre.nom != '&')||tabcurseur[7,7].nom==' ')
+                while (compte < 7 && (lettre.nom != '&') || tabcurseur[7, 7].nom == ' ')
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
@@ -398,7 +407,7 @@ namespace scrabble
 
                         compte++;
                     }
-                    if (tabcurseur[7, 7].nom == ' '&& lettre.nom=='&')//si la première case n'est pas remplie, le mot est mal placé: le joueur reprend ses lettres et peut réessayer de poser son mot
+                    if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')//si la première case n'est pas remplie, le mot est mal placé: le joueur reprend ses lettres et peut réessayer de poser son mot
                     {
                         Console.WriteLine("\n la case du milieu doit être utilisée au premier tour");
                         Console.ReadLine();
@@ -410,7 +419,7 @@ namespace scrabble
                             { j++; }
                             tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[i, 0], positionlettre[i, 1]];
                             tabcurseur[positionlettre[i, 0], positionlettre[i, 1]] = tabLettre[27];
-                            
+
                             j++;
                         }
                         positionlettre = new int[7, 2];
@@ -418,11 +427,11 @@ namespace scrabble
                         b = 0;
                         verifHorizontal = false;
                         verifVertical = false;
-                        score = 1;
-                        compte=0;// on remet tout à 0
+                        score = 0;
+                        compte = 0;// on remet tout à 0
                     }
                 }
-                
+
                 score = score * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
                 string mot = motPosé(verifHorizontal, verifVertical, tabcurseur, a, b);
                 if (mot != "")
@@ -431,11 +440,12 @@ namespace scrabble
                     if (!existe)
                     {
                         Console.Write(" \n le mot {0} n'existe pas\n", mot);
-                        int j=0;
-                        for (int i = 0; i < 7&&tabcurseur[positionlettre[i, 0], positionlettre[i, 1]].nom!= ' '; i++)
-                        { while (tabMains[num_Joueur-1,j].nom!= ' ' )
-                               { j++; }
-                        tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[i, 0], positionlettre[i, 1]];
+                        int j = 0;
+                        for (int i = 0; i < 7 && tabcurseur[positionlettre[i, 0], positionlettre[i, 1]].nom != ' '; i++)
+                        {
+                            while (tabMains[num_Joueur - 1, j].nom != ' ')
+                            { j++; }
+                            tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[i, 0], positionlettre[i, 1]];
                             tabcurseur[positionlettre[i, 0], positionlettre[i, 1]] = tabLettre[27];
                             j++;
                         } // si le mot n'existe pas, on l'efface de la grille
