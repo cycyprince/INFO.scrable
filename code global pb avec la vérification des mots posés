@@ -1,0 +1,598 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace scrabble
+{
+    class Program
+    {
+        public struct PIECE
+        {
+            public int val;
+            public char nom;
+            public int nb_restant;
+
+        }
+
+        public struct JOUEUR
+        {
+            public string nom;
+            public int point;
+        }
+
+
+
+
+        public static void Main(string[] args)
+        {
+            PIECE[] tabLettre = { 
+            new PIECE() { nom = 'A', val = 1, nb_restant = 9 },
+            new PIECE() { nom = 'B', val = 3, nb_restant = 2 },
+            new PIECE() { nom = 'C', val = 3, nb_restant = 2 },
+            new PIECE() { nom = 'D', val = 2, nb_restant = 3 },
+            new PIECE() { nom = 'E', val = 1, nb_restant = 15 },
+            new PIECE() { nom = 'F', val = 4, nb_restant = 2 },
+            new PIECE() { nom = 'G', val = 2, nb_restant = 2 },
+            new PIECE() { nom = 'H', val = 4, nb_restant = 2 },
+            new PIECE() { nom = 'I', val = 1, nb_restant = 8 },
+            new PIECE() { nom = 'J', val = 8, nb_restant = 1 },
+            new PIECE() { nom = 'K', val = 10, nb_restant = 1},
+            new PIECE() { nom = 'L', val = 1, nb_restant = 5 },
+            new PIECE() { nom = 'M', val = 2, nb_restant = 3 },
+            new PIECE() { nom = 'N', val = 1, nb_restant = 6 },
+            new PIECE() { nom = 'O', val = 1, nb_restant = 6 },
+            new PIECE() { nom = 'P', val = 3, nb_restant = 2 },
+            new PIECE() { nom = 'Q', val = 8, nb_restant = 1 },
+            new PIECE() { nom = 'R', val = 1, nb_restant = 6 },
+            new PIECE() { nom = 'S', val = 1, nb_restant = 6 },
+            new PIECE() { nom = 'T', val = 1, nb_restant = 6},
+            new PIECE() { nom = 'U', val = 1, nb_restant = 6 },
+            new PIECE() { nom = 'V', val = 4, nb_restant = 2 },
+            new PIECE() { nom = 'W', val = 10, nb_restant = 1},
+            new PIECE() { nom = 'X', val = 10, nb_restant = 1 },
+            new PIECE() { nom = 'Y', val = 10, nb_restant = 1 },
+            new PIECE() { nom = 'Z', val = 10, nb_restant = 1 },
+            new PIECE() { nom ='*', val = 0 , nb_restant = 2} ,
+            new PIECE() { nom = ' ', val =  0, nb_restant = 0},
+            new PIECE() { nom = '&', val =  0, nb_restant = 0}               };
+
+
+            int nbJoueurs; int IA;
+            Console.Write("combien de joueur humain ?\n");
+            nbJoueurs = int.Parse(Console.ReadLine());
+            Console.Write("combien de joueur IA ?\n");
+            IA = int.Parse(Console.ReadLine());
+            int i = 0;
+            JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs];
+            while (i < nbJoueurs)
+            {
+                Console.Write("nom du joueur {0}\n", i + 1);
+                tabJoueur[i].nom = Console.ReadLine();
+                i++;
+
+            }
+
+            PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
+            i = 0; int j = 0;
+            while (i < nbJoueurs)//initialisation du tableau de mains
+            {
+                j = 0;
+                while (j < 7)
+                {
+                    tabMains[i, j] = tabLettre[27];
+                    j++;
+                }
+                i++;
+            }
+
+            for (int joueur = 1; joueur <= nbJoueurs; joueur++)
+            { pioche(ref tabMains, ref tabLettre, joueur); }
+
+
+            int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
+            for (i = 0; i < 15; i++)
+            {
+                for (j = 0; j < 15; j++)
+                {
+                    tabcoef[i, j] = 1;// case sans coeff particulier
+                    if ((i == j || i == 14 - j || j == i - 14))
+                    { tabcoef[i, j] = 4; } // mot compte double
+
+                    if ((i == 0 && (j == 3 || j == 11)) ||
+                        (i == 2 && (j == 6 || j == 8)) ||
+                        (i == 3 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 6 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 7 && (j == 3 || j == 11)) ||
+                        (i == 8 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 11 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 12 && (j == 6 || j == 8)) ||
+                        (i == 14 && (j == 3 || j == 11)))
+                    { tabcoef[i, j] = 2; }// lettre compte double
+
+
+                    if ((i == 1 && (j == 5 || j == 9)) ||
+                        (i == 5 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 9 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 13 && (j == 5 || j == 9)))
+                    { tabcoef[i, j] = 3; }// lettre compte tripple
+
+
+                    if ((i == 0 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 7 && (j == 0 || j == 14)) ||
+                        (i == 14 && (j == 0 || j == 7 || j == 14)))
+                    { tabcoef[i, j] = 5; }// mot compte triple
+
+                }
+            }
+
+            PIECE[,] tabcurseur = new PIECE[15, 15];
+
+
+            for (int k = 0; k < tabcurseur.GetLength(0); k++)
+            {
+                for (int l = 0; l < tabcurseur.GetLength(0); l++)
+                {
+                    tabcurseur[k, l] = tabLettre[27];
+                }
+            }
+            Console.Clear();
+            bool partiFinie = false;
+            while (!partiFinie)
+            {
+                i = 1;
+                while (i <= nbJoueurs)
+                {
+                    Console.Clear();
+                    Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[i - 1].nom);
+                    positionnerPiece(tabcurseur, tabMains, i, tabJoueur, tabcoef, tabLettre);
+                    pioche(ref tabMains, ref tabLettre, i);
+                    i++;
+                }
+            }
+            Console.ReadLine();
+        }
+
+        public static void afficheMain(ref PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur)
+        {
+            int i;
+            i = 0;
+            Console.Write(" \nmain de {0} : \n", tabJoueur[num_Joueur - 1].nom);
+            Console.Write("\n=============================\n");
+            while (i < 7)
+            {
+
+                Console.Write("| {0} ", tabMains[num_Joueur - 1, i].nom);
+                i++;
+            }
+            Console.Write("|");
+            Console.Write(" finir le tour");
+            Console.Write("\n=============================\n");
+        }
+
+        public static bool vérifMot(string mot_a_trouver)
+        {
+            System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+            StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
+            Console.Write("Lecture du dictionnaire, veuillez patienter...");
+            bool existe = false;
+            string mot;
+            int compteur = 0; // pour arréter la boucle dés que le mot est trouvé
+            mot = monStreamReader.ReadLine();
+            while (mot != mot_a_trouver && compteur == 0 && mot != null)
+            {
+                mot = monStreamReader.ReadLine();
+                if (mot == mot_a_trouver)
+                {
+                    existe = true;
+                    compteur = 1;
+                }
+            }
+            monStreamReader.Close();
+            return existe;
+        }
+
+        public static void affichecurseur(PIECE[,] tabcurseur, int k, int l)
+        {
+
+
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n\n=============================================================");
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+
+                    Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    Console.Write("|");
+                    if ((i == j || i == 14 - j || j == i - 14))
+                    { Console.BackgroundColor = ConsoleColor.Magenta; } // mot compte double
+
+                    if ((i == 0 && (j == 3 || j == 11)) ||
+                        (i == 2 && (j == 6 || j == 8)) ||
+                        (i == 3 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 6 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 7 && (j == 3 || j == 11)) ||
+                        (i == 8 && (j == 2 || j == 6 || j == 8 || j == 12)) ||
+                        (i == 11 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 12 && (j == 6 || j == 8)) ||
+                        (i == 14 && (j == 3 || j == 11)))
+                    { Console.BackgroundColor = ConsoleColor.DarkCyan; }// lettre compte double
+
+
+                    if ((i == 1 && (j == 5 || j == 9)) ||
+                        (i == 5 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 9 && (j == 1 || j == 5 || j == 9 || j == 13)) ||
+                        (i == 13 && (j == 5 || j == 9)))
+                    { Console.BackgroundColor = ConsoleColor.DarkBlue; }// lettre compte tripple
+
+
+                    if ((i == 0 && (j == 0 || j == 7 || j == 14)) ||
+                        (i == 7 && (j == 0 || j == 14)) ||
+                        (i == 14 && (j == 0 || j == 7 || j == 14)))
+                    { Console.BackgroundColor = ConsoleColor.Red; }// mot compte triple
+                    if (i == k && j == l)
+                    { Console.BackgroundColor = ConsoleColor.Yellow; }// couleur du curseur
+                    Console.Write(' ');
+                    Console.Write(tabcurseur[i, j].nom);
+                    Console.Write(' ');// espace plus grand avec la valeur de la case au milieu
+                }
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Write("|");
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine(" " + (i + 1));
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+
+                Console.WriteLine("=============================================================");
+            }
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine("  A   B   C   D   E   F   G   H   I   J   K   L   M   N   O");
+
+        }
+
+        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, out PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre)
+        {
+            char[] curseur = new char[8];
+            for (int l = 0; l < 8; l++)
+            { curseur[l] = ' '; }
+            ConsoleKeyInfo touche; // touche entrée pour déplacer le curseur
+            curseur[0] = '*';
+            curseur = new char[8];// remet le tableau curseur à 0
+            int i = 0;
+            int j = 0;
+            do
+            {
+
+                afficheMain(ref tabMains, num_Joueur, tabJoueur);// affiche le tableau et la main
+                for (i = 0; i < 8; i++)
+                {
+                    Console.Write(' ');
+                    Console.Write(' ');
+                    Console.Write(curseur[i]);
+                    Console.Write(' ');
+                }// affichage du tableau curseur
+
+                touche = Console.ReadKey();// demande d'un caractère
+                if (touche.Key == ConsoleKey.RightArrow && j < 7)// si flèche de droite
+                {
+                    curseur[j] = ' ';
+                    curseur[j + 1] = '*';
+                    j++;
+
+                }
+                if (touche.Key == ConsoleKey.LeftArrow && j > 0)// si flèche de gauche
+                {
+                    curseur[j - 1] = '*';
+                    curseur[j] = ' ';
+                    j--;
+                }
+                Console.Clear();
+                affichecurseur(tabcurseur, a, b);
+            }
+            while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
+            if (j == 7)
+            { lettre = tabLettre[28]; }// correspond à la validation
+            else
+            {
+                lettre = tabMains[num_Joueur - 1, j];
+
+                tabMains[num_Joueur - 1, j].nom = ' ';
+            }
+
+
+        }
+
+        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)
+        {
+            ConsoleKeyInfo touche;
+            int compte = 0;
+            int a = 0;
+            int b = 0;
+            int score = 0;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
+            int motcptdouble = 1;
+            int motcpttriple = 1;
+
+            PIECE lettre;
+            int[,] positionlettre = new int[7, 2];
+            bool verifHorizontal = false;
+            bool verifVertical = false;
+            lettre.nom = ' ';
+            affichecurseur(tabcurseur, a, b);
+            afficheMain(ref tabMains, num_Joueur, tabJoueur);
+            Console.WriteLine("\n voulez vous vous défosser d'une pièce ?\n écrire oui / non ");
+            string défausse = Console.ReadLine();
+            if (défausse == "oui")
+            {
+                int nbLettreEnlevee = 0;
+                do
+                {
+                    Console.Clear();
+                    affichecurseur(tabcurseur, a, b);
+                    Console.WriteLine(" quelles lettres-voulez-vous enlever?");
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
+                    nbLettreEnlevee++;
+                }
+                while (lettre.nom != '&' || nbLettreEnlevee == 7);
+
+            }
+            else
+            {
+                while (compte < 7 && (lettre.nom != '&') || tabcurseur[7, 7].nom == ' ')
+                {
+                    Console.Clear();
+                    affichecurseur(tabcurseur, a, b);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
+                    if (lettre.nom != '&')// si la lettre vaut '&' c'est que l'utilisateur a validé
+                    {
+
+
+                        do
+                        {
+                            Console.Clear();
+                            affichecurseur(tabcurseur, a, b);
+                            afficheMain(ref tabMains, num_Joueur, tabJoueur);
+                            touche = Console.ReadKey();// choix du caractère de déplacement
+                            if (touche.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1)// si flèche de droite
+                            {
+                                b++;
+                            }
+                            if (touche.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
+                            {
+                                b--;
+                            }
+                            if (touche.Key == ConsoleKey.DownArrow && a < tabcurseur.GetLength(1) - 1)// si flèche du bas
+                            {
+                                a++;
+                            }
+                            if (touche.Key == ConsoleKey.UpArrow && a > 0)// flèche du haut;
+                            {
+                                a--;
+                            }
+
+                        }
+                        while (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionlettre[compte - 1, 0] != a && positionlettre[compte - 1, 1] != b)) || (verifHorizontal && a != positionlettre[1, 0]) || (verifVertical && b != positionlettre[1, 1]));
+                        // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
+                        // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
+                        positionlettre[compte, 0] = a;
+                        positionlettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
+
+                        if (compte == 1)
+                        {
+                            if (positionlettre[0, 0] == positionlettre[1, 0])
+                            { verifHorizontal = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
+                            if (positionlettre[0, 1] == positionlettre[1, 1])
+                            { verifVertical = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
+                        }
+
+                        tabcurseur[a, b] = lettre;
+                        if ((lettre.nom != '&'))
+                        {
+                            if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
+                            {
+                                score = score + tabcoef[a, b] * tabcurseur[a, b].val;// on multiplie la valeur de la piece par son coef approprié.
+                            }
+                            else
+                            {
+                                score = score + tabcurseur[a, b].val;
+                            }
+                            if (tabcoef[a, b] == 4)
+                            {
+                                motcptdouble = 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
+                            }
+                            if (tabcoef[a, b] == 5)
+                            {
+                                motcptdouble = 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
+                            }
+                        }
+
+                        compte++;
+                    }
+                    if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')//si la première case n'est pas remplie, le mot est mal placé: le joueur reprend ses lettres et peut réessayer de poser son mot
+                    {
+                        Console.WriteLine("\n la case du milieu doit être utilisée au premier tour");
+                        Console.ReadLine();
+                        int j = 0;
+
+                        for (int i = 0; i < 7 && tabcurseur[positionlettre[i, 0], positionlettre[i, 1]].nom != ' '; i++)
+                        {
+                            while (tabMains[num_Joueur - 1, j].nom != ' ')
+                            { j++; }
+                            tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[i, 0], positionlettre[i, 1]];
+                            tabcurseur[positionlettre[i, 0], positionlettre[i, 1]] = tabLettre[27];
+
+                            j++;
+                        }
+                        positionlettre = new int[7, 2];
+                        verifHorizontal = false;
+                        verifVertical = false;
+                        score = 0;
+                        compte = 0;// on remet tout à 0
+                    }
+                }
+
+                score = score * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
+                bool existe = true;
+                string[] mots = motPosé(tabcurseur, positionlettre, verifHorizontal,verifVertical);
+
+                for (int i = 0; i < 8 && existe; i++)// si un des mots formé n'esxiste pas, le mot posé est refusé
+                {
+                    if (mots[i] != "")
+                    {
+                        existe = vérifMot(mots[i]);
+                        if (!existe )
+                        {
+                            Console.Write(" \n le mot {0} n'existe pas\n", mots[i]);
+                            int j = 0;
+                            for (int k = 0; k < 7 && tabcurseur[positionlettre[k, 0], positionlettre[k, 1]].nom != ' '; k++)
+                            {
+                                while (tabMains[num_Joueur - 1, j].nom != ' ')
+                                { j++; }
+                                tabMains[num_Joueur - 1, j] = tabcurseur[positionlettre[k, 0], positionlettre[k, 1]];
+                                tabcurseur[positionlettre[k, 0], positionlettre[k, 1]] = tabLettre[27];
+                                j++;
+                            } // si le mot n'existe pas, on l'efface de la grille
+
+                            score = 0;// si le mot n'esiste pas, le joueur ne remporte aucun point
+                        }
+                        if (existe)
+                        {
+                            Console.WriteLine("\nle mot {0} vous rapporte {1} points", mots[i], score);
+                           
+                        }
+                    }
+                }
+                tabJoueur[num_Joueur - 1].point = tabJoueur[num_Joueur - 1].point + score;
+                Console.WriteLine(" vous avez un total de {0} points", tabJoueur[num_Joueur - 1].point);
+                Console.ReadLine();
+            }
+        }
+
+        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur)
+        {
+            int lettreChoisie = 0;
+            int nbTot = 0;
+            int sommePartielle = 0;
+            int j = 0; int l = 0; int k; // pour parcourir les tableaux
+
+            Random rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
+            j = 0;
+            while (j < 7)
+            {
+                k = 0;
+                nbTot = 0;
+                while (k < 27) // on calcule le nb de pieces qui restantes
+                {
+                    nbTot = nbTot + tabLettre[k].nb_restant;
+                    k++;
+                }
+                if (tabMains[num_Joueur - 1, j].nom == ' ')
+                {
+                    lettreChoisie = rndNumbers.Next(1, nbTot); // on prend une pièce au hasard parmi toutes les pièces restantes
+
+                    l = 0;
+                    sommePartielle = 0;
+                    while (sommePartielle < lettreChoisie)// on cherche la plage de valeurs de la lettre correspondante au nombre aléatoire ( entre 1 et 9 = A entre 10 et 11 = B etc ...)
+                    {
+                        if (tabLettre[l].nb_restant != 0)// on saute la lettre si il n'en reste pas3
+                        {
+                            sommePartielle = sommePartielle + tabLettre[l].nb_restant;
+                        }
+                        l++;
+                    }
+                    tabMains[num_Joueur - 1, j] = tabLettre[l - 1];
+                    tabLettre[l - 1].nb_restant = tabLettre[l - 1].nb_restant - 1;
+                }
+                j++;
+
+            }
+        }
+
+        public static string[] motPosé( PIECE[,] tabcurseur, int[,] positionLettre, bool verifHorizontal, bool verifVertical)
+        {
+            
+       
+            
+            int l = 0;// pour parcourir les mots existants
+            bool stopHorizontal = true; // pour éviter les répétitions
+            bool stopVertical = true; // pour éviter les répétitions
+            string [] motsposés= new string [8];// stock les différents mots qui ont pu se former
+            for (int j = 0; j < 7; j++)
+            {char[] motPosé = new char[15];// permet d'enregistrer le jeme mot
+                     int i = 0; // pour parcourir l'horizontale ou la verticale
+                      int compteLettre = 0;
+                int b = positionLettre[j, 1];
+                int a = positionLettre[j, 0];
+               
+               
+                // on cherche la première lettre ( la plus en haut)
+                while (b >= 0 && tabcurseur[a, b].nom != ' '&& stopVertical)// on reste sur le plateau et on vérifie les mots verticaux
+                {
+                    b--;// on se décale vers le haut jusqu'à la première lettre
+                }
+
+                while (b < 14 && tabcurseur[a, b + 1].nom != ' ' && stopVertical) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                {
+                    motPosé[i] = tabcurseur[a, b + 1].nom;
+                    i++;
+                    b++;
+                    compteLettre++;
+
+                }
+                if (compteLettre > 0)
+                {
+                    string motAvérifier = new string(motPosé);
+                    motAvérifier = motAvérifier.Substring(0, compteLettre);
+                    
+                    if ( motAvérifier.Length>1)
+                    {
+                        motsposés[l] = motAvérifier;
+                        l++;
+                    }
+                    if (verifVertical) { stopVertical = false; }
+
+                }
+
+                motPosé= new char[15];// on réinitialise toutes les données avant de vérifier les mots horizontaux
+                i = 0; // pour parcourir l'horizontale ou la verticale
+                compteLettre = 0;
+                b = positionLettre[j, 1];
+                a = positionLettre[j, 0];
+
+                while (a >= 0 && tabcurseur[a, b].nom != ' ' && stopHorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
+                {
+                    a--;// on se décale sur la gauche jusqu'à la première lettre
+                }
+
+                while (a < 14 && tabcurseur[a + 1, b].nom != ' ' && stopHorizontal) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                {
+                    motPosé[i] = tabcurseur[a + 1, b].nom;
+                    i++;
+                    a++;
+                    compteLettre++;
+
+                }
+
+
+                
+                if (compteLettre > 0)
+                {
+                    string motAvérifier = new string(motPosé);
+                    motAvérifier = motAvérifier.Substring(0, compteLettre);
+
+                    if (motAvérifier.Length > 1) 
+                    { motsposés[l] = motAvérifier;
+                    l++;
+                    }
+                    if (verifHorizontal) { stopHorizontal = false; }
+                }
+            }
+
+            return motsposés;
+
+        }
+
+
+    }
+}
+
