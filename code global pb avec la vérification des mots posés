@@ -126,6 +126,19 @@ namespace scrabble
 
                 }
             }
+            
+             int[,] tabVérif = new int[15, 15];
+            i = 0; j = 0;
+            while (i < 15)
+            {
+                while (j < 15)
+                {
+                    tabVérif[i, j] = 0;
+                    j++;
+                }
+                j = 0;
+                i++;
+            }
 
             PIECE[,] tabcurseur = new PIECE[15, 15];
 
@@ -317,7 +330,7 @@ namespace scrabble
 
         }
 
-         public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)
+         public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref int [,] tabVérif)
         {
             ConsoleKeyInfo touche;
             int compte = 0;
@@ -426,7 +439,7 @@ namespace scrabble
                         compte = 0;// on remet tout à 0
                     }
                 }
-
+                vérifMotattaché(positionlettre, ref tabVérif, tabcurseur);
                
                 bool existe = true;
                 string[] mots = motPosé(tabcurseur, positionlettre, verifhorizontal,verifvertical,tabcoef, out score);
@@ -633,6 +646,43 @@ namespace scrabble
             { tabcoef[positionLettre[h, 0], positionLettre[h, 1]] = 1; }// une fois que les scores des différents mots formés on été calculés on écrase les différents coefficients qui ne pourront plus être utilisés
             return motsposés;
 
+        }
+        public static bool vérifMotattaché(int[,] positionLettre,ref int[,]tabVérif, PIECE [,]tabcurseur)
+        { 
+            bool check = false;
+            //a vertical / b horrizontal
+            
+            if (tabVérif[7, 7] == 0)// si c'est le premier tour
+            {
+                int temp = 0;
+                while (temp < 7)
+                {
+                    tabVérif[positionLettre[temp, 0], positionLettre[temp, 0]] = 1;
+                }
+            }
+
+            else
+            {
+                int i = 0;
+                while (i < 7 && !check)
+                {
+                    if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 0]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 0]] == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 0]] + 1 == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 0]] - 1 == 1)
+                    {
+                        check = true;
+                    }
+                }
+                if (check)
+                {
+                    i = 0;
+                    while (i < 7)
+                    {
+                        tabVérif[positionLettre[i, 0], positionLettre[i, 0]] = 1;
+                    }
+                }
+            }
+            Console.Write(check);
+            Console.ReadLine();
+            return check;
         }
        
     }
