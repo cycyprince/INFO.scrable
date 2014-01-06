@@ -317,24 +317,23 @@ namespace scrabble
 
         }
 
-        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)
+         public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)
         {
             ConsoleKeyInfo touche;
             int compte = 0;
             int a = 0;
             int b = 0;
             int score = 0;// calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
-            int motcptdouble = 1;
-            int motcpttriple = 1;
+           
 
             PIECE lettre;
             int[,] positionlettre = new int[7, 2];
-            bool verifHorizontal = false;
-            bool verifVertical = false;
+            bool verifhorizontal = false;
+            bool verifvertical = false;
             lettre.nom = ' ';
             affichecurseur(tabcurseur, a, b);
-            afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
-            Console.WriteLine("\n voulez vous vous défosser d'une ou plusieurs pièce ?\n écrire oui / non ");
+            afficheMain(ref tabMains, num_Joueur, tabJoueur);
+            Console.WriteLine("\n voulez vous vous défosser d'une pièce ?\n écrire oui / non ");
             string défausse = Console.ReadLine();
             if (défausse == "oui")
             {
@@ -343,11 +342,11 @@ namespace scrabble
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    Console.WriteLine(" quelles lettres voulez-vous enlever?");
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre,défausse);
+                    Console.WriteLine(" quelles lettres-voulez-vous enlever?");
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
                     nbLettreEnlevee++;
                 }
-                while (lettre.nom != '&' || nbLettreEnlevee < 7);
+                while (lettre.nom != '&' || nbLettreEnlevee == 7);
 
             }
             else
@@ -356,7 +355,7 @@ namespace scrabble
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
                     if (lettre.nom != '&')// si la lettre vaut '&' c'est que l'utilisateur a validé
                     {
 
@@ -365,7 +364,7 @@ namespace scrabble
                         {
                             Console.Clear();
                             affichecurseur(tabcurseur, a, b);
-                            afficheMain(ref tabMains, num_Joueur, tabJoueur,tabLettre);
+                            afficheMain(ref tabMains, num_Joueur, tabJoueur);
                             touche = Console.ReadKey();// choix du caractère de déplacement
                             if (touche.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1)// si flèche de droite
                             {
@@ -385,7 +384,7 @@ namespace scrabble
                             }
 
                         }
-                        while (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionlettre[compte - 1, 0] != a && positionlettre[compte - 1, 1] != b)) || (verifHorizontal && a != positionlettre[1, 0]) || (verifVertical && b != positionlettre[1, 1]));
+                        while (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionlettre[compte - 1, 0] != a && positionlettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionlettre[1, 0]) || (verifvertical && b != positionlettre[1, 1]));
                         // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
                         // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
                         positionlettre[compte, 0] = a;
@@ -394,31 +393,14 @@ namespace scrabble
                         if (compte == 1)
                         {
                             if (positionlettre[0, 0] == positionlettre[1, 0])
-                            { verifHorizontal = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
+                            { verifhorizontal = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
                             if (positionlettre[0, 1] == positionlettre[1, 1])
-                            { verifVertical = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
+                            { verifvertical = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
                         }
 
                         tabcurseur[a, b] = lettre;
                         if ((lettre.nom != '&'))
-                        {
-                            if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
-                            {
-                                score = score + tabcoef[a, b] * tabcurseur[a, b].val;// on multiplie la valeur de la piece par son coef approprié.
-                            }
-                            else
-                            {
-                                score = score + tabcurseur[a, b].val;
-                            }
-                            if (tabcoef[a, b] == 4)
-                            {
-                                motcptdouble = 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
-                            }
-                            if (tabcoef[a, b] == 5)
-                            {
-                                motcptdouble = 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
-                            }
-                        }
+                        
 
                         compte++;
                     }
@@ -436,25 +418,27 @@ namespace scrabble
                             tabcurseur[positionlettre[i, 0], positionlettre[i, 1]] = tabLettre[27];
 
                             j++;
-                        }
+                        }// boucle pour reremplir la main du joueur
                         positionlettre = new int[7, 2];
-                        verifHorizontal = false;
-                        verifVertical = false;
+                        verifhorizontal = false;
+                        verifvertical = false;
                         score = 0;
                         compte = 0;// on remet tout à 0
                     }
                 }
 
-                score = score * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
+               
                 bool existe = true;
-                string[] mots = motPosé(tabcurseur, positionlettre, verifHorizontal, verifVertical);
+                string[] mots = motPosé(tabcurseur, positionlettre, verifhorizontal,verifvertical,tabcoef, out score);
+                
+               
 
-                for (int i = 0; i < 8 && existe; i++)// si un des mots formé n'esxiste pas, le mot posé est refusé
+                for (int i = 0; i < 8 && existe; i++)// si un des mots formé n'existe pas, le mot posé est refusé
                 {
-                    if (mots[i] != "")
-                    {
-                        existe = vérifMot(mots[i]);
-                        if (!existe)
+                    if (mots[i] != null)
+                    {existe = vérifMot(mots[i]);
+                        
+                        if (!existe )
                         {
                             Console.Write(" \n le mot {0} n'existe pas\n", mots[i]);
                             int j = 0;
@@ -467,27 +451,33 @@ namespace scrabble
                                 j++;
                             } // si le mot n'existe pas, on l'efface de la grille
 
-                            score = 0;// si le mot n'esiste pas, le joueur ne remporte aucun point
+                            score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point
                         }
-                        if (existe)
-                        {
-                            Console.WriteLine("\nle mot {0} vous rapporte {1} points", mots[i], score);
-
-                        }
+                        
                     }
+                }
+                if (existe)
+                {
+
+                    Console.WriteLine("\nce mot vous rapporte {0} points", score);
+
                 }
                 tabJoueur[num_Joueur - 1].point = tabJoueur[num_Joueur - 1].point + score;
                 Console.WriteLine(" vous avez un total de {0} points", tabJoueur[num_Joueur - 1].point);
                 Console.ReadLine();
             }
+        
         }
 
-        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur, Random rndNumbers)
+        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur)
         {
             int lettreChoisie = 0;
             int nbTot = 0;
             int sommePartielle = 0;
             int j = 0; int l = 0; int k; // pour parcourir les tableaux
+
+            Random rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
+            j = 0;
             while (j < 7)
             {
                 k = 0;
@@ -519,66 +509,103 @@ namespace scrabble
             }
         }
 
-        public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifHorizontal, bool verifVertical)
+        public static string[] motPosé( PIECE[,] tabcurseur, int[,] positionLettre, bool verifvertical, bool verifhorizontal,int[,]tabcoef, out int score)
         {
 
 
-
             int l = 0;// pour parcourir les mots existants
-            bool stopHorizontal = true; // pour éviter les répétitions
-            bool stopVertical = true; // pour éviter les répétitions
-            string[] motsposés = new string[8];// stock les différents mots qui ont pu se former
+            score = 0;
+            bool stophorizontal = true; // pour éviter les répétitions
+            bool stopvertical = true; // pour éviter les répétitions
+            string [] motsposés= new string [8];// stock les différents mots qui ont pu se former
             for (int j = 0; j < 7; j++)
-            {
-                char[] motPosé = new char[15];// permet d'enregistrer le jeme mot
-                int i = 0; // pour parcourir l'horizontale ou la verticale
-                int compteLettre = 0;
+            {char[] motPosé = new char[15];// permet d'enregistrer le jeme mot
+                     int i = 0; // pour parcourir l'horizontale ou la verticale
+                      int compteLettre = 0;
                 int b = positionLettre[j, 1];
-                int a = positionLettre[j, 0];
-
-
+                int a = positionLettre[j, 0];// pour simplifier l'écriture
+                int motcptdouble = 1;
+                int motcpttriple = 1;
+                int scoreMot=0;
+               
                 // on cherche la première lettre ( la plus en haut)
-                while (b >= 0 && tabcurseur[a, b].nom != ' ' && stopVertical)// on reste sur le plateau et on vérifie les mots verticaux
+                while (b >= 0 && tabcurseur[a, b].nom != ' '&& stopvertical)// on reste sur le plateau et on vérifie les mots verticaux
                 {
                     b--;// on se décale vers le haut jusqu'à la première lettre
                 }
 
-                while (b < 14 && tabcurseur[a, b + 1].nom != ' ' && stopVertical) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                while (b < 14 && tabcurseur[a, b + 1].nom != ' ' && stopvertical) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
                 {
                     motPosé[i] = tabcurseur[a, b + 1].nom;
+                
+        if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
+                            {
+                    scoreMot = scoreMot + tabcurseur[a, b].val * tabcoef[a, b];
+                            }
+        if (tabcoef[a, b] == 4)
+        {
+            motcptdouble = motcptdouble+2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
+            scoreMot = scoreMot + tabcurseur[a, b].val;
+        }
+        if (tabcoef[a, b] == 5)
+        {
+            motcpttriple = motcpttriple+3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
+            scoreMot = scoreMot + tabcurseur[a, b].val;
+        }
                     i++;
                     b++;
                     compteLettre++;
 
                 }
+                if (verifvertical) { stopvertical = false; }
                 if (compteLettre > 0)
                 {
                     string motAvérifier = new string(motPosé);
                     motAvérifier = motAvérifier.Substring(0, compteLettre);
-
-                    if (motAvérifier.Length > 1)
+                    
+                    if ( motAvérifier.Length>1)
                     {
+                        scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
                         motsposés[l] = motAvérifier;
                         l++;
                     }
-                    if (verifVertical) { stopVertical = false; }
+                    
 
                 }
+                score = score + scoreMot; // on ajoute la valeur du mot identifié au score du tour
 
-                motPosé = new char[15];// on réinitialise toutes les données avant de vérifier les mots horizontaux
+                motPosé= new char[15];// on réinitialise toutes les données avant de vérifier les mots horizontaux
                 i = 0; // pour parcourir l'horizontale ou la verticale
                 compteLettre = 0;
                 b = positionLettre[j, 1];
                 a = positionLettre[j, 0];
+                scoreMot = 0;
+                 motcptdouble = 1;
+                 motcpttriple = 1;
+         
 
-                while (a >= 0 && tabcurseur[a, b].nom != ' ' && stopHorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
+                while (a >= 0 && tabcurseur[a, b].nom != ' ' && stophorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
                 {
                     a--;// on se décale sur la gauche jusqu'à la première lettre
                 }
 
-                while (a < 14 && tabcurseur[a + 1, b].nom != ' ' && stopHorizontal) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                while (a < 14 && tabcurseur[a + 1, b].nom != ' ' && stophorizontal) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
                 {
                     motPosé[i] = tabcurseur[a + 1, b].nom;
+                if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
+                            {
+                    scoreMot = scoreMot + tabcurseur[a, b].val * tabcoef[a, b];
+                            }
+                             if (tabcoef[a, b] == 4)
+                            {
+                                motcptdouble =motcptdouble+ 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
+                                scoreMot = scoreMot + tabcurseur[a, b].val;
+                            }
+                            if (tabcoef[a, b] == 5)
+                            {
+                                motcpttriple =motcpttriple+ 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
+                                scoreMot = scoreMot + tabcurseur[a, b].val;
+                            }
                     i++;
                     a++;
                     compteLettre++;
@@ -586,26 +613,28 @@ namespace scrabble
                 }
 
 
-
+                if (verifhorizontal) { stophorizontal = false; }
+                
                 if (compteLettre > 0)
                 {
                     string motAvérifier = new string(motPosé);
                     motAvérifier = motAvérifier.Substring(0, compteLettre);
-
-                    if (motAvérifier.Length > 1)
-                    {
-                        motsposés[l] = motAvérifier;
-                        l++;
+                    scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
+                    if (motAvérifier.Length > 1) 
+                    { motsposés[l] = motAvérifier;
+                    l++;
                     }
-                    if (verifHorizontal) { stopHorizontal = false; }
+                    score = score + scoreMot;
                 }
+               
+                
             }
-
+            for (int h = 0; h < 7; h++)
+            { tabcoef[positionLettre[h, 0], positionLettre[h, 1]] = 1; }// une fois que les scores des différents mots formés on été calculés on écrase les différents coefficients qui ne pourront plus être utilisés
             return motsposés;
 
         }
-
-
+       
     }
 }
 
