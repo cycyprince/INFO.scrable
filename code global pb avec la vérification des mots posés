@@ -311,6 +311,7 @@ namespace scrabble
                 {
                     tabMains[num_Joueur - 1, j].nb_restant = tabMains[num_Joueur - 1, j].nb_restant + 1;
                 }
+                
             }
 
 
@@ -343,7 +344,7 @@ namespace scrabble
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
                     Console.WriteLine(" quelles lettres voulez-vous enlever?");
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre,défausse);
                     nbLettreEnlevee++;
                 }
                 while (lettre.nom != '&' || nbLettreEnlevee < 7);
@@ -355,7 +356,7 @@ namespace scrabble
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
                     if (lettre.nom != '&')// si la lettre vaut '&' c'est que l'utilisateur a validé
                     {
 
