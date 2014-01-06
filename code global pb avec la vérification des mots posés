@@ -260,7 +260,7 @@ namespace scrabble
 
         }
 
-        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, out PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre)
+        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, out PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
             char[] curseur = new char[8];
             for (int l = 0; l < 8; l++)
@@ -307,6 +307,10 @@ namespace scrabble
                 lettre = tabMains[num_Joueur - 1, j];
 
                 tabMains[num_Joueur - 1, j].nom = ' ';
+                if (défausse == "oui")// si le lettre choisie est pour la reposer dans la pioche
+                {
+                    tabMains[num_Joueur - 1, j].nb_restant = tabMains[num_Joueur - 1, j].nb_restant + 1;
+                }
             }
 
 
