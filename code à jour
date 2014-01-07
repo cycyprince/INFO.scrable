@@ -347,7 +347,7 @@ namespace scrabble
             {
                 lettre = tabMains[num_Joueur - 1, j];
 
-                tabMains[num_Joueur - 1, j].nom = ' ';
+                tabMains[num_Joueur - 1, j]= tabLettre[27];// la case est effacée
                 if (defausse == "oui")// si le lettre choisie est pour la reposer dans la pioche
                 {
                     tabMains[num_Joueur - 1, j].nb_restant = tabMains[num_Joueur - 1, j].nb_restant + 1;
