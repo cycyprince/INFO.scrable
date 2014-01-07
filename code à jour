@@ -175,7 +175,7 @@ namespace scrabble
             int i;
             i = 0;
 
-            Console.Write("\nmain de {0} :  =============================\n", tabJoueur[num_Joueur - 1].nom);
+            Console.Write("\nmain de {0} : =============================\n", tabJoueur[num_Joueur - 1].nom);
             Console.Write("              ");
             while (i < 7)
             {
