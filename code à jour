@@ -23,42 +23,42 @@ namespace scrabble
         }
 
         public static void initialiserSAC(ref PIECE[] tabLettre)
-        { 
-            tabLettre[0]=new PIECE() { nom = 'A', val = 1, nb_restant = 9 };
-            tabLettre[1]=new PIECE() { nom = 'B', val = 3, nb_restant = 2 };
-            tabLettre[2]=new PIECE() { nom = 'C', val = 3, nb_restant = 2 };
-            tabLettre[3]=new PIECE() { nom = 'D', val = 2, nb_restant = 3 };
-            tabLettre[4]=new PIECE() { nom = 'E', val = 1, nb_restant = 15};
-            tabLettre[5]=new PIECE() { nom = 'F', val = 4, nb_restant = 2 };
-            tabLettre[6]=new PIECE() { nom = 'G', val = 2, nb_restant = 2 };
-            tabLettre[7]=new PIECE() { nom = 'H', val = 4, nb_restant = 2 };
-            tabLettre[8]=new PIECE() { nom = 'I', val = 1, nb_restant = 8 };
-            tabLettre[9]=new PIECE() { nom = 'J', val = 8, nb_restant = 1 };
-            tabLettre[10]=new PIECE() { nom = 'K', val = 10, nb_restant = 1};
-            tabLettre[11]=new PIECE() { nom = 'L', val = 1, nb_restant = 5 };
-            tabLettre[12]=new PIECE() { nom = 'M', val = 2, nb_restant = 3 };
-            tabLettre[13]=new PIECE() { nom = 'N', val = 1, nb_restant = 6 };
-            tabLettre[14]=new PIECE() { nom = 'O', val = 1, nb_restant = 6 };
-            tabLettre[15]=new PIECE() { nom = 'P', val = 3, nb_restant = 2 };
-            tabLettre[16]=new PIECE() { nom = 'Q', val = 8, nb_restant = 1 };
-            tabLettre[17]=new PIECE() { nom = 'R', val = 1, nb_restant = 6 };
-            tabLettre[18]=new PIECE() { nom = 'S', val = 1, nb_restant = 6 };
-            tabLettre[19]=new PIECE() { nom = 'T', val = 1, nb_restant = 6};
-            tabLettre[20]=new PIECE() { nom = 'U', val = 1, nb_restant = 6 };
-            tabLettre[21]=new PIECE() { nom = 'V', val = 4, nb_restant = 2 };
-            tabLettre[22]=new PIECE() { nom = 'W', val = 10, nb_restant = 1};
-            tabLettre[23]=new PIECE() { nom = 'X', val = 10, nb_restant = 1 };
-            tabLettre[24]=new PIECE() { nom = 'Y', val = 10, nb_restant = 1 };
-            tabLettre[25]=new PIECE() { nom = 'Z', val = 10, nb_restant = 1 };
-            tabLettre[26]=new PIECE() { nom ='*', val = 0 , nb_restant = 2};
-            tabLettre[27]=new PIECE() { nom = ' ', val = 0, nb_restant = 0};
-            tabLettre[28]=new PIECE() { nom = '&', val =  0, nb_restant = 0};
+        {
+            tabLettre[0] = new PIECE() { nom = 'A', val = 1, nb_restant = 9 };
+            tabLettre[1] = new PIECE() { nom = 'B', val = 3, nb_restant = 2 };
+            tabLettre[2] = new PIECE() { nom = 'C', val = 3, nb_restant = 2 };
+            tabLettre[3] = new PIECE() { nom = 'D', val = 2, nb_restant = 3 };
+            tabLettre[4] = new PIECE() { nom = 'E', val = 1, nb_restant = 15 };
+            tabLettre[5] = new PIECE() { nom = 'F', val = 4, nb_restant = 2 };
+            tabLettre[6] = new PIECE() { nom = 'G', val = 2, nb_restant = 2 };
+            tabLettre[7] = new PIECE() { nom = 'H', val = 4, nb_restant = 2 };
+            tabLettre[8] = new PIECE() { nom = 'I', val = 1, nb_restant = 8 };
+            tabLettre[9] = new PIECE() { nom = 'J', val = 8, nb_restant = 1 };
+            tabLettre[10] = new PIECE() { nom = 'K', val = 10, nb_restant = 1 };
+            tabLettre[11] = new PIECE() { nom = 'L', val = 1, nb_restant = 5 };
+            tabLettre[12] = new PIECE() { nom = 'M', val = 2, nb_restant = 3 };
+            tabLettre[13] = new PIECE() { nom = 'N', val = 1, nb_restant = 6 };
+            tabLettre[14] = new PIECE() { nom = 'O', val = 1, nb_restant = 6 };
+            tabLettre[15] = new PIECE() { nom = 'P', val = 3, nb_restant = 2 };
+            tabLettre[16] = new PIECE() { nom = 'Q', val = 8, nb_restant = 1 };
+            tabLettre[17] = new PIECE() { nom = 'R', val = 1, nb_restant = 6 };
+            tabLettre[18] = new PIECE() { nom = 'S', val = 1, nb_restant = 6 };
+            tabLettre[19] = new PIECE() { nom = 'T', val = 1, nb_restant = 6 };
+            tabLettre[20] = new PIECE() { nom = 'U', val = 1, nb_restant = 6 };
+            tabLettre[21] = new PIECE() { nom = 'V', val = 4, nb_restant = 2 };
+            tabLettre[22] = new PIECE() { nom = 'W', val = 10, nb_restant = 1 };
+            tabLettre[23] = new PIECE() { nom = 'X', val = 10, nb_restant = 1 };
+            tabLettre[24] = new PIECE() { nom = 'Y', val = 10, nb_restant = 1 };
+            tabLettre[25] = new PIECE() { nom = 'Z', val = 10, nb_restant = 1 };
+            tabLettre[26] = new PIECE() { nom = '*', val = 0, nb_restant = 2 };
+            tabLettre[27] = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
+            tabLettre[28] = new PIECE() { nom = '&', val = 0, nb_restant = 0 };
         }
 
 
         public static void Main(string[] args)
         {
-            PIECE[] tabLettre = new PIECE [29];
+            PIECE[] tabLettre = new PIECE[29];
             initialiserSAC(ref tabLettre);
 
             Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
@@ -189,7 +189,7 @@ namespace scrabble
             Console.Write("leurs valeurs:");
             while (i < 7)
             {
-               if (tabMains[num_Joueur - 1, i].val < 10)
+                if (tabMains[num_Joueur - 1, i].val < 10)
                 {
                     Console.Write("| {0} ", tabMains[num_Joueur - 1, i].val);
                 }
@@ -281,7 +281,7 @@ namespace scrabble
 
         }
 
-        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, out PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
+        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, out PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string defausse)
         {
             char[] curseur = new char[8];
             for (int l = 0; l < 8; l++)
@@ -295,7 +295,7 @@ namespace scrabble
             {
 
                 afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);// affiche le tableau et la main
-               Console.Write("              ");// ajustement du curseur sous la main
+                Console.Write("              ");// ajustement du curseur sous la main
                 for (i = 0; i < 8; i++)
                 {
                     Console.Write(' ');
@@ -329,7 +329,7 @@ namespace scrabble
                 lettre = tabMains[num_Joueur - 1, j];
 
                 tabMains[num_Joueur - 1, j].nom = ' ';
-                if (défausse == "oui")// si le lettre choisie est pour la reposer dans la pioche
+                if (defausse == "oui")// si le lettre choisie est pour la reposer dans la pioche
                 {
                     tabMains[num_Joueur - 1, j].nb_restant = tabMains[num_Joueur - 1, j].nb_restant + 1;
                 }
@@ -354,10 +354,10 @@ namespace scrabble
             bool verifvertical = false;
             lettre.nom = ' ';
             affichecurseur(tabcurseur, a, b);
-            afficheMain(ref tabMains, num_Joueur, tabJoueur,tabLettre);
+            afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
             Console.WriteLine("\n voulez vous vous défosser d'une pièce ?\n écrire oui / non ");
-            string défausse = Console.ReadLine();
-            if (défausse == "oui")
+            string defausse = Console.ReadLine();
+            if (defausse == "oui")
             {
                 int nbLettreEnlevee = 0;
                 do
@@ -365,7 +365,7 @@ namespace scrabble
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
                     Console.WriteLine(" quelles lettres-voulez-vous enlever?");
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, defausse);
                     nbLettreEnlevee++;
                 }
                 while (lettre.nom != '&' || nbLettreEnlevee == 7);
@@ -377,7 +377,7 @@ namespace scrabble
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre,défausse);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, defausse);
                     if (lettre.nom != '&')// si la lettre vaut '&' c'est que l'utilisateur a validé
                     {
 
@@ -492,14 +492,14 @@ namespace scrabble
 
         }
 
-        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur,Random rndNumbers)
+        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur, Random rndNumbers)
         {
             int lettreChoisie = 0;
             int nbTot = 0;
             int sommePartielle = 0;
             int j = 0; int l = 0; int k; // pour parcourir les tableaux
 
-             rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
+            rndNumbers = new Random(); // on génère un nombre aléatoire qui va correspondre à une lettre
             j = 0;
             while (j < 7)
             {
