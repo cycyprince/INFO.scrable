@@ -175,7 +175,7 @@ namespace scrabble
             int i;
             i = 0;
 
-            Console.Write("\nmain de {0} :   =============================\n", tabJoueur[num_Joueur - 1].nom);
+            Console.Write("\nmain de {0} :  =============================\n", tabJoueur[num_Joueur - 1].nom);
             Console.Write("              ");
             while (i < 7)
             {
@@ -295,7 +295,7 @@ namespace scrabble
             {
 
                 afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);// affiche le tableau et la main
-               Console.Write("          ");// ajustement du curseur sous la main
+               Console.Write("             ");// ajustement du curseur sous la main
                 for (i = 0; i < 8; i++)
                 {
                     Console.Write(' ');
