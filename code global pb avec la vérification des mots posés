@@ -22,41 +22,44 @@ namespace scrabble
             public int point;
         }
 
-
+        public static void initialiserSAC(ref PIECE[] tabLettre)
+        { 
+            tabLettre[0]=new PIECE() { nom = 'A', val = 1, nb_restant = 9 };
+            tabLettre[1]=new PIECE() { nom = 'B', val = 3, nb_restant = 2 };
+            tabLettre[2]=new PIECE() { nom = 'C', val = 3, nb_restant = 2 };
+            tabLettre[3]=new PIECE() { nom = 'D', val = 2, nb_restant = 3 };
+            tabLettre[4]=new PIECE() { nom = 'E', val = 1, nb_restant = 15};
+            tabLettre[5]=new PIECE() { nom = 'F', val = 4, nb_restant = 2 };
+            tabLettre[6]=new PIECE() { nom = 'G', val = 2, nb_restant = 2 };
+            tabLettre[7]=new PIECE() { nom = 'H', val = 4, nb_restant = 2 };
+            tabLettre[8]=new PIECE() { nom = 'I', val = 1, nb_restant = 8 };
+            tabLettre[9]=new PIECE() { nom = 'J', val = 8, nb_restant = 1 };
+            tabLettre[10]=new PIECE() { nom = 'K', val = 10, nb_restant = 1};
+            tabLettre[11]=new PIECE() { nom = 'L', val = 1, nb_restant = 5 };
+            tabLettre[12]=new PIECE() { nom = 'M', val = 2, nb_restant = 3 };
+            tabLettre[13]=new PIECE() { nom = 'N', val = 1, nb_restant = 6 };
+            tabLettre[14]=new PIECE() { nom = 'O', val = 1, nb_restant = 6 };
+            tabLettre[15]=new PIECE() { nom = 'P', val = 3, nb_restant = 2 };
+            tabLettre[16]=new PIECE() { nom = 'Q', val = 8, nb_restant = 1 };
+            tabLettre[17]=new PIECE() { nom = 'R', val = 1, nb_restant = 6 };
+            tabLettre[18]=new PIECE() { nom = 'S', val = 1, nb_restant = 6 };
+            tabLettre[19]=new PIECE() { nom = 'T', val = 1, nb_restant = 6};
+            tabLettre[20]=new PIECE() { nom = 'U', val = 1, nb_restant = 6 };
+            tabLettre[21]=new PIECE() { nom = 'V', val = 4, nb_restant = 2 };
+            tabLettre[22]=new PIECE() { nom = 'W', val = 10, nb_restant = 1};
+            tabLettre[23]=new PIECE() { nom = 'X', val = 10, nb_restant = 1 };
+            tabLettre[24]=new PIECE() { nom = 'Y', val = 10, nb_restant = 1 };
+            tabLettre[25]=new PIECE() { nom = 'Z', val = 10, nb_restant = 1 };
+            tabLettre[26]=new PIECE() { nom ='*', val = 0 , nb_restant = 2};
+            tabLettre[27]=new PIECE() { nom = ' ', val = 0, nb_restant = 0};
+            tabLettre[28]=new PIECE() { nom = '&', val =  0, nb_restant = 0};
+        }
 
 
         public static void Main(string[] args)
         {
-            PIECE[] tabLettre = { 
-            new PIECE() { nom = 'A', val = 1, nb_restant = 9 },
-            new PIECE() { nom = 'B', val = 3, nb_restant = 2 },
-            new PIECE() { nom = 'C', val = 3, nb_restant = 2 },
-            new PIECE() { nom = 'D', val = 2, nb_restant = 3 },
-            new PIECE() { nom = 'E', val = 1, nb_restant = 15 },
-            new PIECE() { nom = 'F', val = 4, nb_restant = 2 },
-            new PIECE() { nom = 'G', val = 2, nb_restant = 2 },
-            new PIECE() { nom = 'H', val = 4, nb_restant = 2 },
-            new PIECE() { nom = 'I', val = 1, nb_restant = 8 },
-            new PIECE() { nom = 'J', val = 8, nb_restant = 1 },
-            new PIECE() { nom = 'K', val = 10, nb_restant = 1},
-            new PIECE() { nom = 'L', val = 1, nb_restant = 5 },
-            new PIECE() { nom = 'M', val = 2, nb_restant = 3 },
-            new PIECE() { nom = 'N', val = 1, nb_restant = 6 },
-            new PIECE() { nom = 'O', val = 1, nb_restant = 6 },
-            new PIECE() { nom = 'P', val = 3, nb_restant = 2 },
-            new PIECE() { nom = 'Q', val = 8, nb_restant = 1 },
-            new PIECE() { nom = 'R', val = 1, nb_restant = 6 },
-            new PIECE() { nom = 'S', val = 1, nb_restant = 6 },
-            new PIECE() { nom = 'T', val = 1, nb_restant = 6},
-            new PIECE() { nom = 'U', val = 1, nb_restant = 6 },
-            new PIECE() { nom = 'V', val = 4, nb_restant = 2 },
-            new PIECE() { nom = 'W', val = 10, nb_restant = 1},
-            new PIECE() { nom = 'X', val = 10, nb_restant = 1 },
-            new PIECE() { nom = 'Y', val = 10, nb_restant = 1 },
-            new PIECE() { nom = 'Z', val = 10, nb_restant = 1 },
-            new PIECE() { nom ='*', val = 0 , nb_restant = 2} ,
-            new PIECE() { nom = ' ', val =  0, nb_restant = 0},
-            new PIECE() { nom = '&', val =  0, nb_restant = 0}               };
+            PIECE[] tabLettre = new PIECE [29];
+            initialiserSAC(ref tabLettre);
 
             Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
             int nbJoueurs; int IA;
