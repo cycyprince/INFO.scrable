@@ -374,7 +374,7 @@ namespace scrabble
             lettre.nom = ' ';
             affichecurseur(tabcurseur, a, b);
             afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
-            Console.WriteLine("\n voulez vous vous défosser d'une pièce ?\n écrire oui / non ");
+            Console.WriteLine("\n voulez vous vous défosser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
             string defausse = Console.ReadLine();
             if (defausse == "oui")
             {
@@ -383,11 +383,11 @@ namespace scrabble
                 {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    Console.WriteLine(" quelles lettres-voulez-vous enlever?");
+                    Console.WriteLine(" quelles lettres voulez-vous enlever?");
                     choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, defausse);
                     nbLettreEnlevee++;
                 }
-                while (lettre.nom != '&' || nbLettreEnlevee == 7);
+                 while (lettre.nom != '&' && nbLettreEnlevee <= 7);
 
             }
             else
