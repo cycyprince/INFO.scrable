@@ -189,7 +189,12 @@ namespace scrabble
             Console.Write("leurs valeurs:");
             while (i < 7)
             {
-                Console.Write("| {0} ", tabMains[num_Joueur - 1, i].val);
+               if (tabMains[num_Joueur - 1, i].val < 10)
+                {
+                    Console.Write("| {0} ", tabMains[num_Joueur - 1, i].val);
+                }
+                else
+                { Console.Write("|{0} ", tabMains[num_Joueur - 1, i].val); }// si la valeur est supérieure à 10, on ajuste le tableau en enlevant un espace
                 i++;
             }
             Console.Write("|");
