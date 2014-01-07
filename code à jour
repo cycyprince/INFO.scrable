@@ -22,8 +22,9 @@ namespace scrabble
             public int point;
         }
 
-        public static void initialiserSAC(ref PIECE[] tabLettre)
+        public static void initialisation(ref PIECE[] tabLettre, ref PIECE[,] tabMains, int nbJoueurs, ref JOUEUR[] tabJoueur, ref int[,] tabcoef, ref int[,] tabVérif, ref PIECE[,] tabcurseur)
         {
+            //initialiser le SAC de lettres
             tabLettre[0] = new PIECE() { nom = 'A', val = 1, nb_restant = 9 };
             tabLettre[1] = new PIECE() { nom = 'B', val = 3, nb_restant = 2 };
             tabLettre[2] = new PIECE() { nom = 'C', val = 3, nb_restant = 2 };
@@ -52,49 +53,32 @@ namespace scrabble
             tabLettre[25] = new PIECE() { nom = 'Z', val = 10, nb_restant = 1 };
             tabLettre[26] = new PIECE() { nom = '*', val = 0, nb_restant = 2 };
             tabLettre[27] = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
-            tabLettre[28] = new PIECE() { nom = '&', val = 0, nb_restant = 0 };
-        }
+            tabLettre[28] = new PIECE() { nom = '&', val = 0, nb_restant = 0 };   
+            int i = 0; int j = 0;
 
-
-        public static void Main(string[] args)
-        {
-            PIECE[] tabLettre = new PIECE[29];
-            initialiserSAC(ref tabLettre);
-
-            Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
-            int nbJoueurs; int IA;
-            Console.Write("combien de joueur humain ?\n");
-            nbJoueurs = int.Parse(Console.ReadLine());
-            Console.Write("combien de joueur IA ?\n");
-            IA = int.Parse(Console.ReadLine());
-            int i = 0;
-            JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs];
+            //initialisation du tableau de mains
             while (i < nbJoueurs)
-            {
-                Console.Write("nom du joueur {0}\n", i + 1);
-                tabJoueur[i].nom = Console.ReadLine();
-                i++;
-
-            }
-
-            PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
-            i = 0; int j = 0;
-            while (i < nbJoueurs)//initialisation du tableau de mains
             {
                 j = 0;
                 while (j < 7)
                 {
-                    tabMains[i, j] = tabLettre[27];
+                    tabMains[i,j] = tabLettre[27];
                     j++;
                 }
                 i++;
             }
 
-            for (int joueur = 1; joueur <= nbJoueurs; joueur++)
-            { pioche(ref tabMains, ref tabLettre, joueur, rndNumbers); }
+            //initialisation tabJoueur
+            i = 0;
+            while (i < nbJoueurs)
+            {
+                Console.Write("nom du joueur {0}\n", i + 1);
+                tabJoueur[i].nom = Console.ReadLine();
+                i++;
+            }
 
-
-            int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
+            //initialisation tabcoef
+            i = 0; j = 0;
             for (i = 0; i < 15; i++)
             {
                 for (j = 0; j < 15; j++)
@@ -130,7 +114,7 @@ namespace scrabble
                 }
             }
 
-            int[,] tabVérif = new int[15, 15];
+            //initialiser tabVérif
             i = 0; j = 0;
             while (i < 15)
             {
@@ -143,9 +127,7 @@ namespace scrabble
                 i++;
             }
 
-            PIECE[,] tabcurseur = new PIECE[15, 15];
-
-
+            //initialiser tabcurseur
             for (int k = 0; k < tabcurseur.GetLength(0); k++)
             {
                 for (int l = 0; l < tabcurseur.GetLength(0); l++)
@@ -153,21 +135,58 @@ namespace scrabble
                     tabcurseur[k, l] = tabLettre[27];
                 }
             }
-            Console.Clear();
-            bool partiFinie = false;
-            while (!partiFinie)
+            
+                  
+        }
+
+        
+
+       
+
+        
+
+
+        public static void JOUER(bool partieFinie)
+        {
+            int nbJoueurs; int IA; int i;
+            PIECE[] tabLettre = new PIECE[29];//initialisation du sac de lettres
+            Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
+
+
+            Console.Write("combien de joueur humain ?\n");
+            nbJoueurs = int.Parse(Console.ReadLine());
+
+            Console.Write("combien de joueur IA ?\n");
+            IA = int.Parse(Console.ReadLine());
+
+            PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
+            JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs];
+            int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
+            int[,] tabVérif = new int[15, 15];//initialise le tableau pour vérifier si le mot est "collé" à un mot déjà posé 
+            PIECE[,] tabcurseur = new PIECE[15, 15];
+
+            initialisation(ref tabLettre, ref tabMains, nbJoueurs, ref tabJoueur, ref tabcoef, ref tabVérif, ref tabcurseur);
+           while (!partieFinie)
             {
                 i = 1;
                 while (i <= nbJoueurs)
                 {
                     Console.Clear();
                     Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[i - 1].nom);
-                    positionnerPiece(tabcurseur, tabMains, i, tabJoueur, tabcoef, tabLettre, ref tabVérif);
                     pioche(ref tabMains, ref tabLettre, i, rndNumbers);
+                    positionnerPiece(tabcurseur, tabMains, i, tabJoueur, tabcoef, tabLettre, ref tabVérif);
                     i++;
                 }
             }
-            Console.ReadLine();
+            Console.ReadLine(); 
+            
+        }
+
+        public static void Main(string[] args)
+        {
+
+            bool partieFinie = false;
+            JOUER(partieFinie);
         }
 
         public static void afficheMain(ref PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, PIECE[] tabLettre)
