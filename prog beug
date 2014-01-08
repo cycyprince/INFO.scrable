@@ -227,9 +227,9 @@ namespace scrabble
                                 Console.WriteLine("\n la case du milieu doit être utilisée au premier tour, réeesayer \n");
                             }
                            
-                            if (checkAttaché == true)
+                            if (checkAttaché)
                             {
-                                Console.WriteLine("\n connard, réessayer\n ");
+                                Console.WriteLine("\n le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
                             }
                             
                             if (!existe)
@@ -452,7 +452,7 @@ namespace scrabble
         {
             ConsoleKeyInfo touche;
             int compte = 0;
-
+            lettre.nom = ' ';
             
             // calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
             verifhorizontal = false;
@@ -689,33 +689,33 @@ namespace scrabble
 
         public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot)
         {
-            verifhorizontal=false;
+            verifhorizontal = false;
             verifvertical = false;
             compte = 0;////on remet tout à 0
             check1ereCase = true;
 
             //si la première case n'est pas remplie, le mot est mal placé: le joueur reprend ses lettres et peut réessayer de poser son mot
-                 
+
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
                 int j = 0;
                 for (int i = 0; i < 7 && tabcurseur[positionLettre[i, 0], positionLettre[i, 1]].nom != ' '; i++)
-                { 
-                    
+                {
+
                     while (tabMains[num_joueur - 1, j].nom != ' ')
                     { j++; }
                     tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
                     tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
                     j++;
-                    
+
                 }// boucle pour reremplir la main du joueur
                 check1ereCase = false;
             }
-            
+
 
             checkAttaché = true;
-            if (check1ereCase)
+            if (check1ereCase)// si la première case est rempli
             {
 
                 //vérification que le mot soit "attaché" à un autre
@@ -755,7 +755,8 @@ namespace scrabble
 
 
             //vérification que le mot est dans le dictionnaire
-            
+            if (check1ereCase && !checkAttaché)
+            {
                 bool existe = true;
 
                 for (int i = 0; i < 8 && existe; i++)// si un des mots formé n'existe pas, le mot posé est refusé
@@ -771,6 +772,8 @@ namespace scrabble
                     }
                 }
             }
+        }
+
         }
 
     }
