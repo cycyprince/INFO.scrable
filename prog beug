@@ -179,7 +179,7 @@ namespace scrabble
             }
 
             PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
-            PIECE lettre;
+            PIECE lettre = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
             JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs];
             int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
             int[,] tabVérif = new int[15, 15];//initialise le tableau pour vérifier si le mot est "collé" à un mot déjà posé 
@@ -218,13 +218,9 @@ namespace scrabble
                     {
                         do
                         {
-                            positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, out lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse,ref a,ref b);
-                            Console.Write("check2");
-                            Console.ReadLine();
+                            positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse,ref a,ref b);
                             mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
                             vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot);
-                            Console.Write("chec3");
-                            Console.ReadLine();
                             
                             if (!check1ereCase)
                             {
@@ -260,7 +256,7 @@ namespace scrabble
                             Console.Clear();
                             affichecurseur(tabcurseur, a, b);
                             Console.WriteLine(" quelles lettres voulez-vous enlever?");
-                            choixlettre(tabMains, num_joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
+                            choixlettre(tabMains, num_joueur, tabcurseur, a, b, ref lettre, tabJoueur, tabLettre, défausse);
                             nbLettreEnlevee++;
                         }
                         while (lettre.nom != '&' && nbLettreEnlevee <= 7);
@@ -395,7 +391,7 @@ namespace scrabble
 
         }
 
-        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, out PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
+        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
             char[] curseur = new char[8];
             for (int l = 0; l < 8; l++)
@@ -452,7 +448,7 @@ namespace scrabble
 
         }
 
-        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre,out PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, out bool verifhorizontal, out bool verifvertical, ref string défausse, ref int a,ref int b)
+        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre,ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, out bool verifhorizontal, out bool verifvertical, ref string défausse, ref int a,ref int b)
         {
             ConsoleKeyInfo touche;
             int compte = 0;
@@ -462,21 +458,16 @@ namespace scrabble
             verifhorizontal = false;
             verifvertical = false;
 
-            lettre = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
+            
             affichecurseur(tabcurseur, a, b);
             afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
-            
-            
-
-          
-                while (compte < 7 && (lettre.nom != '&') || tabcurseur[7, 7].nom == ' ')
-                {
+            while (compte < 7 && (lettre.nom != '&') && tabcurseur[7, 7].nom == ' ')
+            {
                     Console.Clear();
                     affichecurseur(tabcurseur, a, b);
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
+                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, ref lettre, tabJoueur, tabLettre, défausse);
                     if (lettre.nom != '&')// si la lettre vaut '&' c'est que l'utilisateur a validé
                     {
-
 
                         do
                         {
