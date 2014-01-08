@@ -142,7 +142,7 @@ namespace scrabble
 
         public static void JOUER(bool partieFinie)
         {
-            Console.SetWindowSize(150, 84);
+            Console.SetWindowSize(150, 58);
 
             int nbJoueurs = 0; int IA;
             PIECE[] tabLettre = new PIECE[29];//initialisation du sac de lettres
