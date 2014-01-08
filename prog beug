@@ -177,8 +177,6 @@ namespace scrabble
                     Console.Write("ce n'est pas un nombre, veuillez réssayer\n");
                 }
             }
-            Console.Write("check2");
-            Console.ReadLine();
 
             PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
             PIECE lettre;
@@ -189,14 +187,14 @@ namespace scrabble
             int[,] positionLettre = new int[7, 2];
 
             initialisation(ref tabLettre, ref tabMains, nbJoueurs, ref tabJoueur, ref tabcoef, ref tabVérif, ref tabcurseur);
-            Console.Write("check2");
-            Console.ReadLine();
            
             bool verifhorizontal=false;
             bool verifvertical=false;
             bool check1ereCase = true;
             bool checkAttaché = true;
             bool existe = true;
+            int a = 0;
+            int b = 0;
             string défausse;
             int score=0;
             int compte=0;
@@ -213,29 +211,31 @@ namespace scrabble
                     checkAttaché = true;
                     existe = true;
                     afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
+                    affichecurseur(tabcurseur, a, b);
                     Console.WriteLine("\n voulez vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
                     défausse = Console.ReadLine();
                     if(défausse == "non")
                     {
                         do
                         {
-                            positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, out lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse);
-                            mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
-                            vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot);
+                            positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, out lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse,ref a,ref b);
                             Console.Write("check2");
                             Console.ReadLine();
+                            mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
+                            vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot);
+                            Console.Write("chec3");
+                            Console.ReadLine();
+                            
                             if (!check1ereCase)
                             {
                                 Console.WriteLine("\n la case du milieu doit être utilisée au premier tour, réeesayer \n");
                             }
-                            Console.Write("check3");
-                            Console.ReadLine();
+                           
                             if (checkAttaché == true)
                             {
                                 Console.WriteLine("\n connard, réessayer\n ");
                             }
-                            Console.Write("check4");
-                            Console.ReadLine();
+                            
                             if (!existe)
                             {
                                 int j = 0;
@@ -251,6 +251,20 @@ namespace scrabble
 
                             }
                         } while (!check1ereCase && checkAttaché && !existe);
+                    }
+                    if (défausse == "oui")
+                    {
+                        int nbLettreEnlevee = 0;
+                        do
+                        {
+                            Console.Clear();
+                            affichecurseur(tabcurseur, a, b);
+                            Console.WriteLine(" quelles lettres voulez-vous enlever?");
+                            choixlettre(tabMains, num_joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
+                            nbLettreEnlevee++;
+                        }
+                        while (lettre.nom != '&' && nbLettreEnlevee <= 7);
+
                     }
                     tabJoueur[num_joueur - 1].point = tabJoueur[num_joueur - 1].point + score;
                     Console.WriteLine(" vous avez un total de {0} points", tabJoueur[num_joueur - 1].point);
@@ -438,12 +452,11 @@ namespace scrabble
 
         }
 
-        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre,out PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, out bool verifhorizontal, out bool verifvertical, ref string défausse)
+        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre,out PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, out bool verifhorizontal, out bool verifvertical, ref string défausse, ref int a,ref int b)
         {
             ConsoleKeyInfo touche;
             int compte = 0;
-            int a = 0;
-            int b = 0;
+
             
             // calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
             verifhorizontal = false;
@@ -453,23 +466,9 @@ namespace scrabble
             affichecurseur(tabcurseur, a, b);
             afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
             
-            if (défausse == "oui")
-            {
-                int nbLettreEnlevee = 0;
-                do
-                {
-                    Console.Clear();
-                    affichecurseur(tabcurseur, a, b);
-                    Console.WriteLine(" quelles lettres voulez-vous enlever?");
-                    choixlettre(tabMains, num_Joueur, tabcurseur, a, b, out lettre, tabJoueur, tabLettre, défausse);
-                    nbLettreEnlevee++;
-                }
-                while (lettre.nom != '&' && nbLettreEnlevee <= 7);
+            
 
-            }
-
-            else
-            {
+          
                 while (compte < 7 && (lettre.nom != '&') || tabcurseur[7, 7].nom == ' ')
                 {
                     Console.Clear();
@@ -524,7 +523,7 @@ namespace scrabble
                     }
 
                 }
-            }
+            
 
 
 
@@ -702,26 +701,25 @@ namespace scrabble
             verifhorizontal=false;
             verifvertical = false;
             compte = 0;////on remet tout à 0
-            check1ereCase = false;
+            check1ereCase = true;
 
             //si la première case n'est pas remplie, le mot est mal placé: le joueur reprend ses lettres et peut réessayer de poser son mot
                  
-            check1ereCase = true;
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
                 int j = 0;
-
                 for (int i = 0; i < 7 && tabcurseur[positionLettre[i, 0], positionLettre[i, 1]].nom != ' '; i++)
-                {
+                { 
+                    
                     while (tabMains[num_joueur - 1, j].nom != ' ')
                     { j++; }
                     tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
                     tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
-    
                     j++;
+                    
                 }// boucle pour reremplir la main du joueur
-                
+                check1ereCase = false;
             }
             
 
