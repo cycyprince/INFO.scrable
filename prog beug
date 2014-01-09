@@ -605,12 +605,12 @@ namespace scrabble
                     }
                     if (tabcoef[a, b] == 4)
                     {
-                        motcptdouble = motcptdouble + 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
+                        motcptdouble = motcptdouble * 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
                         scoreMot = scoreMot + tabcurseur[a, b].val;
                     }
                     if (tabcoef[a, b] == 5)
                     {
-                        motcpttriple = motcpttriple + 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
+                        motcpttriple = motcpttriple * 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
                         scoreMot = scoreMot + tabcurseur[a, b].val;
                     }
                     i++;
