@@ -193,7 +193,7 @@ namespace scrabble
             tabLettre[23] = new PIECE() { nom = 'X', val = 10, nb_restant = 1 };
             tabLettre[24] = new PIECE() { nom = 'Y', val = 10, nb_restant = 1 };
             tabLettre[25] = new PIECE() { nom = 'Z', val = 10, nb_restant = 1 };
-            tabLettre[26] = new PIECE() { nom = '*', val = 0, nb_restant = 2 };
+            tabLettre[26] = new PIECE() { nom = '*', val = 0, nb_restant = 2 };// joker
             tabLettre[27] = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
             tabLettre[28] = new PIECE() { nom = '&', val = 0, nb_restant = 0 };
             int i = 0; int j = 0;
@@ -443,6 +443,22 @@ namespace scrabble
             else
             {
                 lettre = tabMains[num_Joueur - 1, j];
+                if (lettre.nom == tabLettre[26].nom)// si le joueur a choisi le joker
+                {
+                    Console.Write(" par quelle lettre voulez-vous remplacer le joker?");
+                    bool ok = false;
+                    while (!ok)
+                    {
+                        try
+                        {
+                            lettre.nom = char.Parse(Console.ReadLine());
+                            ok = true;
+                        }
+
+                        catch (Exception)
+                        { Console.WriteLine("ce n'est pas une lettre, veuillez réessayer"); }
+                    }
+                }
 
                 tabMains[num_Joueur - 1, j] = tabLettre[27];//va effacer la case
                 if (défausse == "oui")// si la lettre choisie est pour la reposer dans la pioche
