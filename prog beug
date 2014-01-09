@@ -98,7 +98,7 @@ namespace scrabble
                     check1ereCase = true;
                     checkAttaché = true;
                     existe = true;
-                    affichecurseur(tabcurseur, a, b);
+                    affichecurseur(tabcurseur, -1,-1);
                     afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
                     Console.WriteLine("\n voulez vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
                     défausse = Console.ReadLine();
@@ -147,9 +147,9 @@ namespace scrabble
                         do
                         {
                             Console.Clear();
-                            affichecurseur(tabcurseur, a, b);
+                            affichecurseur(tabcurseur, -1, -1);
                             Console.WriteLine(" quelles lettres voulez-vous enlever?");
-                            choixlettre(tabMains, num_joueur, tabcurseur, a, b, ref lettre, tabJoueur, tabLettre, défausse);
+                            choixlettre(tabMains, num_joueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
                             nbLettreEnlevee++;
                         }
                         while (lettre.nom != '&' && nbLettreEnlevee <= 7);
@@ -394,7 +394,7 @@ namespace scrabble
 
         }
 
-        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, int a, int b, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
+        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur,  ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
             char[] curseur = new char[8];
             for (int l = 0; l < 8; l++)
@@ -433,7 +433,7 @@ namespace scrabble
                     j--;
                 }
                 Console.Clear();
-                affichecurseur(tabcurseur, a, b);
+                affichecurseur(tabcurseur, -1, -1);//affichage du tableau sans curseur
             }
 
             while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
@@ -450,11 +450,11 @@ namespace scrabble
                     {
                         try
                         {
-                            lettre.nom = char.Parse(Console.ReadLine());
+                            lettre.nom = char.Parse(Console.ReadLine());// le joueur doit entrer une lettre
                             ok = true;
                         }
 
-                        catch (Exception)
+                        catch (Exception) // si ce n'est pas une lettre, il doit réessayer
                         { Console.WriteLine("ce n'est pas une lettre, veuillez réessayer"); }
                     }
                 }
@@ -482,16 +482,14 @@ namespace scrabble
             verifhorizontal = false;
             verifvertical = false;
 
-            affichecurseur(tabcurseur, a, b);
-            afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
             while (compte < 7 && (lettre.nom != '&'))//tabcurseur[7, 7].nom == ' '
             {
                 Console.Clear();
-                affichecurseur(tabcurseur, a, b);
-                choixlettre(tabMains, num_Joueur, tabcurseur, a, b, ref lettre, tabJoueur, tabLettre, défausse);
+                affichecurseur(tabcurseur, -1, -1);
+                choixlettre(tabMains, num_Joueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
                 if (lettre.nom != '&')// si la lettre vaut '&' c'est que l'utilisateur a validé
                 {
-
+                    
                     do
                     {
                         Console.Clear();
@@ -499,43 +497,52 @@ namespace scrabble
                         afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
                         touche = Console.ReadKey();// choix du caractère de déplacement
 
-                        if (touche.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1)// si flèche de droite
+                        if (touche.Key == ConsoleKey.RightArrow && b < tabcurseur.GetLength(0) - 1&& !verifvertical )// si flèche de droite
                         {
                             b++;
                         }
-                        if (touche.Key == ConsoleKey.LeftArrow && b > 0)// si flèche de gauche
+                        if (touche.Key == ConsoleKey.LeftArrow && b > 0 && !verifvertical)// si flèche de gauche
                         {
                             b--;
                         }
-                        if (touche.Key == ConsoleKey.DownArrow && a < tabcurseur.GetLength(1) - 1)// si flèche du bas
+                        if (touche.Key == ConsoleKey.DownArrow && a < tabcurseur.GetLength(1) - 1 && !verifhorizontal)// si flèche du bas
                         {
                             a++;
                         }
-                        if (touche.Key == ConsoleKey.UpArrow && a > 0)// flèche du haut;
+                        if (touche.Key == ConsoleKey.UpArrow && a > 0 && !verifhorizontal)// flèche du haut;
                         {
                             a--;
+                        }
+                        if (touche.Key == ConsoleKey.Escape)// pour annuler le choix d'une pièce
+                        { int j=0;
+                            while(tabMains[num_Joueur-1,j].nom!=' '&& j<7)
+                            { j++; }
+                            tabMains[num_Joueur-1, j]=lettre;// on replace la lettre annulée
+                            lettre = tabLettre[27];
                         }
 
                     }
 
-                    while (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]) || (verifvertical && b != positionLettre[1, 1]));
-                    // condition d'arrêt: validée avec entrée et case vide et si 2e coup: être sur la même ligne ou rangée que la première case
-                    // si plus du 2e coup: doit être sur la ligne formée par les 2 premières lettres
-                    positionLettre[compte, 0] = a;
-                    positionLettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
-
-                    if (compte == 1)
+                    while ((touche.Key != ConsoleKey.Enter && touche.Key != ConsoleKey.Escape) || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
+                    // condition d'arrêt: validée avec entrée et case vide 
+                    if (lettre.nom != ' ')//si lettre annulée
                     {
-                        if (positionLettre[0, 0] == positionLettre[1, 0])
-                        { verifhorizontal = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
-                        if (positionLettre[0, 1] == positionLettre[1, 1])
-                        { verifvertical = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
+                        positionLettre[compte, 0] = a;
+                        positionLettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
+
+                        if (compte == 1)
+                        {
+                            if (positionLettre[0, 0] == positionLettre[1, 0])
+                            { verifhorizontal = true; }// si 2 premières lettres sur la même ligne, les autres devront l'être aussi
+                            if (positionLettre[0, 1] == positionLettre[1, 1])
+                            { verifvertical = true; }// si 2 premières lettres sur la même colonnes, les autres devront l'être aussi
+                        }
+
+                        tabcurseur[a, b] = lettre;
+                        if (lettre.nom != '&')
+
+                            compte++;
                     }
-
-                    tabcurseur[a, b] = lettre;
-                    if ((lettre.nom != '&'))
-
-                        compte++;
                 }
 
             }
