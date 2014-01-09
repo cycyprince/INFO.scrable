@@ -318,8 +318,7 @@ namespace scrabble
         {
             System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
             StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
-            Console.Write("Lecture du dictionnaire, veuillez patienter...");
-            Console.ReadLine();
+            Console.WriteLine("Lecture du dictionnaire, veuillez patienter...");
             bool existe = false;
             string mot;
             int compteur = 0; // pour arréter la boucle dés que le mot est trouvé
@@ -606,7 +605,7 @@ namespace scrabble
                 int scoreMot = 0;
 
                 // on cherche la première lettre ( la plus en haut)
-                while (b >= 0 && tabcurseur[a, b].nom != ' ' && stopvertical)// on reste sur le plateau et on vérifie les mots verticaux
+                while (b > 0 && tabcurseur[a, b].nom != ' ' && stopvertical)// on reste sur le plateau et on vérifie les mots verticaux
                 {
                     b--;// on se décale vers le haut jusqu'à la première lettre
                 }
@@ -661,7 +660,7 @@ namespace scrabble
                 motcpttriple = 1;
 
 
-                while (a >= 0 && tabcurseur[a, b].nom != ' ' && stophorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
+                while (a > 0 && tabcurseur[a, b].nom != ' ' && stophorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
                 {
                     a--;// on se décale sur la gauche jusqu'à la première lettre
                 }
@@ -675,12 +674,12 @@ namespace scrabble
                     }
                     if (tabcoef[a, b] == 4)
                     {
-                        motcptdouble = motcptdouble + 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
+                        motcptdouble = motcptdouble * 2;//coefficient mot compte double qui vaut 1 de base et 2 si on pose un lettre sur une case mot compte double
                         scoreMot = scoreMot + tabcurseur[a, b].val;
                     }
                     if (tabcoef[a, b] == 5)
                     {
-                        motcpttriple = motcpttriple + 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
+                        motcpttriple = motcpttriple * 3;//coefficient mot compte tripple qui vaut 1 de base et 3 si on pose un lettre sur une case mot compte tripple
                         scoreMot = scoreMot + tabcurseur[a, b].val;
                     }
                     i++;
@@ -793,7 +792,7 @@ namespace scrabble
                     }
                     if (!existe)
                     {
-                        Console.Write(" \n le mot {0} n'existe pas\n appuyer sur entrer et réessayer", mot[i]);
+                        Console.Write(" \n le mot {0} n'existe pas", mot[i]);
                         Console.ReadLine();
                     }
                 }
