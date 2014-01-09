@@ -284,8 +284,8 @@ namespace scrabble
          { 
              int i; i = 0;
 
-            Console.Write("\nmain de {0} : =============================\n", tabJoueur[num_Joueur - 1].nom); 
-            Console.Write(" "); 
+             Console.Write("\nmain de {0} :\n              =============================\n", tabJoueur[num_Joueur - 1].nom);
+             Console.Write("              "); 
             while (i < 7)
             { 
                 Console.Write("| {0} ", tabMains[num_Joueur - 1, i].nom);
@@ -293,7 +293,7 @@ namespace scrabble
             }
             Console.Write("|"); 
             Console.Write(" finir le tour");
-            Console.Write("\n =============================\n"); 
+            Console.Write("\n              =============================\n"); 
             i = 0; 
             Console.Write("leurs valeurs:"); 
             while (i < 7) 
@@ -309,7 +309,7 @@ namespace scrabble
                 i++;
             } 
             Console.Write("|");
-            Console.Write("\n =============================\n"); 
+            Console.Write("\n              =============================\n"); 
          }
 
         public static bool vérifMot(string mot_a_trouver)
