@@ -612,14 +612,15 @@ namespace scrabble
                 int scoreMot = 0;
 
                 // on cherche la première lettre ( la plus en haut)
-                while (b > 0 && tabcurseur[a, b-1].nom != ' ' && stopvertical)// on reste sur le plateau et on vérifie les mots verticaux
+                while (b > 0 && tabcurseur[a, b].nom != ' ' && stopvertical)// on reste sur le plateau et on vérifie les mots verticaux
                 {
                     b--;// on se décale vers le haut jusqu'à la première lettre
                 }
+                b++;
 
-                while (b < 14 && tabcurseur[a, b+1].nom != ' ' && stopvertical) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
+                while (b < 14 && tabcurseur[a, b].nom != ' ' && stopvertical) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
                 {
-                    motPosé[i] = tabcurseur[a, b+1].nom;
+                    motPosé[i] = tabcurseur[a, b].nom;
 
                     if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
                     {
@@ -653,10 +654,9 @@ namespace scrabble
                         l++;
                     }
 
-                    Console.Write("  {0}  ", motAvérifier);
                 }
                 score = score + scoreMot; // on ajoute la valeur du mot identifié au score du tour
-                Console.Write("  {0}  ", score);
+               
 
                 motPosé = new char[15];// on réinitialise toutes les données avant de vérifier les mots horizontaux
                 i = 0; // pour parcourir l'horizontale ou la verticale
@@ -668,14 +668,14 @@ namespace scrabble
                 motcpttriple = 1;
 
 
-                while (a > 0 && tabcurseur[a-1, b].nom != ' ' && stophorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
+                while (a > 0 && tabcurseur[a, b].nom != ' ' && stophorizontal)// on reste sur le plateau et on vérifie les mots horizontaux
                 {
                     a--;// on se décale sur la gauche jusqu'à la première lettre
                 }
-
+                a++;
                 while (a < 14 && tabcurseur[a, b].nom != ' ' && stophorizontal) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
                 {
-                    motPosé[i] = tabcurseur[a+1, b].nom;
+                    motPosé[i] = tabcurseur[a, b].nom;
                     if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
                     {
                         scoreMot = scoreMot + tabcurseur[a, b].val * tabcoef[a, b];
@@ -710,9 +710,7 @@ namespace scrabble
                         l++;
                        
                      }
-                    Console.Write("  {0}  ", motAvérifier);
                     score = score + scoreMot;
-                    Console.Write("  {0}  ", score);
             }
 
             }
