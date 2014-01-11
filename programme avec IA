@@ -26,6 +26,7 @@ namespace scrabble
         public static void Main(string[] args)
         {
             bool partieFinie = false;
+
             JOUER(partieFinie);
         }
         public static int demandeEntier() // fonction qui demande un entier et renvoie un message d'erreur si s'en est pas un
@@ -92,67 +93,74 @@ namespace scrabble
                     checkAttaché = true;
                     existe = true;
                     affichecurseur(tabcurseur, -1, -1);
-                    afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
-                    Console.WriteLine("\n voulez vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
-                    défausse = Console.ReadLine();
-                    if (défausse == "non")
+                    if (tabJoueur[num_joueur - 1].IA == 0)
                     {
-                        do
+                        afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
+                        Console.WriteLine("\n voulez vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
+                        défausse = Console.ReadLine();
+                        if (défausse == "non")
                         {
-                            Console.Clear();
-                            positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse, ref a, ref b);
-                            mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
-                            vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot, ref score);
-
-                            if (!check1ereCase)
+                            do
                             {
-                                Console.WriteLine("\n la case du milieu doit être utilisée au premier tour, réeesayer \n");
-                            }
+                                Console.Clear();
+                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse, ref a, ref b);
+                                mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
+                                vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot, ref score);
 
-                            if (checkAttaché)
-                            {
-                                Console.WriteLine("\n le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
-                            }
-
-                            if (!existe)
-                            {
-                                int j = 0;
-                                for (int k = 0; k < 7 && tabcurseur[positionLettre[k, 0], positionLettre[k, 1]].nom != ' '; k++)
+                                if (!check1ereCase)
                                 {
-                                    while (tabMains[num_joueur - 1, j].nom != ' ')
-                                    { j++; }
-                                    tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[k, 0], positionLettre[k, 1]];
-                                    tabcurseur[positionLettre[k, 0], positionLettre[k, 1]] = tabLettre[27];
-                                    j++;
-                                } // si le mot n'existe pas, on l'efface de la grille
-                                score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point
+                                    Console.WriteLine("\n la case du milieu doit être utilisée au premier tour, réeesayer \n");
+                                }
 
-                            }
+                                if (checkAttaché)
+                                {
+                                    Console.WriteLine("\n le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
+                                }
 
-                            tabJoueur[num_joueur - 1].point = tabJoueur[num_joueur - 1].point + score;
-                            Console.WriteLine(" vous avez un total de {0} points", tabJoueur[num_joueur - 1].point);
-                            Console.ReadLine();
-                        } while (!check1ereCase && checkAttaché && !existe);
-                    }
-                    if (défausse == "oui")
-                    {
-                        int nbLettreEnlevee = 0;
-                        do
-                        {
-                            Console.Clear();
-                            affichecurseur(tabcurseur, -1, -1);
-                            Console.WriteLine(" quelles lettres voulez-vous enlever?");
-                            choixlettre(tabMains, num_joueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
-                            nbLettreEnlevee++;
+                                if (!existe)
+                                {
+                                    int j = 0;
+                                    for (int k = 0; k < 7 && tabcurseur[positionLettre[k, 0], positionLettre[k, 1]].nom != ' '; k++)
+                                    {
+                                        while (tabMains[num_joueur - 1, j].nom != ' ')
+                                        { j++; }
+                                        tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[k, 0], positionLettre[k, 1]];
+                                        tabcurseur[positionLettre[k, 0], positionLettre[k, 1]] = tabLettre[27];
+                                        j++;
+                                    } // si le mot n'existe pas, on l'efface de la grille
+                                    score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point
+
+                                }
+
+                                tabJoueur[num_joueur - 1].point = tabJoueur[num_joueur - 1].point + score;
+                                Console.WriteLine(" vous avez un total de {0} points", tabJoueur[num_joueur - 1].point);
+                                Console.ReadLine();
+                            } while (!check1ereCase && checkAttaché && !existe);
                         }
-                        while (lettre.nom != '&' && nbLettreEnlevee <= 7);
+                        if (défausse == "oui")
+                        {
+                            int nbLettreEnlevee = 0;
+                            do
+                            {
+                                Console.Clear();
+                                affichecurseur(tabcurseur, -1, -1);
+                                Console.WriteLine(" quelles lettres voulez-vous enlever?");
+                                choixlettre(tabMains, num_joueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
+                                nbLettreEnlevee++;
+                            }
+                            while (lettre.nom != '&' && nbLettreEnlevee <= 7);
 
+                        }
+
+
+                       
                     }
-
-
+                    else
+                    { jouerBot(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre); }
                     num_joueur++;
                 }
             }
+            
             Console.ReadLine();
 
         }
@@ -205,9 +213,9 @@ namespace scrabble
 
             //initialisation tabJoueur
             i = 0;
-            string ordi=" ";
+            
             while (i < nbJoueurs)
-            {
+            {string ordi=" ";
                 Console.Write("nom du joueur {0}\n", i + 1);
                 tabJoueur[i].nom = Console.ReadLine();
                 while(ordi!="oui"&& ordi!="non")
@@ -817,9 +825,11 @@ namespace scrabble
         }
         public static void jouerBot(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre)
         {
+            Console.WriteLine("BOOOOOOOOT!!!!");
+            Console.ReadLine();
             int j = 0;
-            for (int i = 0; i < 14; i++)
-            {
+            for (int i = 0; i<8; i++)
+            { 
             }
 
         }
