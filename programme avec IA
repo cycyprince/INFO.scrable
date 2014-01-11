@@ -20,6 +20,7 @@ namespace scrabble
         {
             public string nom;
             public int point;
+            public int IA; // vaut 1 si le joueur est un ordi, 0 sinon
         }
 
         public static void Main(string[] args)
@@ -27,7 +28,7 @@ namespace scrabble
             bool partieFinie = false;
             JOUER(partieFinie);
         }
-        public static int demandeEntier(string réponse)
+        public static int demandeEntier() // fonction qui demande un entier et renvoie un message d'erreur si s'en est pas un
         {
             bool ok = false;
             int nb=0;
@@ -41,7 +42,7 @@ namespace scrabble
                 catch (Exception)
                 {
 
-                    Console.Write(réponse);
+                    Console.Write("ce n'est pas un nombre, veuillez réssayer\n");
                 }
             }
             return nb;
@@ -50,27 +51,23 @@ namespace scrabble
         {
             Console.SetWindowSize(150, 58);
 
-            int nbJoueurs = 0; int nbIA=0;
+            int nbJoueurs = 0;
             PIECE[] tabLettre = new PIECE[29];//initialisation du sac de lettres
             Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
             
             Console.Write("combien de joueurs ?\n");
             
-                    nbJoueurs= demandeEntier("ce n'est pas un nombre, veuillez réssayer\n");
+                    nbJoueurs= demandeEntier();
                    
-            Console.Write("combien de joueur IA ?\n");
-             
-                    nbIA= demandeEntier("ce n'est pas un nombre, veuillez réssayer\n");
-              
-            PIECE[,] tabMains = new PIECE[nbJoueurs+nbIA, 7];
+            PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
             PIECE lettre = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
-            JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs+nbIA];
+            JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs];
             int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
             int[,] tabVérif = new int[15, 15];//initialise le tableau pour vérifier si le mot est "collé" à un mot déjà posé 
             PIECE[,] tabcurseur = new PIECE[15, 15];
             int[,] positionLettre = new int[7, 2];
 
-            initialisation(ref tabLettre, ref tabMains, nbJoueurs, nbIA, ref tabJoueur, ref tabcoef, ref tabVérif, ref tabcurseur);
+            initialisation(ref tabLettre, ref tabMains, nbJoueurs, ref tabJoueur, ref tabcoef, ref tabVérif, ref tabcurseur);
 
             bool verifhorizontal = false;
             bool verifvertical = false;
@@ -86,7 +83,7 @@ namespace scrabble
             while (!partieFinie)
             {
                 int num_joueur = 1;
-                while (num_joueur <= nbJoueurs+nbIA)
+                while (num_joueur <= nbJoueurs)
                 {
                     Console.Clear();
                     Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[num_joueur - 1].nom);
@@ -160,7 +157,7 @@ namespace scrabble
 
         }
 
-        public static void initialisation(ref PIECE[] tabLettre, ref PIECE[,] tabMains, int nbJoueurs,int nbIA, ref JOUEUR[] tabJoueur, ref int[,] tabcoef, ref int[,] tabVérif, ref PIECE[,] tabcurseur)
+        public static void initialisation(ref PIECE[] tabLettre, ref PIECE[,] tabMains, int nbJoueurs, ref JOUEUR[] tabJoueur, ref int[,] tabcoef, ref int[,] tabVérif, ref PIECE[,] tabcurseur)
         {
             //initialiser le SAC de lettres
             tabLettre[0] = new PIECE() { nom = 'A', val = 1, nb_restant = 9 };
@@ -195,7 +192,7 @@ namespace scrabble
             int i = 0; int j = 0;
 
             //initialisation du tableau de mains
-            while (i < nbJoueurs+nbIA)
+            while (i < nbJoueurs)
             {
                 j = 0;
                 while (j < 7)
@@ -208,10 +205,20 @@ namespace scrabble
 
             //initialisation tabJoueur
             i = 0;
-            while (i < nbJoueurs+nbIA)
+            string ordi=" ";
+            while (i < nbJoueurs)
             {
                 Console.Write("nom du joueur {0}\n", i + 1);
                 tabJoueur[i].nom = Console.ReadLine();
+                while(ordi!="oui"&& ordi!="non")
+                { Console.WriteLine("joueur automatique? \n tappez oui/non", i + 1);
+                    ordi=Console.ReadLine();
+                }
+
+                if (ordi == "oui")
+                { tabJoueur[i].IA = 1; }
+                else
+                { tabJoueur[i].IA = 0; }
                 tabJoueur[i].point = 0;
                 i++;
             }
