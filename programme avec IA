@@ -978,7 +978,7 @@ namespace scrabble
             int i = 0;
             while (i < nbJoueurs)
             {
-                Console.WriteLine("\nle {0} a {1} points\n", tabJoueur[i].nom, tabJoueur[i].point);
+                Console.WriteLine("\n {0} a {1} points\n", tabJoueur[i].nom, tabJoueur[i].point);
                 i++;
             }
             Console.ReadLine();
