@@ -109,7 +109,7 @@ namespace scrabble
                             Console.Clear();
                             positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse, ref a, ref b);
                             mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
-                            vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot);
+                            vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot, ref score);
 
                             if (!check1ereCase)
                             {
@@ -716,12 +716,24 @@ namespace scrabble
             }
             for (int h = 0; h < 7; h++)
             { tabcoef[positionLettre[h, 0], positionLettre[h, 1]] = 1; }// une fois que les scores des différents mots formés on été calculés on écrase les différents coefficients qui ne pourront plus être utilisés
-            Console.ReadLine();
-            return motsposés;
+           return motsposés;
 
         }
+        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, ref int score)
+        {
+            int j = 0;
+            score=0;
+            for (int i = 0; i < 7 && tabcurseur[positionLettre[i, 0], positionLettre[i, 1]].nom != ' '; i++)
+            {
+                while (tabMains[num_joueur - 1, j].nom != ' ')
+                { j++; }
+                tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
+                tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
 
-        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot)
+                j++;
+            }
+        }
+        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot, ref int score)
         {
             verifhorizontal = false;
             verifvertical = false;
@@ -733,17 +745,7 @@ namespace scrabble
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
-                int j = 0;
-                for (int i = 0; i < 7 && tabcurseur[positionLettre[i, 0], positionLettre[i, 1]].nom != ' '; i++)
-                {
-
-                    while (tabMains[num_joueur - 1, j].nom != ' ')
-                    { j++; }
-                    tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
-                    tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
-                    j++;
-
-                }// boucle pour reremplir la main du joueur
+                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
                 check1ereCase = false;
             }
 
@@ -802,6 +804,7 @@ namespace scrabble
                     if (!existe)
                     {
                         Console.Write(" \n le mot {0} n'existe pas", mot[i]);
+                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
                         Console.ReadLine();
                     }
                 }
