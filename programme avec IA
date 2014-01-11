@@ -25,6 +25,7 @@ namespace scrabble
 
         public static void Main(string[] args)
         {
+            Console.Title = "LE SCRABBLE par THOMAS FAUQUIGNON et CYRIL HATCHI 1A ENSC";
             Console.SetWindowSize(150, 58);
             Console.WriteLine("\n\n\n\n\n ***********    ***********    ********   ********    ******     ******     *           ******** ");
             Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
