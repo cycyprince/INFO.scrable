@@ -103,7 +103,7 @@ namespace scrabble
             while (!partieFinie)
             {
                 int num_joueur = 1;
-               
+                
                 compteFinTour = 0;
                 while (num_joueur <= nbJoueurs)
                 {
@@ -365,7 +365,6 @@ namespace scrabble
         {
             System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
             StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
-            Console.WriteLine("Lecture du dictionnaire, veuillez patienter...");
             bool existe = false;
             string mot;
             int compteur = 0; // pour arréter la boucle dés que le mot est trouvé
@@ -881,9 +880,9 @@ namespace scrabble
             StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
             string mot;
             mot = monStreamReader.ReadLine();
-            while (mot != null) ;// on parcourt le dictionnaire
+            while (mot != null) // on parcourt le dictionnaire
             {
-                mot = monStreamReader.ReadLine();
+                
                 int scoreMot = 0;
                 bool motAccepte = true;
                 int[] noRepeat = { 0, 0, 0, 0, 0, 0, 0 };// pour être sûr que chaque lettre ne soit utilisée qu'une seule fois
@@ -915,7 +914,7 @@ namespace scrabble
                     }
 
                 }
-
+                mot = monStreamReader.ReadLine();
             }
             monStreamReader.Close();
             Console.WriteLine(motAplacer);
