@@ -152,6 +152,8 @@ namespace scrabble
                                     score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point
 
                                 }
+
+                                tabJoueur[num_joueur - 1].point = score + tabJoueur[num_joueur - 1].point;
                             } while (!check1ereCase && checkAttaché && !existe);
                         }
                         if (défausse == "oui")
@@ -183,14 +185,14 @@ namespace scrabble
                         num_joueur++;
 
                     }
-                    num_joueur++; 
+                    num_joueur++;
                 }
                 if (compteFinTour == nbJoueurs && piocheVide)
                 {
                     Console.Write("\n tous les joueurs ont passés leur tour\nfin de la partie");
                     partieFinie = true;
                 }
-                
+
                 Console.ReadLine();
 
             }
@@ -570,7 +572,7 @@ namespace scrabble
                             lettre = tabLettre[27];
                         }
 
-                    }while ((touche.Key != ConsoleKey.Enter && touche.Key != ConsoleKey.Escape) || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
+                    } while ((touche.Key != ConsoleKey.Enter && touche.Key != ConsoleKey.Escape) || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
                     // condition d'arrêt: validée avec entrée et case piocheVide 
                     if (lettre.nom != ' ')//si lettre annulée
                     {
@@ -588,7 +590,7 @@ namespace scrabble
                         tabcurseur[a, b] = lettre;
                     }
                 }
-                
+
                 compte++;
 
             }
@@ -598,13 +600,13 @@ namespace scrabble
 
         }
 
-        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur, Random rndNumbers,ref bool piocheVide)
+        public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int num_Joueur, Random rndNumbers, ref bool piocheVide)
         {
             int lettreChoisie = 0;
             int nbTot = 0;
             int sommePartielle = 0;
             int j = 0; int l = 0; int k; // pour parcourir les tableaux
-            piocheVide= false;
+            piocheVide = false;
             j = 0;
             while (j < 7 && !piocheVide)
             {
@@ -618,9 +620,9 @@ namespace scrabble
                 if (nbTot == 0)
                 {
                     piocheVide = true;
-                    Console.WriteLine("\nil ne reste plus aucune pièce\n"); 
+                    Console.WriteLine("\nil ne reste plus aucune pièce\n");
                 }
-                if (tabMains[num_Joueur - 1, j].nom == ' ' && !piocheVide )
+                if (tabMains[num_Joueur - 1, j].nom == ' ' && !piocheVide)
                 {
                     lettreChoisie = rndNumbers.Next(1, nbTot); // on prend une pièce au hasard parmi toutes les pièces restantes
 
@@ -865,14 +867,14 @@ namespace scrabble
             }
         }
 
-       public static void jouerBot(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre)
+        public static void jouerBot(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre)
         {
             Console.WriteLine("BOOOOOOOOT!!!!");
             Console.ReadLine();
-            string motAplacer=" ";
+            string motAplacer = " ";
             int score = 0;
             int i = 0;
-            
+
             afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
             System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
             StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
@@ -882,48 +884,49 @@ namespace scrabble
             {
                 mot = monStreamReader.ReadLine();
                 int scoreMot = 0;
-                bool motAccepte=true;
-                int [] noRepeat={0,0,0,0,0,0,0};// pour être sûr que chaque lettre ne soit utilisée qu'une seule fois
-                for ( i = 0; i < mot.Length && motAccepte; i++)
+                bool motAccepte = true;
+                int[] noRepeat = { 0, 0, 0, 0, 0, 0, 0 };// pour être sûr que chaque lettre ne soit utilisée qu'une seule fois
+                for (i = 0; i < mot.Length && motAccepte; i++)
                 {
                     int j = 0;
-                    while (j < 7 &&( mot[i] != tabMains[num_Joueur - 1, j].nom || noRepeat[j] != 0))// on cherche si la ieme lettre du mot est une des lettres de la main
+                    while (j < 7 && (mot[i] != tabMains[num_Joueur - 1, j].nom || noRepeat[j] != 0))// on cherche si la ieme lettre du mot est une des lettres de la main
                     {
                         j++;
                         if (j == 7)// si aucune lettre de la main ne convient, le mot est considéré comme faux
-                        { motAccepte = false;
+                        {
+                            motAccepte = false;
                         }
                     }
 
-                    if (motAccepte&&mot[i] == tabMains[num_Joueur - 1, j].nom)
+                    if (motAccepte && mot[i] == tabMains[num_Joueur - 1, j].nom)
                     {
                         scoreMot = scoreMot + tabMains[num_Joueur - 1, j].val; // on ajoute la valeur de la lettre au score du mot
                         noRepeat[j] = 1;
                     }// sinon on indique que la jème lettre de la main a été utilisée
                 }
 
-                    if (motAccepte && vérifMot(mot))// si tout le mot a été parcouru sans avoir été considéré comme faux
+                if (motAccepte && vérifMot(mot))// si tout le mot a été parcouru sans avoir été considéré comme faux
+                {
+                    if (score < scoreMot)
                     {
-                        if (score < scoreMot)
-                        {
-                            score = scoreMot;
-                            motAplacer = mot;
-                        }
-                    
+                        score = scoreMot;
+                        motAplacer = mot;
+                    }
+
                 }
 
             }
             monStreamReader.Close();
             Console.WriteLine(motAplacer);
             Console.ReadLine();
-           
-               
+
+
 
 
         }
 
-        public static void finPartie(ref bool partieFinie, PIECE[,] tabMains, int num_joueur, ref bool mainVide, bool piocheVide, ref JOUEUR []tabJoueur, int nbJoueurs)
-        { 
+        public static void finPartie(ref bool partieFinie, PIECE[,] tabMains, int num_joueur, ref bool mainVide, bool piocheVide, ref JOUEUR[] tabJoueur, int nbJoueurs)
+        {
             // on regarde la main du joueur à la fin de son tour
             int i;
             int compteur;
@@ -941,15 +944,15 @@ namespace scrabble
             {
                 mainVide = true;
             }
-            i=0;
+            i = 0;
             //si sa main est vide et que la pioche est vide alors la partie est finie
             if (mainVide && piocheVide)
             {
                 Console.Write("\n la partie est finie\n");
                 partieFinie = true;
-                while(i<nbJoueurs)
+                while (i < nbJoueurs)
                 {
-                    tabJoueur[num_joueur - 1].point = tabJoueur[num_joueur - 1].point+comptePointMain(tabMains,i);//il gagne les points des mains des autres joueurs
+                    tabJoueur[num_joueur - 1].point = tabJoueur[num_joueur - 1].point + comptePointMain(tabMains, i);//il gagne les points des mains des autres joueurs
                     i++;
                 }
 
@@ -957,11 +960,11 @@ namespace scrabble
 
         }
 
-        public static int comptePointMain(PIECE [,] tabMains, int joueur)//va compter les points de la main d'un joueur
-        { 
-            int j=0;//va parcourir l'ensemble de la main des joueurs
-            int pointTotal=0;
-            j=0;
+        public static int comptePointMain(PIECE[,] tabMains, int joueur)//va compter les points de la main d'un joueur
+        {
+            int j = 0;//va parcourir l'ensemble de la main des joueurs
+            int pointTotal = 0;
+            j = 0;
             while (j < 7)
             {
                 pointTotal = pointTotal + tabMains[joueur, j].val;
@@ -975,7 +978,7 @@ namespace scrabble
             int i = 0;
             while (i < nbJoueurs)
             {
-                Console.WriteLine("\nle joueur{0} a {1} points\n", i + 1, tabJoueur[i].point);
+                Console.WriteLine("\nle {0} a {1} points\n", tabJoueur[i].nom, tabJoueur[i].point);
                 i++;
             }
             Console.ReadLine();
