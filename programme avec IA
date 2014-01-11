@@ -864,14 +864,60 @@ namespace scrabble
             }
         }
 
-        public static void jouerBot(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre)
+       public static void jouerBot(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre)
         {
             Console.WriteLine("BOOOOOOOOT!!!!");
             Console.ReadLine();
-            int j = 0;
-            for (int i = 0; i < 8; i++)
+            string motAplacer=" ";
+            int score = 0;
+            int i = 0;
+            
+            afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);
+            System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+            StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
+            string mot;
+            mot = monStreamReader.ReadLine();
+            while (mot != null) ;// on parcourt le dictionnaire
             {
+                mot = monStreamReader.ReadLine();
+                int scoreMot = 0;
+                bool motAccepte=true;
+                int [] noRepeat={0,0,0,0,0,0,0};// pour être sûr que chaque lettre ne soit utilisée qu'une seule fois
+                for ( i = 0; i < mot.Length && motAccepte; i++)
+                {
+                    int j = 0;
+                    while (j < 7 &&( mot[i] != tabMains[num_Joueur - 1, j].nom || noRepeat[j] != 0))// on cherche si la ieme lettre du mot est une des lettres de la main
+                    {
+                        j++;
+                        if (j == 7)// si aucune lettre de la main ne convient, le mot est considéré comme faux
+                        { motAccepte = false;
+                        }
+                    }
+
+                    if (motAccepte&&mot[i] == tabMains[num_Joueur - 1, j].nom)
+                    {
+                        scoreMot = scoreMot + tabMains[num_Joueur - 1, j].val; // on ajoute la valeur de la lettre au score du mot
+                        noRepeat[j] = 1;
+                    }// sinon on indique que la jème lettre de la main a été utilisée
+                }
+
+                    if (motAccepte && vérifMot(mot))// si tout le mot a été parcouru sans avoir été considéré comme faux
+                    {
+                        if (score < scoreMot)
+                        {
+                            score = scoreMot;
+                            motAplacer = mot;
+                        }
+                    
+                }
+
             }
+            monStreamReader.Close();
+            Console.WriteLine(motAplacer);
+            Console.ReadLine();
+           
+               
+
 
         }
 
