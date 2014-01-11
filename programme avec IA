@@ -25,6 +25,19 @@ namespace scrabble
 
         public static void Main(string[] args)
         {
+            Console.SetWindowSize(150, 58);
+            Console.WriteLine("\n\n\n\n\n ***********    ***********    ********   ********    ******     ******     *           ******** ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" ***********    *              ********   ********    ******     ******     *           *******  ");
+            Console.WriteLine("           *    *              * *        *      *    *     *    *     *    *           *        ");
+            Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
+            Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
+            Console.ReadLine();
+            Console.Clear(); // complètement inutile mais juste pour le fun ^^
+           
             bool partieFinie = false;
 
             JOUER(partieFinie);
@@ -50,7 +63,7 @@ namespace scrabble
         }
         public static void JOUER(bool partieFinie)
         {
-            Console.SetWindowSize(150, 58);
+            
 
             int nbJoueurs = 0;
             PIECE[] tabLettre = new PIECE[29];//initialisation du sac de lettres
