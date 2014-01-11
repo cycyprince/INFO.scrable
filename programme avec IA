@@ -185,7 +185,7 @@ namespace scrabble
                     }
                     num_joueur++; 
                 }
-                if (compteFinTour == nbJoueurs)
+                if (compteFinTour == nbJoueurs && piocheVide)
                 {
                     Console.Write("\n tous les joueurs ont passés leur tour\nfin de la partie");
                     partieFinie = true;
