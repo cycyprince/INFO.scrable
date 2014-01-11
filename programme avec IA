@@ -103,10 +103,11 @@ namespace scrabble
             while (!partieFinie)
             {
                 int num_joueur = 1;
-                afficheScore(tabJoueur, nbJoueurs);
+               
                 compteFinTour = 0;
                 while (num_joueur <= nbJoueurs)
                 {
+                    afficheScore(tabJoueur, nbJoueurs);
                     Console.Clear();
                     Console.Write("\n\nc'est au tour de {0}\n", tabJoueur[num_joueur - 1].nom);
                     pioche(ref tabMains, ref tabLettre, num_joueur, rndNumbers, ref piocheVide);
