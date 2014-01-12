@@ -180,13 +180,17 @@ namespace scrabble
                         }
 
                     }
-                    else if (tabJoueur[num_joueur - 1].IA == 1)
+                    else
                     {
-                        jouerBot(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre);
-                        
-                        num_joueur++;
-                        
+                        if (tabJoueur[num_joueur - 1].IA == 1)
+                        {
+                            jouerBot(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre);
+                            pioche(ref tabMains, ref tabLettre, num_joueur, rndNumbers, ref piocheVide);
 
+                            num_joueur++;
+
+
+                        }
                     }
                     num_joueur++; 
                 }
@@ -942,15 +946,15 @@ namespace scrabble
             }
             compte=0;
             int j;
-           { while (compte<motAposer.Length||!verif)
-            for (j = a; j < 14&&j<(motAposer.Length-positionLettre[compte]); j++)
+           { while (compte<motAposer.Length&&!verif)
+            for (j = a; j < 14&&j<a+(motAposer.Length-positionLettre[compte]); j++)
             
             {
                 if (tabcurseur[j+1, b].nom != ' ')
                 { verif1 = false; }
 
             }
-               for ( j = a; j >0 &&j<(positionLettre[compte]-1); j--)
+               for ( j = a; j >0 &&j<a-(positionLettre[compte]-1); j--)
             
             {
                 if (tabcurseur[j-1, b].nom != ' ')
@@ -960,13 +964,13 @@ namespace scrabble
                if (verif1 && verif2)
                { verif = true; }
 
-               for (j = b; j < 14 && j < (motAposer.Length - positionLettre[compte]); j++)
+               for (j = b; j < 14 && j <b+(motAposer.Length - positionLettre[compte]); j++)
                {
                    if (tabcurseur[a, j+1].nom != ' ')
                    { verif3 = false; }
 
                }
-               for (j = b; j > 0 && j < (positionLettre[compte] - 1); j--)
+               for (j = b; j > 0 && j < j-(positionLettre[compte] - 1); j--)
                {
                    if (tabcurseur[a, j-1].nom != ' ')
                    { verif4 = false; }
@@ -1047,7 +1051,6 @@ namespace scrabble
                 }
             }
 
-
           
 
         }
@@ -1093,13 +1096,15 @@ namespace scrabble
                     }
                 }
 
-                if (motAccepte && vérifMot(mot) && verifIA(tabcurseur, tabJoueur, tabLettre, a, b, espaceLibre, LettreDisponible, motAplacer, out positionLettre, out horizontal))// si tout le mot a été parcouru sans avoir été considéré comme faux
+                if (motAccepte  )// si tout le mot a été parcouru sans avoir été considéré comme faux
                 {
                     if (score < scoreMot)
                     {
                         score = scoreMot;
                         motAplacer = mot;
                     }
+                    Console.Write(motAplacer);
+                    Console.ReadLine();
 
                 }
                 
@@ -1108,8 +1113,6 @@ namespace scrabble
                 mot = monStreamReader.ReadLine();
             }
             monStreamReader.Close();
-
-            tabJoueur[num_Joueur - 1].point = score + tabJoueur[num_Joueur - 1].point;
             return conversionStruct(tabLettre, motAplacer);
 
 
