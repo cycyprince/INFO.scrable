@@ -1,0 +1,91 @@
+public static void choixMotIA2(ref PIECE[,] tabMains, int num_Joueur)
+        {
+            string mot;
+            bool lettreOK=false;
+            int compte_lettreOK = 0;
+            int score_mot;
+            int score_mot_retenu = 0;
+            string mot_retenu=" ";
+            
+            char [] lettreDispo =new char [7];// on copie le tableau de main pour pouvoir effacer les lettres déja utilisées mais conserver le tableaux original pour un autre tour de boucle
+            int j; //va parcourir la main du joueur
+            int i; // va parcourir les lettres du mot du dico
+
+            System.Text.Encoding encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
+            StreamReader monStreamReader = new StreamReader("dico.txt", encoding);
+            mot = monStreamReader.ReadLine();
+            int t=0;
+            
+            while (mot != null )
+            {
+                i = 0; 
+                // on définit le tableau des lettres disponibles
+                t = 0;
+                while (t < 7)
+                {
+                     lettreDispo[t] = tabMains[num_Joueur - 1, t].nom;
+                    t++;
+                }
+                
+                score_mot = 0;               
+
+                while(mot.Length<8 && i<mot.Length)
+                {
+                    lettreOK = false;
+                    j = 0;
+                    while (j < 7 && !lettreOK)
+                    {                        
+                        if (mot[i]==lettreDispo[j] || lettreDispo[j]=='*')
+                        {
+                            lettreOK = true;
+                            score_mot = score_mot + tabMains[num_Joueur - 1, j].val;
+                            lettreDispo[j]= ' ';//on efface la lettre qui est bonne pour ne pas la réutiliser;
+                            compte_lettreOK++;
+                         }
+
+                        j++;
+                    }
+                    i++;
+                }
+               
+                if (compte_lettreOK == mot.Length)
+                {
+                        if (score_mot > score_mot_retenu)
+                        {
+                            mot_retenu = mot;
+                            score_mot_retenu = score_mot;
+                        }
+                }
+                
+                mot = monStreamReader.ReadLine();
+                compte_lettreOK = 0; 
+            }
+            monStreamReader.Close();
+            Console.WriteLine("{0}, {1}", mot_retenu, score_mot_retenu);
+            //on rétabli la main de l'IA en enlevant les lettres enlevées
+            t=0;
+            int temp=0;//pour éviter les doublons
+            while (t < mot_retenu.Length)
+            {
+                i = 0; temp = 0;
+                while(i<7 && temp==0)
+                {
+                    if( mot_retenu[t]==tabMains[num_Joueur-1,i].nom)
+                    {
+                        tabMains[num_Joueur-1,i].nom= ' ';
+                        temp=1;
+                    }
+                    i++;
+                }
+                t++;
+            }
+            t = 0;
+            while (t < 7)
+            {
+                Console.Write(tabMains[num_Joueur - 1, t].nom);
+                t++;
+            }
+            Console.ReadLine();
+
+
+        }
