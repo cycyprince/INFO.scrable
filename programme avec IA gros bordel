@@ -534,8 +534,8 @@ namespace scrabble
             lettre.nom = ' ';
             a = 0;
             b = 0;
-            positionLettre = new int[7, 2];
-            // calcul le score en fonction de la valeur de la pièce et des letres compte double/simple
+            positionLettre = new int[7, 2];// enregistre les positions des pièces posées pendant le tour
+            
             verifhorizontal = false;
             verifvertical = false;
 
@@ -574,6 +574,25 @@ namespace scrabble
                         {
                             a--;
                         }
+                        if (touche.Key == ConsoleKey.Delete )// pour supprimer une lettre posée, appuyer sur delete
+                        {
+                            for (int j = 0; j < 7; j++)
+                            {
+                                if (a == positionLettre[j, 0] && b == positionLettre[j, 1]) // si c'est une lettre qui a été posée à ce tour
+                                {
+
+                                   int k = 0;
+                                    while (tabMains[num_Joueur - 1, k].nom != ' ' && k < 7&&j!=compte)
+                                    { k++; }
+                                    tabMains[num_Joueur - 1, k] = tabcurseur[a, b];
+                                    tabcurseur[a,b] = tabLettre[27];// on supprime la lettre
+                                    positionLettre[j, 0] = -1;
+                                    positionLettre[j, 1] = -1;
+                                    compte--;
+                                }
+                            }
+                        }
+
                         if (touche.Key == ConsoleKey.Escape)// pour annuler le choix d'une pièce
                         {
                             int j = 0;
@@ -581,9 +600,10 @@ namespace scrabble
                             { j++; }
                             tabMains[num_Joueur - 1, j] = lettre;// on replace la lettre annulée
                             lettre = tabLettre[27];
+                            compte--;
                         }
 
-                    } while ((touche.Key != ConsoleKey.Enter && touche.Key != ConsoleKey.Escape) || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
+                    } while (touche.Key != ConsoleKey.Enter  || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
                     // condition d'arrêt: validée avec entrée et case piocheVide 
                     if (lettre.nom != ' ')//si lettre annulée
                     {
