@@ -117,9 +117,12 @@ namespace scrabble
                     affichecurseur(tabcurseur, -1, -1);
                     if (tabJoueur[num_joueur - 1].IA == 0 && !piocheVide)
                     {
-                        afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
-                        Console.WriteLine("\n voulez vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
-                        défausse = Console.ReadLine();
+                         do
+                        {
+                            afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
+                            Console.WriteLine("\n voulez vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
+                            défausse = Console.ReadLine();
+                        } while (défausse != "oui" || défausse != "non");
                         if (défausse == "non")
                         {
                             do
