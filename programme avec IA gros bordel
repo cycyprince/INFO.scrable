@@ -146,7 +146,7 @@ namespace scrabble
                             afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
                             Console.WriteLine("\n Voulez-vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
                             défausse = Console.ReadLine();
-                        } while (défausse != "oui" || défausse != "non");
+                        } while (défausse != "oui" && défausse != "non");
 
                         if (défausse == "non")
                         {
