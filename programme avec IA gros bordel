@@ -37,7 +37,7 @@ namespace scrabble
             Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
             Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
             Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
-            
+
             Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n appuyez sur entrer");
             Console.ReadLine();
 
@@ -79,7 +79,7 @@ namespace scrabble
             return nb;
         }
 
-         public static void JOUER(ref bool partieFinie, System.Media.SoundPlayer player)
+        public static void JOUER(ref bool partieFinie, System.Media.SoundPlayer player)
         {
 
 
@@ -145,7 +145,7 @@ namespace scrabble
                         afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
                         do
                         {
-                            
+
                             Console.WriteLine("\n Voulez-vous vous défausser d'une ou plusieurs pièce(s) ?\n Ecrire oui / non ");
                             défausse = Console.ReadLine();
                         } while (défausse != "oui" && défausse != "non");
@@ -155,7 +155,7 @@ namespace scrabble
                             do
                             {
                                 Console.Clear();
-                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref b, ref compteFinTour);
+                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref  b, ref compteFinTour);                                
                                 mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
                                 vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
@@ -163,17 +163,17 @@ namespace scrabble
                                 if (!check1ereCase)
                                 {
                                     Console.WriteLine("\n La case du milieu doit être utilisée au premier tour, réeesayer \n");
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                 }
                                 if (checkAttaché)
                                 {
                                     Console.WriteLine("\n le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                 }
 
                                 if (!existe)
                                 {
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre,num_joueur, tabVérif, ref score);
                                     /*int j = 0;
                                     for (int k = 0; k < 7 && tabcurseur[positionLettre[k, 0], positionLettre[k, 1]].nom != ' '; k++)
                                     {
@@ -188,7 +188,7 @@ namespace scrabble
                                 }
 
                                 tabJoueur[num_joueur - 1].point = score + tabJoueur[num_joueur - 1].point;
-                            } while (!check1ereCase || checkAttaché || !existe || lettre.nom!='&');
+                            } while (!check1ereCase || checkAttaché || !existe || lettre.nom != '&');
                         }
                         if (défausse == "oui")
                         {
@@ -229,11 +229,12 @@ namespace scrabble
                     Console.Write("\n tous les joueurs ont passés leur tour\nfin de la partie");
                     partieFinie = true;
                 }
-                
+
                 Console.ReadLine();
 
             }
         }
+
         public static void initialisation(ref PIECE[] tabLettre, ref PIECE[,] tabMains, int nbJoueurs, ref JOUEUR[] tabJoueur, ref int[,] tabcoef, ref int[,] tabVérif, ref PIECE[,] tabcurseur)
         {
             //initialiser le SAC de lettres
@@ -502,7 +503,6 @@ namespace scrabble
 
         }
 
-
         public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
             char[] curseur = new char[8];
@@ -583,7 +583,7 @@ namespace scrabble
 
         }
 
-        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, out bool verifhorizontal, out bool verifvertical, ref string défausse, ref int a, ref int b, ref int compteFinTour)
+        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, ref bool verifhorizontal, ref bool verifvertical, ref string défausse, ref int a, ref int b, ref int compteFinTour)
         {
             ConsoleKeyInfo touche;
             int compte = 0;
@@ -877,6 +877,7 @@ namespace scrabble
             }
             positionLettre = new int[7, 2];
         }
+
         public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, ref bool verifvertical, ref bool verifhorizontal, out int compte, out bool check1ereCase, ref bool checkAttaché, string[] mot, ref int score)
         {
 
@@ -888,32 +889,32 @@ namespace scrabble
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
-                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                 check1ereCase = false;
-            }            
+            }
 
             //vérification que le mot soit "attaché" à un autre
             checkAttaché = true;
             //positionLettre[0,0]position 1ere lettre posée selon a
-             
+
             //positionLettre[0,1] position 1ere lettre posée selon b
             if (check1ereCase)// si la première case est rempli
             {
                 if (tabVérif[7, 7] == 1)
                 {
                     int i = 0;
-                    while (i < 7 && checkAttaché )
-                    {           
+                    while (i < 7 && checkAttaché)
+                    {
                         if (positionLettre[i, 0] - 1 >= 0)
                         {
-                            if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 1]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 1]] ==1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] + 1]==1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] - 1] ==1)
+                            if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 1]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 1]] == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] + 1] == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] - 1] == 1)
                             {
                                 checkAttaché = false;//==c'est ok
                             }
                         }
                         i++;
                     }
-                
+
                     if (!checkAttaché)
                     {
                         i = 0;
@@ -925,19 +926,19 @@ namespace scrabble
                     }
                 }
 
-                 if (tabVérif[7, 7] == 0)
-                 {
+                if (tabVérif[7, 7] == 0)
+                {
                     int temp = 0;
                     while (temp < 7)
-                     {
+                    {
                         tabVérif[positionLettre[temp, 0], positionLettre[temp, 1]] = 1;
                         temp++;
-                     }
-                        checkAttaché = false;//== false signifie que c'est bon
-                 }
+                    }
+                    checkAttaché = false;//== false signifie que c'est bon
+                }
 
-               
-    }            
+
+            }
 
 
             //vérification que le mot est dans le dictionnaire
@@ -954,7 +955,7 @@ namespace scrabble
                     if (!existe)
                     {
                         Console.Write(" \n le mot {0} n'existe pas", mot[i]);
-                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                         Console.ReadLine();
                     }
                 }
