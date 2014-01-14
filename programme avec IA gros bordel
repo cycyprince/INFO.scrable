@@ -855,7 +855,7 @@ namespace scrabble
 
         }
 
-        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, ref int score)
+        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, int [,] tabverif, ref int score)
         {
             int j = 0;
             score = 0;
@@ -865,11 +865,12 @@ namespace scrabble
                 { j++; }
                 tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
                 tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
+                tabverif[positionLettre[i, 0], positionLettre[i, 1]] = 0;
 
                 j++;
             }
+            positionLettre = new int[7, 2];
         }
-
         public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot, ref int score)
         {
             verifhorizontal = false;
