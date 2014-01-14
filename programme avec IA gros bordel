@@ -28,15 +28,16 @@ namespace scrabble
 
         public static void intro()
         {
-            Console.WriteLine("\n\n *********** *********** ******** ******** ****** ****** * ******** ");
-            Console.WriteLine(" * * * * * * * * * * * * ");
-            Console.WriteLine(" * * * * * * * * * * * * ");
-            Console.WriteLine(" * * * * * * * * * * * * ");
-            Console.WriteLine(" *********** * ******** ******** ****** ****** * ******* ");
-            Console.WriteLine(" * * * * * * * * * * * * ");
-            Console.WriteLine(" * * * * * * * * * * * * ");
-            Console.WriteLine(" * * * * * * * * * * * * ");
-            Console.WriteLine(" *********** ********** * * * * ****** ****** ******** ******* ");
+            Console.WriteLine("\n\n\n\n\n ***********    ***********    ********   ********    ******     ******     *           ******** ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" ***********    *              ********   ********    ******     ******     *           *******  ");
+            Console.WriteLine("           *    *              * *        *      *    *     *    *     *    *           *        ");
+            Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
+            Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
+            
             Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n appuyez sur entrer");
             Console.ReadLine();
 
