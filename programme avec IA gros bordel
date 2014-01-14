@@ -28,16 +28,16 @@ namespace scrabble
 
         public static void intro()
         {
-            Console.WriteLine("\n\n ***********    ***********    ********   ********    ******     ******     *           ******** ");
-            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
-            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
-            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
-            Console.WriteLine(" ***********    *              ********   ********    ******     ******     *           *******  ");
-            Console.WriteLine("           *    *              * *        *      *    *     *    *     *    *           *        ");
-            Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
-            Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
-            Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
-            Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n  appuyez sur entrer\n");
+            Console.WriteLine("\n\n *********** *********** ******** ******** ****** ****** * ******** ");
+            Console.WriteLine(" * * * * * * * * * * * * ");
+            Console.WriteLine(" * * * * * * * * * * * * ");
+            Console.WriteLine(" * * * * * * * * * * * * ");
+            Console.WriteLine(" *********** * ******** ******** ****** ****** * ******* ");
+            Console.WriteLine(" * * * * * * * * * * * * ");
+            Console.WriteLine(" * * * * * * * * * * * * ");
+            Console.WriteLine(" * * * * * * * * * * * * ");
+            Console.WriteLine(" *********** ********** * * * * ****** ****** ******** ******* ");
+            Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n appuyez sur entrer");
             Console.ReadLine();
 
 
@@ -62,7 +62,7 @@ namespace scrabble
         {
             bool ok = false;
             int nb = 0;
-            while (!ok)//gère le cas où l'utilisateur  ne rentre pas un nombre
+            while (!ok)//gère le cas où l'utilisateur ne rentre pas un nombre
             {
                 try
                 {
@@ -83,7 +83,7 @@ namespace scrabble
 
 
             int nbJoueurs = 0;
-            PIECE[] tabLettre = new PIECE[29];//initialisation du sac de lettres
+            PIECE[] tabLettre = new PIECE[30];//initialisation du sac de lettres
             Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
 
             Console.Write("\n_________________________________________________________________________________________________________________\n\nA combien voulez-vous jouer?(entre 1 et 4)\n");
@@ -102,7 +102,7 @@ namespace scrabble
             PIECE lettre = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
             JOUEUR[] tabJoueur = new JOUEUR[nbJoueurs];
             int[,] tabcoef = new int[15, 15];// initialise les valeurs des cases du plateau de jeu
-            int[,] tabVérif = new int[15, 15];//initialise le tableau pour vérifier si le mot est "collé" à un mot déjà posé 
+            int[,] tabVérif = new int[15, 15];//initialise le tableau pour vérifier si le mot est "collé" à un mot déjà posé
             PIECE[,] tabcurseur = new PIECE[15, 15];
             int[,] positionLettre = new int[7, 2];
 
@@ -141,11 +141,10 @@ namespace scrabble
                     affichecurseur(tabcurseur, -1, -1);
                     if (tabJoueur[num_joueur - 1].IA == 0 && !piocheVide)
                     {
-                        afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
                         do
                         {
-                            
-                            Console.WriteLine("\n Voulez-vous vous défausser d'une ou plusieurs pièce(s) ?\n Ecrire oui / non ");
+                            afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
+                            Console.WriteLine("\n Voulez-vous vous défausser d'une ou plusieurs pièce(s) ?\n écrire oui / non ");
                             défausse = Console.ReadLine();
                         } while (défausse != "oui" && défausse != "non");
 
@@ -154,26 +153,23 @@ namespace scrabble
                             do
                             {
                                 Console.Clear();
-                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref b, ref compteFinTour);
+                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse, ref a, ref b, ref compteFinTour);
                                 mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
-                                vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
+                                vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot, ref score, tabVérif);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
 
                                 if (!check1ereCase)
                                 {
                                     Console.WriteLine("\n La case du milieu doit être utilisée au premier tour, réeesayer \n");
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
                                 }
                                 if (checkAttaché)
                                 {
                                     Console.WriteLine("\n le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
                                 }
 
                                 if (!existe)
                                 {
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
-                                    /*int j = 0;
+                                    int j = 0;
                                     for (int k = 0; k < 7 && tabcurseur[positionLettre[k, 0], positionLettre[k, 1]].nom != ' '; k++)
                                     {
                                         while (tabMains[num_joueur - 1, j].nom != ' ')
@@ -182,12 +178,12 @@ namespace scrabble
                                         tabcurseur[positionLettre[k, 0], positionLettre[k, 1]] = tabLettre[27];
                                         j++;
                                     } // si le mot n'existe pas, on l'efface de la grille
-                                    score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point*/
+                                    score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point
 
                                 }
 
                                 tabJoueur[num_joueur - 1].point = score + tabJoueur[num_joueur - 1].point;
-                            } while (!check1ereCase || checkAttaché || !existe || lettre.nom!='&');
+                            } while (!check1ereCase && checkAttaché && !existe);
                         }
                         if (défausse == "oui")
                         {
@@ -196,13 +192,13 @@ namespace scrabble
                             {
                                 if (piocheVide)
                                 {
-                                    Console.Write("\n Vous ne pouvez pas vous défausser car la pioche est piocheVide\n");
+                                    Console.Write("\n vous ne pouvez pas vous défausser car la pioche est piocheVide\n");
                                 }
                                 else
                                 {
                                     Console.Clear();
                                     affichecurseur(tabcurseur, -1, -1);
-                                    Console.WriteLine(" \nQuelle(s) lettre(s) voulez-vous enlever?");
+                                    Console.WriteLine(" quelles lettres voulez-vous enlever?");
                                     choixlettre(tabMains, num_joueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
                                     nbLettreEnlevee++;
                                 }
@@ -218,9 +214,14 @@ namespace scrabble
                         {
                             pioche(ref tabMains, ref tabLettre, num_joueur, rndNumbers, ref piocheVide);
                             afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
+
+
+
+                            num_joueur++;
+
+
                         }
                     }
-
                     num_joueur++;
                 }
                 if (compteFinTour == nbJoueurs && piocheVide)
@@ -228,7 +229,7 @@ namespace scrabble
                     Console.Write("\n tous les joueurs ont passés leur tour\nfin de la partie");
                     partieFinie = true;
                 }
-                
+
                 Console.ReadLine();
 
             }
@@ -266,6 +267,7 @@ namespace scrabble
             tabLettre[26] = new PIECE() { nom = '*', val = 0, nb_restant = 2 };// joker
             tabLettre[27] = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
             tabLettre[28] = new PIECE() { nom = '&', val = 0, nb_restant = 0 };
+            tabLettre[29] = new PIECE() { nom = '&', val = 0, nb_restant = 0 };
             int i = 0; int j = 0;
 
             //initialisation du tableau de mains
@@ -394,8 +396,8 @@ namespace scrabble
         {
             int i; i = 0;
 
-            Console.Write("\nmain de {0} :\n              =============================\n", tabJoueur[num_Joueur - 1].nom);
-            Console.Write("              ");
+            Console.Write("\nmain de {0} :\n =============================\n", tabJoueur[num_Joueur - 1].nom);
+            Console.Write(" ");
             while (i < 7)
             {
                 Console.Write("| {0} ", tabMains[num_Joueur - 1, i].nom);
@@ -403,7 +405,7 @@ namespace scrabble
             }
             Console.Write("|");
             Console.Write(" finir le tour");
-            Console.Write("\n              =============================\n");
+            Console.Write("\n =============================\n");
             i = 0;
             Console.Write("leurs valeurs:");
             while (i < 7)
@@ -415,11 +417,11 @@ namespace scrabble
                 else
                 {
                     Console.Write("|{0} ", tabMains[num_Joueur - 1, i].val);
-                }// si la valeur est supérieure à 10, on ajuste le tableau en enlevant un espace 
+                }// si la valeur est supérieure à 10, on ajuste le tableau en enlevant un espace
                 i++;
             }
             Console.Write("|");
-            Console.Write("\n              =============================\n");
+            Console.Write("\n =============================\n");
         }
 
         public static bool vérifMot(string mot_a_trouver)
@@ -497,9 +499,10 @@ namespace scrabble
                 Console.WriteLine("=============================================================");
             }
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine("  A   B   C   D   E   F   G   H   I   J   K   L   M   N   O");
+            Console.WriteLine(" A B C D E F G H I J K L M N O");
 
         }
+
 
         public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
@@ -517,7 +520,7 @@ namespace scrabble
             {
 
                 afficheMain(ref tabMains, num_Joueur, tabJoueur, tabLettre);// affiche le tableau et la main
-                Console.Write("              ");// ajustement du curseur sous la main
+                Console.Write(" ");// ajustement du curseur sous la main
                 for (i = 0; i < 8; i++)
                 {
                     Console.Write(' ');
@@ -543,44 +546,49 @@ namespace scrabble
                 affichecurseur(tabcurseur, -1, -1);//affichage du tableau sans curseur
             }
 
-            while (touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
+            while (touche.Key != ConsoleKey.Delete && touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
             if (j == 7)
             { lettre = tabLettre[28]; }// correspond à la validation
             else
             {
-                lettre = tabMains[num_Joueur - 1, j];
-                if (lettre.nom == tabLettre[26].nom)// si le joueur a choisi le joker
+                if (touche.Key == ConsoleKey.Delete)// correspond à la suppression
+                { lettre = tabLettre[29]; }
+                else
                 {
-                    Console.Write(" par quelle lettre voulez-vous remplacer le joker?");
-                    bool ok = false;
-                    while (!ok)
+                    lettre = tabMains[num_Joueur - 1, j];
+                    if (lettre.nom == tabLettre[26].nom)// si le joueur a choisi le joker
                     {
-                        try
+                        Console.Write(" par quelle lettre voulez-vous remplacer le joker?");
+                        bool ok = false;
+                        while (!ok)
                         {
-                            lettre.nom = char.Parse(Console.ReadLine());// le joueur doit entrer une lettre
-                            ok = true;
-                        }
+                            try
+                            {
+                                lettre.nom = char.Parse(Console.ReadLine());// le joueur doit entrer une lettre
+                                ok = true;
+                            }
 
-                        catch (Exception) // si ce n'est pas une lettre, il doit réessayer
-                        { Console.WriteLine("ce n'est pas une lettre, veuillez réessayer"); }
+                            catch (Exception) // si ce n'est pas une lettre, il doit réessayer
+                            { Console.WriteLine("ce n'est pas une lettre, veuillez réessayer"); }
+                        }
+                    }
+
+                    tabMains[num_Joueur - 1, j] = tabLettre[27];//va effacer la case
+                    if (défausse == "oui")// si la lettre choisie est pour la reposer dans la pioche
+                    {
+                        tabMains[num_Joueur - 1, j].nb_restant = tabMains[num_Joueur - 1, j].nb_restant + 1;
                     }
                 }
-
-                tabMains[num_Joueur - 1, j] = tabLettre[27];//va effacer la case
-                if (défausse == "oui")// si la lettre choisie est pour la reposer dans la pioche
-                {
-                    tabMains[num_Joueur - 1, j].nb_restant = tabMains[num_Joueur - 1, j].nb_restant + 1;
-                }
-
             }
 
 
         }
 
-        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, ref bool verifhorizontal, ref bool verifvertical, ref string défausse, ref int a, ref int b, ref int compteFinTour)
+        public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, out bool verifhorizontal, out bool verifvertical, ref string défausse, ref int a, ref int b, ref int compteFinTour)
         {
             ConsoleKeyInfo touche;
             int compte = 0;
+            int score = 0;
             lettre.nom = ' ';
             a = 0;
             b = 0;
@@ -594,6 +602,12 @@ namespace scrabble
                 Console.Clear();
                 affichecurseur(tabcurseur, -1, -1);
                 choixlettre(tabMains, num_Joueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
+                if (lettre.nom == '$')// si l'utilisateur a choisi de supprimer
+                {
+                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_Joueur, tabVérif, ref score);
+                    verifhorizontal = false;
+                    verifvertical = false;
+                }
                 if (lettre.nom == '&')
                 {
                     compteFinTour++;
@@ -624,38 +638,30 @@ namespace scrabble
                         {
                             a--;
                         }
-                        if (touche.Key == ConsoleKey.Delete)// pour supprimer une lettre posée, appuyer sur delete
-                        {
-                            for (int j = 0; j < 7; j++)
-                            {
-                                if (a == positionLettre[j, 0] && b == positionLettre[j, 1]) // si c'est une lettre qui a été posée à ce tour
-                                {
 
-                                    int k = 0;
-                                    while (tabMains[num_Joueur - 1, k].nom != ' ' && k < 7 && j != compte)
-                                    { k++; }
-                                    tabMains[num_Joueur - 1, k] = tabcurseur[a, b];
-                                    tabcurseur[a, b] = tabLettre[27];// on supprime la lettre
-                                    positionLettre[j, 0] = -1;
-                                    positionLettre[j, 1] = -1;
-                                    compte--;
-                                }
-                            }
-                        }
+
 
                         if (touche.Key == ConsoleKey.Escape)// pour annuler le choix d'une pièce
                         {
                             int j = 0;
                             while (tabMains[num_Joueur - 1, j].nom != ' ' && j < 7)
                             { j++; }
-                            tabMains[num_Joueur - 1, j] = lettre;// on replace la lettre annulée
-                            lettre = tabLettre[27];
+                            tabMains[num_Joueur - 1, j] = lettre;
+                            lettre = tabLettre[27];// on replace la lettre annulée
                             compte--;
                         }
+                        if (touche.Key == ConsoleKey.Delete)
+                        {
+                            score = 0;
+                            motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_Joueur, tabVérif, ref score);
+                            verifhorizontal = false;
+                            verifvertical = false;
+                            compte = 0;
+                        }
 
-                    } while (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
-                    // condition d'arrêt: validée avec entrée et case piocheVide 
-                    if (lettre.nom != ' ')//si lettre annulée
+                    } while (lettre.nom != ' ' && (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0])));
+                    // condition d'arrêt: validée avec entrée et case piocheVide
+                    if (lettre.nom != ' ' && touche.Key != ConsoleKey.Escape)//si lettre annulée ou mot supprimmé
                     {
                         positionLettre[compte, 0] = a;
                         positionLettre[compte, 1] = b;// permet de se rappeler de la position des lettre posées avant
@@ -670,6 +676,8 @@ namespace scrabble
 
                         tabcurseur[a, b] = lettre;
                     }
+
+
                 }
 
                 compte++;
@@ -756,7 +764,7 @@ namespace scrabble
                 {
                     motPosé[i] = tabcurseur[a, b].nom;
 
-                    if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
+                    if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale),
                     {
                         scoreMot = scoreMot + tabcurseur[a, b].val * tabcoef[a, b];
                     }
@@ -810,7 +818,7 @@ namespace scrabble
                 while (a < 14 && tabcurseur[a, b].nom != ' ' && stophorizontal) // on repart dans l'autre sens jusqu'a la fin du mot sans sortir du tableau et on compte le nombre de lettre dans le mot
                 {
                     motPosé[i] = tabcurseur[a, b].nom;
-                    if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale), 
+                    if (tabcoef[a, b] == 1 || tabcoef[a, b] == 2 || tabcoef[a, b] == 3)// si la lettre est posé sur une case avec un coef de 1,2 ou 3 (lettre comptes double, tripple ou case normale),
                     {
                         scoreMot = scoreMot + tabcurseur[a, b].val * tabcoef[a, b];
                     }
@@ -854,7 +862,7 @@ namespace scrabble
 
         }
 
-        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, ref int score)
+        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, int[,] tabverif, ref int score)
         {
             int j = 0;
             score = 0;
@@ -864,14 +872,16 @@ namespace scrabble
                 { j++; }
                 tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
                 tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
+                tabverif[positionLettre[i, 0], positionLettre[i, 1]] = 0;
 
                 j++;
             }
+            positionLettre = new int[7, 2];
         }
-
-        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, ref bool verifvertical, ref bool verifhorizontal, out int compte, out bool check1ereCase, ref bool checkAttaché, string[] mot, ref int score)
+        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot, ref int score, int [,] tabverif)
         {
-
+            verifhorizontal = false;
+            verifvertical = false;
             compte = 0;////on remet tout à 0
             check1ereCase = true;
 
@@ -880,62 +890,38 @@ namespace scrabble
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
-                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur,tabVérif, ref score);
                 check1ereCase = false;
             }
 
 
-            checkAttaché = false;
-            int x; int y;
-            x = 0; y = 0;
-            while (x < 7)
-            {
-                y = 0;
-                while (y < 2)
-                {
-                    Console.Write(positionLettre[x, y]);
-                    y++;
-                }
-                Console.Write("\n");
-                x++;
-            }
-            x=0;
-            Console.ReadLine();
-            while (x < 15)
-            {
-                y = 0;
-                while (y < 15)
-                {
-                    Console.Write(tabVérif[x, y]);
-                    y++;
-                }
-                Console.Write("\n");
-                x++;
-            }
-            Console.ReadLine();
-
-            //vérification que le mot soit "attaché" à un autre
             checkAttaché = true;
-            //positionLettre[0,0]position 1ere lettre posée selon a
-             
-            //positionLettre[0,1] position 1ere lettre posée selon b
             if (check1ereCase)// si la première case est rempli
             {
-                if (tabVérif[7, 7] == 1)
+
+                //vérification que le mot soit "attaché" à un autre
+
+                if (tabVérif[7, 7] == 0)// si c'est le premier tour
+                {
+                    int temp = 0;
+                    while (temp < 7)
+                    {
+                        tabVérif[positionLettre[temp, 0], positionLettre[temp, 0]] = 1;
+                        temp++;
+                    }
+                    checkAttaché = false;//== false signifie que c'est bon
+                }
+
+                else if (tabVérif[7, 7] == 1)
                 {
                     int i = 0;
-                    while (i < 7 && checkAttaché )
-                    {           
-                        if (positionLettre[i, 0] - 1 >= 0)
+                    while (i < 7 && checkAttaché)
+                    {
+                        if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 0]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 0]] == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 0]] + 1 == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 0]] - 1 == 1)
                         {
-                            if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 1]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 1]] ==1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] + 1]==1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] - 1] ==1)
-                            {
-                                checkAttaché = false;//==c'est ok
-                            }
+                            checkAttaché = false;
                         }
-                        i++;
                     }
-                
                     if (!checkAttaché)
                     {
                         i = 0;
@@ -945,21 +931,9 @@ namespace scrabble
                             i++;
                         }
                     }
+
                 }
-
-                 if (tabVérif[7, 7] == 0)
-                 {
-                    int temp = 0;
-                    while (temp < 7)
-                     {
-                        tabVérif[positionLettre[temp, 0], positionLettre[temp, 1]] = 1;
-                        temp++;
-                     }
-                        checkAttaché = false;//== false signifie que c'est bon
-                 }
-
-               
-    }            
+            }
 
 
             //vérification que le mot est dans le dictionnaire
@@ -976,7 +950,7 @@ namespace scrabble
                     if (!existe)
                     {
                         Console.Write(" \n le mot {0} n'existe pas", mot[i]);
-                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabverif,ref score);
                         Console.ReadLine();
                     }
                 }
