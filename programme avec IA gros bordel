@@ -7,10 +7,10 @@ using System.Timers;
 
 namespace scrabble
 {
-        
+
     class Program
     {
-        
+
         public struct PIECE
         {
             public int val;
@@ -28,19 +28,19 @@ namespace scrabble
 
         public static void intro()
         {
-                Console.WriteLine("\n\n ***********    ***********    ********   ********    ******     ******     *           ******** ");
-                Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
-                Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
-                Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
-                Console.WriteLine(" ***********    *              ********   ********    ******     ******     *           *******  ");
-                Console.WriteLine("           *    *              * *        *      *    *     *    *     *    *           *        ");
-                Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
-                Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
-                Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
-                Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n  appuyez sur entrer");
-                Console.ReadLine();
+            Console.WriteLine("\n\n ***********    ***********    ********   ********    ******     ******     *           ******** ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" *              *              *      *   *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" ***********    *              ********   ********    ******     ******     *           *******  ");
+            Console.WriteLine("           *    *              * *        *      *    *     *    *     *    *           *        ");
+            Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
+            Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
+            Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
+            Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n  appuyez sur entrer");
+            Console.ReadLine();
 
-            
+
         }
 
         public static void Main(string[] args)
@@ -54,8 +54,8 @@ namespace scrabble
             bool partieFinie = false;
 
             intro();
-            
-            JOUER(ref partieFinie,player);
+
+            JOUER(ref partieFinie, player);
         }
 
         public static int demandeEntier() // fonction qui demande un entier et renvoie un message d'erreur si s'en est pas un
@@ -96,7 +96,7 @@ namespace scrabble
                     nbJoueurs = demandeEntier();
                 } while (nbJoueurs < 1 || nbJoueurs > 4);
             }
-           
+
 
             PIECE[,] tabMains = new PIECE[nbJoueurs, 7];
             PIECE lettre = new PIECE() { nom = ' ', val = 0, nb_restant = 0 };
@@ -155,7 +155,7 @@ namespace scrabble
                                 Console.Clear();
                                 positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, out verifhorizontal, out verifvertical, ref défausse, ref a, ref b, ref compteFinTour);
                                 mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
-                                vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot, ref score);
+                                vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, out verifvertical, out verifhorizontal, out compte, out check1ereCase, out checkAttaché, mot, ref score, tabVérif);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
 
                                 if (!check1ereCase)
@@ -214,8 +214,8 @@ namespace scrabble
                         {
                             pioche(ref tabMains, ref tabLettre, num_joueur, rndNumbers, ref piocheVide);
                             afficheMain(ref tabMains, num_joueur, tabJoueur, tabLettre);
-                            
-                            
+
+
 
                             num_joueur++;
 
@@ -288,13 +288,13 @@ namespace scrabble
             while (i < nbJoueurs)
             {
                 string ordi = " ";
-                Console.Write("\n Quel est le nom du joueur {0}\n", i+1 );
+                Console.Write("\n Quel est le nom du joueur {0}\n", i + 1);
                 tabJoueur[i].nom = Console.ReadLine();
                 if (i >= 1)
                 {
-                    while (tabJoueur[i].nom == tabJoueur[i - 1].nom )
+                    while (tabJoueur[i].nom == tabJoueur[i - 1].nom)
                     {
-                        Console.Write("\nce nom est déjà pris veuillez en entrer un autre\n"); 
+                        Console.Write("\nce nom est déjà pris veuillez en entrer un autre\n");
                         tabJoueur[i].nom = Console.ReadLine();
                     }
                     if (i >= 2)
@@ -314,7 +314,7 @@ namespace scrabble
                         }
                     }
                 }
-                
+
 
                 while (ordi != "oui" && ordi != "non")
                 {
@@ -503,8 +503,8 @@ namespace scrabble
 
         }
 
-        
-public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
+
+        public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcurseur, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
             char[] curseur = new char[8];
             for (int l = 0; l < 8; l++)
@@ -546,7 +546,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
                 affichecurseur(tabcurseur, -1, -1);//affichage du tableau sans curseur
             }
 
-            while (touche.Key != ConsoleKey.Delete&&touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
+            while (touche.Key != ConsoleKey.Delete && touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
             if (j == 7)
             { lettre = tabLettre[28]; }// correspond à la validation
             else
@@ -638,8 +638,8 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
                         {
                             a--;
                         }
-                        
-                        
+
+
 
                         if (touche.Key == ConsoleKey.Escape)// pour annuler le choix d'une pièce
                         {
@@ -647,18 +647,19 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
                             while (tabMains[num_Joueur - 1, j].nom != ' ' && j < 7)
                             { j++; }
                             tabMains[num_Joueur - 1, j] = lettre;
-                                lettre=tabLettre[27];// on replace la lettre annulée
+                            lettre = tabLettre[27];// on replace la lettre annulée
                             compte--;
                         }
-                         if (touche.Key == ConsoleKey.Delete)
-                         {score=0;
-                             motRefuse(ref tabcurseur,tabLettre,ref tabMains,ref positionLettre, num_Joueur,tabVérif, ref score);
-                             verifhorizontal = false;
-                             verifvertical = false;
-                             compte = 0;
-                         }
+                        if (touche.Key == ConsoleKey.Delete)
+                        {
+                            score = 0;
+                            motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_Joueur, tabVérif, ref score);
+                            verifhorizontal = false;
+                            verifvertical = false;
+                            compte = 0;
+                        }
 
-                    } while   (lettre.nom!=' '&&(touche.Key != ConsoleKey.Enter|| (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0])));
+                    } while (lettre.nom != ' ' && (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0])));
                     // condition d'arrêt: validée avec entrée et case piocheVide 
                     if (lettre.nom != ' ' && touche.Key != ConsoleKey.Escape)//si lettre annulée ou mot supprimmé
                     {
@@ -675,8 +676,8 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
 
                         tabcurseur[a, b] = lettre;
                     }
-                   
-                        
+
+
                 }
 
                 compte++;
@@ -861,7 +862,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
 
         }
 
-        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, int [,] tabverif, ref int score)
+        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, int[,] tabverif, ref int score)
         {
             int j = 0;
             score = 0;
@@ -877,7 +878,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
             }
             positionLettre = new int[7, 2];
         }
-        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot, ref int score)
+        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot, ref int score, int [,] tabverif)
         {
             verifhorizontal = false;
             verifvertical = false;
@@ -889,7 +890,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
-                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur,tabVérif, ref score);
                 check1ereCase = false;
             }
 
@@ -949,13 +950,13 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
                     if (!existe)
                     {
                         Console.Write(" \n le mot {0} n'existe pas", mot[i]);
-                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
+                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabverif,ref score);
                         Console.ReadLine();
                     }
                 }
             }
         }
-        
+
         public static bool verifIA(PIECE[,] tabcurseur, JOUEUR[] tabJoueur, PIECE[] tabLettre, int a, int b, int[] espaceLibre, PIECE LettreDisponible, string motAposer, out int[] positionLettre, out bool horizontal)
         {
             bool verif = false;
@@ -1050,7 +1051,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
 
 
 
-        }      
+        }
 
         public static void finPartie(ref bool partieFinie, PIECE[,] tabMains, int num_joueur, ref bool mainVide, bool piocheVide, ref JOUEUR[] tabJoueur, int nbJoueurs)
         {
@@ -1150,7 +1151,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
 
             return tabespaceLibre;
         }
-        
+
         public static PIECE[] choixMotIA(PIECE[,] tabMains, PIECE[,] tabcurseur, int num_Joueur, JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE LettreDisponible, int a, int b, int[] espaceLibre, out bool horizontal, out int[] positionLettre)
         {
             string motAplacer = " ";
@@ -1213,7 +1214,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
 
 
         }
-    
+
         public static void jouerBot(PIECE[,] tabcurseur, PIECE[,] tabMains, int num_Joueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre)
         {
             bool horizontal;
@@ -1249,8 +1250,8 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
 
 
 
-        } 
-        
+        }
+
         public static PIECE[] conversionStruct(PIECE[] tabLettre, string mot)
         {
             PIECE[] converti = new PIECE[mot.Length];
@@ -1265,7 +1266,7 @@ public static void choixlettre(PIECE[,] tabMains, int num_Joueur, PIECE[,] tabcu
             return converti;
         }
 
-        
+
 
     }
 }
