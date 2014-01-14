@@ -47,7 +47,7 @@ namespace scrabble
         public static void Main(string[] args)
         {
             Console.SetWindowSize(150, 58);
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"D:\Documents\Visual Studio 2010\Projects\scrabble\Tetris.wav");
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Tetris.wav");
             player.Play();
             Console.Title = "LE SCRABBLE par THOMAS FAUQUIGNON et CYRIL HATCHI 1A ENSC";
             Console.SetWindowSize(150, 58);
@@ -84,7 +84,7 @@ namespace scrabble
 
 
             int nbJoueurs = 0;
-            PIECE[] tabLettre = new PIECE[29];//initialisation du sac de lettres
+            PIECE[] tabLettre = new PIECE[30];//initialisation du sac de lettres
             Random rndNumbers = new Random();//génération de la séquence de nombres aléatoires
 
             Console.Write("\n_________________________________________________________________________________________________________________\n\nA combien voulez-vous jouer?(entre 1 et 4)\n");
@@ -155,7 +155,7 @@ namespace scrabble
                             do
                             {
                                 Console.Clear();
-                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref  b, ref compteFinTour);                                
+                                positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref  b, ref compteFinTour);
                                 mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
                                 vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
@@ -173,7 +173,7 @@ namespace scrabble
 
                                 if (!existe)
                                 {
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre,num_joueur, tabVérif, ref score);
+                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                     /*int j = 0;
                                     for (int k = 0; k < 7 && tabcurseur[positionLettre[k, 0], positionLettre[k, 1]].nom != ' '; k++)
                                     {
