@@ -878,10 +878,9 @@ namespace scrabble
             }
             positionLettre = new int[7, 2];
         }
-        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, out bool verifvertical, out bool verifhorizontal, out int compte, out bool check1ereCase, out bool checkAttaché, string[] mot, ref int score, int [,] tabverif)
+        public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int num_joueur, ref bool verifvertical, ref bool verifhorizontal, out int compte, out bool check1ereCase, ref bool checkAttaché, string[] mot, ref int score)
         {
-            verifhorizontal = false;
-            verifvertical = false;
+
             compte = 0;////on remet tout à 0
             check1ereCase = true;
 
@@ -890,38 +889,32 @@ namespace scrabble
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
-                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur,tabVérif, ref score);
+                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
                 check1ereCase = false;
-            }
+            }            
 
-
+            //vérification que le mot soit "attaché" à un autre
             checkAttaché = true;
+            //positionLettre[0,0]position 1ere lettre posée selon a
+             
+            //positionLettre[0,1] position 1ere lettre posée selon b
             if (check1ereCase)// si la première case est rempli
             {
-
-                //vérification que le mot soit "attaché" à un autre
-
-                if (tabVérif[7, 7] == 0)// si c'est le premier tour
-                {
-                    int temp = 0;
-                    while (temp < 7)
-                    {
-                        tabVérif[positionLettre[temp, 0], positionLettre[temp, 0]] = 1;
-                        temp++;
-                    }
-                    checkAttaché = false;//== false signifie que c'est bon
-                }
-
-                else if (tabVérif[7, 7] == 1)
+                if (tabVérif[7, 7] == 1)
                 {
                     int i = 0;
-                    while (i < 7 && checkAttaché)
-                    {
-                        if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 0]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 0]] == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 0]] + 1 == 1 || tabVérif[positionLettre[i, 0], positionLettre[i, 0]] - 1 == 1)
+                    while (i < 7 && checkAttaché )
+                    {           
+                        if (positionLettre[i, 0] - 1 >= 0)
                         {
-                            checkAttaché = false;
+                            if (tabVérif[positionLettre[i, 0] + 1, positionLettre[i, 1]] == 1 || tabVérif[positionLettre[i, 0] - 1, positionLettre[i, 1]] ==1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] + 1]==1 || tabVérif[positionLettre[i, 0], positionLettre[i, 1] - 1] ==1)
+                            {
+                                checkAttaché = false;//==c'est ok
+                            }
                         }
+                        i++;
                     }
+                
                     if (!checkAttaché)
                     {
                         i = 0;
@@ -931,9 +924,21 @@ namespace scrabble
                             i++;
                         }
                     }
-
                 }
-            }
+
+                 if (tabVérif[7, 7] == 0)
+                 {
+                    int temp = 0;
+                    while (temp < 7)
+                     {
+                        tabVérif[positionLettre[temp, 0], positionLettre[temp, 1]] = 1;
+                        temp++;
+                     }
+                        checkAttaché = false;//== false signifie que c'est bon
+                 }
+
+               
+    }            
 
 
             //vérification que le mot est dans le dictionnaire
@@ -950,7 +955,7 @@ namespace scrabble
                     if (!existe)
                     {
                         Console.Write(" \n le mot {0} n'existe pas", mot[i]);
-                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabverif,ref score);
+                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, ref score);
                         Console.ReadLine();
                     }
                 }
