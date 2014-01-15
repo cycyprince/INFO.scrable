@@ -513,7 +513,6 @@ namespace scrabble
             }
             ConsoleKeyInfo touche; // touche entrée pour déplacer le curseur
             curseur[0] = '*';
-            curseur = new char[8];// remet le tableau curseur à 0
             int i = 0;
             int j = 0;
             do
