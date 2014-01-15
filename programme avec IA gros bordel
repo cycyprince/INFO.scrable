@@ -134,7 +134,7 @@ namespace scrabble
                 compteFinTour = 0;
                 while (num_joueur <= nbJoueurs)
                 {
-                    afficheScore(tabJoueur, nbJoueurs);
+                    
                     Console.Clear();
                     Console.Write("\n\nC'est au tour de {0}\n", tabJoueur[num_joueur - 1].nom);
                     pioche(ref tabMains, ref tabLettre, num_joueur, rndNumbers, ref piocheVide);
@@ -154,11 +154,9 @@ namespace scrabble
 
                         if (défausse == "non")
                         {
-                            do
-                            {
-                                Console.Clear();
+
                                 positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref  b, ref compteFinTour);
-                                mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score, tabMains, num_joueur);
+                                mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
                                 vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
 
@@ -181,15 +179,18 @@ namespace scrabble
                                     Console.Write("\n Le mot n'existe pas ! Next \n");
                                     Console.ReadLine();
                                 }
+                                Console.Write("lettre:{0}", lettre.nom);
+                                Console.ReadLine();
 
-                            } while (!check1ereCase && checkAttaché && !existe);
+                            } 
 
                             if (check1ereCase && !checkAttaché && existe)
                             {
-                                Console.Write("\n C'est ok !\n");
+                                Console.Write("\nOk !\n");
                                 tabJoueur[num_joueur - 1].point = score + tabJoueur[num_joueur - 1].point;
+                                afficheScore(tabJoueur, nbJoueurs);
                             }
-                        }
+                        
                         if (défausse == "oui")
                         {
                             int nbLettreEnlevee = 0;
@@ -731,8 +732,9 @@ namespace scrabble
             }
         }
 
-       public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score, PIECE[,]tabMains, int num_joueur)
+        public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score)
         {
+
 
             int l = 0;// pour parcourir les mots existants
             score = 0;
@@ -811,16 +813,7 @@ namespace scrabble
 
                 }
                 score = score + scoreMot; // on ajoute la valeur du mot identifié au score du tour
-                int verifscrabble=0;
-                while (tabMains[num_joueur - 1, verifscrabble].nom == ' ' && verifscrabble < 7)
-                {
-                    verifscrabble++;
-                    if (verifscrabble == 7)
-                    {
-                        score = score + 50;
-                        Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
-                    }
-                }
+
 
 
                 motPosé = new char[15];// on réinitialise toutes les données avant de vérifier les mots verticaux
@@ -886,16 +879,6 @@ namespace scrabble
 
                     }
                     score = score + scoreMot;
-                     verifscrabble=0;
-                     while (tabMains[num_joueur - 1, verifscrabble].nom == ' ' && verifscrabble < 7)
-                {
-                    verifscrabble++;
-                    if (verifscrabble == 7)
-                    {
-                        score = score + 50;
-                        Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
-                    }
-                }
                 }
 
 
@@ -1182,7 +1165,7 @@ namespace scrabble
             } while (permut);
 
             int j = nbJoueurs - 1;
-            Console.Write("\n Voici le tableau des scores:\n");
+            Console.Write("\n Tableau des scores:\n");
             int t = 1;
             while (j >= 0)
             {
