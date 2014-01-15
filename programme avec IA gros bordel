@@ -164,13 +164,13 @@ namespace scrabble
 
                                 if (!check1ereCase)
                                 {
-                                    Console.WriteLine("\n La case du milieu doit être utilisée au premier tour, réeesayer \n");
+                                    Console.WriteLine("\n La case du milieu doit être utilisée au premier tour! next \n");
                                     Console.ReadLine();
                                     motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                 }
                                 if (checkAttaché)
                                 {
-                                    Console.WriteLine("\n Le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
+                                    Console.WriteLine("\n Le mot doit être lié à un mot déjà présent sur le tableau! next \n ");
                                     motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                     Console.ReadLine();
                                 }
@@ -178,12 +178,11 @@ namespace scrabble
                                 if (!existe)
                                 {
                                     motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
-                                    Console.Write("\n Réessayer\n");
+                                    Console.Write("\n Le mot n'existe pas ! Next \n");
                                     Console.ReadLine();
                                 }
 
-                                
-                            } while (!check1ereCase || checkAttaché || !existe);//&& lettre.nom != '&'
+                            } while (!check1ereCase && checkAttaché && !existe);
 
                             if (check1ereCase && !checkAttaché && existe)
                             {
