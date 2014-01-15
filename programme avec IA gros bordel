@@ -133,6 +133,7 @@ namespace scrabble
             bool existe = true;
             bool piocheVide = true;
             bool mainVide = true;
+            bool mainPleine=true;
             int compteFinTour;
             int a = 0;
             int b = 0;
@@ -159,12 +160,8 @@ namespace scrabble
                     if (tabJoueur[numJoueur].IA == 0 && !piocheVide)
                     {
                         afficheMain(ref tabMains, numJoueur, tabJoueur, tabLettre);
-                        do
-                        {
-
-                            Console.WriteLine("\n Voulez-vous vous défausser d'une ou plusieurs pièce(s) ?\n Ecrire oui / non ");
-                            défausse = Console.ReadLine();
-                        } while (défausse != "oui" && défausse != "non");
+                        Console.WriteLine("\n Voulez-vous vous défausser d'une ou plusieurs pièce(s) ?\n Ecrire oui / non ");
+                        défausse = demandeOUI_NON();                     
 
                         if (défausse == "non")
                         {
@@ -174,26 +171,39 @@ namespace scrabble
                                 vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, numJoueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                                 finPartie(ref partieFinie, tabMains, numJoueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
                         }
+                        
+                        int i =0;
+                        while(i<7 && mainPleine)
+                        {
+                            if (tabMains[numJoueur, i].nom == ' ')
+                            {
+                                mainPleine = false;
+                            }
+                            i++;
+                        }
 
-                                if (!check1ereCase)
-                                {
-                                    Console.WriteLine("\n La case du milieu doit être utilisée au premier tour! next \n");
-                                    Console.ReadLine();
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
-                                }
-                                if (checkAttaché)
-                                {
-                                    Console.WriteLine("\n Le mot doit être lié à un mot déjà présent sur le tableau! next \n ");
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
-                                    Console.ReadLine();
-                                }
+                        if (!mainPleine)
+                        {
+                            if (!check1ereCase)
+                            {
+                                Console.WriteLine("\n La case du milieu doit être utilisée au premier tour! next \n");
+                                Console.ReadLine();
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                            }
+                            if (checkAttaché)
+                            {
+                                Console.WriteLine("\n Le mot doit être lié à un mot déjà présent sur le tableau! next \n ");
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                                Console.ReadLine();
+                            }
 
-                                if (!existe)
-                                {
-                                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
-                                    Console.Write("\n Le mot n'existe pas ! Next \n");
-                                    Console.ReadLine();
-                                }
+                            if (!existe)
+                            {
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                                Console.Write("\n Le mot n'existe pas ! Next \n");
+                                Console.ReadLine();
+                            }
+                        }
 
                             
 
@@ -334,11 +344,9 @@ namespace scrabble
                 }
 
 
-                while (ordi != "oui" && ordi != "non")
-                {
+                
                     Console.WriteLine("\n Voulez vous que ce joueur soit traité par l'ordinateur? \n (oui/non)", i + 1);
-                    ordi = Console.ReadLine();
-                }
+                    ordi = demandeOUI_NON();
 
                 if (ordi == "oui")
                 { tabJoueur[i].IA = 1; }//1 => IA
