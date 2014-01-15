@@ -129,7 +129,7 @@ namespace scrabble
             player.Stop();
             while (!partieFinie)
             {
-                int numJoueur = 1;
+                int numJoueur = 0;
 
                 compteFinTour = 0;
                 while (numJoueur <= nbJoueurs)
