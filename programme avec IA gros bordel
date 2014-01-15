@@ -925,6 +925,8 @@ namespace scrabble
             {
                 while (tabMains[numJoueur, j].nom != ' ')
                 { j++; }
+                if (tabcurseur[positionLettre[i, 0], positionLettre[i, 1]].val == 0)
+                { tabMains[numJoueur, j] = tabLettre[26]; }
                 tabMains[numJoueur, j] = tabcurseur[positionLettre[i, 0], positionLettre[i, 1]];
                 tabcurseur[positionLettre[i, 0], positionLettre[i, 1]] = tabLettre[27];
                 tabverif[positionLettre[i, 0], positionLettre[i, 1]] = 0;
