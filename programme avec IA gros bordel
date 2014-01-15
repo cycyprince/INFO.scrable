@@ -80,6 +80,20 @@ namespace scrabble
             }
             return nb;
         }
+        public static string demandeOUI_NON()
+        {
+            string réponse;
+            do
+            {
+                réponse = Console.ReadLine();
+                if (réponse != "oui" && réponse != "non")
+                {
+                    Console.Write("\nTapez oui ou non \n");
+                }
+            } while (réponse != "oui" && réponse != "non");
+
+            return réponse;
+        }
 
         public static void JOUER(ref bool partieFinie, System.Media.SoundPlayer player)
         {
@@ -132,7 +146,7 @@ namespace scrabble
                 int numJoueur = 0;
 
                 compteFinTour = 0;
-                while (numJoueur <= nbJoueurs)
+                while (numJoueur <= nbJoueurs-1)
                 {
                     
                     Console.Clear();
@@ -180,8 +194,6 @@ namespace scrabble
                                     Console.Write("\n Le mot n'existe pas ! Next \n");
                                     Console.ReadLine();
                                 }
-                                Console.Write("lettre:{0}", lettre.nom);
-                                Console.ReadLine();
 
                             
 
@@ -213,18 +225,22 @@ namespace scrabble
                             while (lettre.nom != '&' && nbLettreEnlevee <= 7 && !piocheVide);
 
                         }
+                        numJoueur++;
 
                     }
+
                     else
                     {
                         if (tabJoueur[numJoueur].IA == 1)
                         {
                             pioche(ref tabMains, ref tabLettre, numJoueur, rndNumbers, ref piocheVide);
                             afficheMain(ref tabMains, numJoueur, tabJoueur, tabLettre);
+                            numJoueur++;
                         }
+
                     }
 
-                    numJoueur++;
+                    
                 }
                 if (compteFinTour == nbJoueurs && piocheVide)
                 {
