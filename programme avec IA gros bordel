@@ -158,7 +158,7 @@ namespace scrabble
                             {
                                 Console.Clear();
                                 positionnerPiece(tabcurseur, tabMains, num_joueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref  b, ref compteFinTour);
-                                mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
+                                mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score, tabMains, num_joueur);
                                 vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
 
@@ -731,9 +731,8 @@ namespace scrabble
             }
         }
 
-        public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score)
+       public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score, PIECE[,]tabMains, int num_joueur)
         {
-
 
             int l = 0;// pour parcourir les mots existants
             score = 0;
