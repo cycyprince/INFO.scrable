@@ -683,7 +683,7 @@ namespace scrabble
                             compte = 0;
                         }
 
-                    } while (touche.Key != ConsoleKey.Escape &&touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
+                    } while (touche.Key != ConsoleKey.Escape && touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0]));
                     // condition d'arrêt: validée avec entrée et case piocheVide
                     if (lettre.nom != ' ' && touche.Key != ConsoleKey.Escape)//si lettre annulée ou mot supprimmé
                     {
@@ -828,16 +828,17 @@ namespace scrabble
                 {
                     string motAvérifier = new string(motPosé);
                     motAvérifier = motAvérifier.Substring(0, compteLettre);
-
+                    
                     if (motAvérifier.Length > 1)
                     {
                         scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
+                        score = score + scoreMot; // on ajoute la valeur du mot identifié au score du tour
                         motsposés[l] = motAvérifier;
                         l++;
                     }
 
                 }
-                score = score + scoreMot; // on ajoute la valeur du mot identifié au score du tour
+               
 
 
 
@@ -896,14 +897,16 @@ namespace scrabble
                 {
                     string motAvérifier = new string(motPosé);
                     motAvérifier = motAvérifier.Substring(0, compteLettre);
-                    scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
+                    
                     if (motAvérifier.Length > 1)
-                    {
+                    { 
+                        scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
+                        score = score + scoreMot;
                         motsposés[l] = motAvérifier;
                         l++;
 
                     }
-                    score = score + scoreMot;
+                   
                 }
 
 
