@@ -1135,14 +1135,43 @@ namespace scrabble
             return pointTotal;
         }
 
-        public static void afficheScore(JOUEUR[] tabJoueur, int nbJoueurs)
+         public static void afficheScore(JOUEUR[] tabJoueur, int nbJoueurs)
         {
-            int i = 0;
-            while (i < nbJoueurs)
+            
+            // le tri ne marche pas !
+
+            JOUEUR[] tabscore = new JOUEUR[nbJoueurs];
+            JOUEUR temp;
+            bool permut;
+
+            do
             {
-                Console.WriteLine("\n {0} a {1} points\n", tabJoueur[i].nom, tabJoueur[i].point);
-                i++;
-            }
+            // hypothèse : le tableau est trié
+                permut=false;
+                for (int i=0 ; i<tabJoueur.Length-1; i++)
+                {
+                    // Teste si 2 éléments successifs sont dans le bon ordre ou non
+                    if (tabJoueur[i].point > tabJoueur[i+1].point)
+                    {
+                        // s'ils ne le sont pas on échange leurs positions
+                        temp=tabJoueur[i];
+                        tabJoueur[i]=tabJoueur[i+1];
+                        tabJoueur[i+1]=temp;
+                        permut=true;         
+                    }
+                }
+            }while(permut);
+
+            int j = nbJoueurs-1;
+            Console.Write("\n Voici le tableau des scores:\n");
+            int t=1;
+            while (j >=0)
+                {
+                    Console.WriteLine("A la place {0}: {1} avec {2} points\n",t ,tabJoueur[j].nom, tabJoueur[j].point);
+                    t++;
+                    j--;
+                }
+
             Console.ReadLine();
 
         }
