@@ -683,7 +683,7 @@ namespace scrabble
                             compte = 0;
                         }
 
-                    } while (lettre.nom != ' ' && (touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0])));
+                    } while (touche.Key != ConsoleKey.Escape &&touche.Key != ConsoleKey.Enter || (tabcurseur[a, b].nom != ' ') || (compte == 1 && (positionLettre[compte - 1, 0] != a && positionLettre[compte - 1, 1] != b)) || (verifhorizontal && a != positionLettre[1, 0])));
                     // condition d'arrêt: validée avec entrée et case piocheVide
                     if (lettre.nom != ' ' && touche.Key != ConsoleKey.Escape)//si lettre annulée ou mot supprimmé
                     {
