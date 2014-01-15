@@ -812,7 +812,16 @@ namespace scrabble
 
                 }
                 score = score + scoreMot; // on ajoute la valeur du mot identifié au score du tour
-
+                int verifscrabble=0;
+                while (tabMains[num_joueur - 1, verifscrabble].nom == ' ' && verifscrabble < 7)
+                {
+                    verifscrabble++;
+                    if (verifscrabble == 7)
+                    {
+                        score = score + 50;
+                        Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
+                    }
+                }
 
 
                 motPosé = new char[15];// on réinitialise toutes les données avant de vérifier les mots verticaux
@@ -878,6 +887,16 @@ namespace scrabble
 
                     }
                     score = score + scoreMot;
+                     verifscrabble=0;
+                     while (tabMains[num_joueur - 1, verifscrabble].nom == ' ' && verifscrabble < 7)
+                {
+                    verifscrabble++;
+                    if (verifscrabble == 7)
+                    {
+                        score = score + 50;
+                        Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
+                    }
+                }
                 }
 
 
