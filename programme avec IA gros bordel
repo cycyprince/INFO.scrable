@@ -162,35 +162,26 @@ namespace scrabble
                                 vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, num_joueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                                 finPartie(ref partieFinie, tabMains, num_joueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
 
-                                if (!check1ereCase)
+                                if (!check1ereCase&&lettre.nom != '&')
                                 {
                                     Console.WriteLine("\n La case du milieu doit être utilisée au premier tour, réeesayer \n");
                                     motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                 }
-                                if (checkAttaché)
+                                if (checkAttaché&&lettre.nom != '&')
                                 {
                                     Console.WriteLine("\n le mot doit être lié à un mot déjà présent sur le tableau, réessayer\n ");
                                     motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
                                 }
 
-                                if (!existe)
+                                if (!existe&&lettre.nom != '&')
                                 {
                                     motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, num_joueur, tabVérif, ref score);
-                                    /*int j = 0;
-                                    for (int k = 0; k < 7 && tabcurseur[positionLettre[k, 0], positionLettre[k, 1]].nom != ' '; k++)
-                                    {
-                                        while (tabMains[num_joueur - 1, j].nom != ' ')
-                                        { j++; }
-                                        tabMains[num_joueur - 1, j] = tabcurseur[positionLettre[k, 0], positionLettre[k, 1]];
-                                        tabcurseur[positionLettre[k, 0], positionLettre[k, 1]] = tabLettre[27];
-                                        j++;
-                                    } // si le mot n'existe pas, on l'efface de la grille
-                                    score = 0;// si le mot n'existe pas, le joueur ne remporte aucun point*/
+                                    
 
                                 }
 
                                 tabJoueur[num_joueur - 1].point = score + tabJoueur[num_joueur - 1].point;
-                            } while (!check1ereCase || checkAttaché || !existe || lettre.nom != '&');
+                            } while ((!check1ereCase || checkAttaché || !existe )&& lettre.nom != '&');
                         }
                         if (défausse == "oui")
                         {
