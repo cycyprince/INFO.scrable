@@ -153,11 +153,11 @@ namespace scrabble
             while (!partieFinie)
             {
                 int numJoueur = 0;
-                afficheScore(tabJoueur, nbJoueurs);
+                
                 compteFinTour = 0;
                 while (numJoueur < nbJoueurs)
                 {
-
+                    afficheScore(tabJoueur, nbJoueurs);
                     Console.Clear();
                     Console.Write("\n\nC'est au tour de {0}\n", tabJoueur[numJoueur].nom);
                     pioche(ref tabMains, ref tabLettre, numJoueur, rndNumbers, ref piocheVide);
@@ -1212,7 +1212,7 @@ namespace scrabble
             Console.Write("\n Tableau des scores:\n");
             while (j < nbJoueurs)
             {
-                Console.WriteLine("le joueur {0} avec {1} points est classé {2}\n", tabJoueur[j].nom, tabJoueur[j].point, tabJoueur[j].classement);
+                Console.WriteLine("\nLe joueur {0} avec {1} points est classé {2}\n", tabJoueur[j].nom, tabJoueur[j].point, tabJoueur[j].classement);
                 j++;
             }
 
