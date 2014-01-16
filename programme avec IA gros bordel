@@ -25,6 +25,7 @@ namespace scrabble
             public string nom;
             public int point;
             public int IA; // vaut 1 si le joueur est un ordi, 0 sinon
+            public int classement;
 
         }
 
@@ -39,14 +40,14 @@ namespace scrabble
             Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
             Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
             Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
-            
+
             Console.WriteLine("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! ");
             Console.Write("\n_________________________________________________________________________________________________________________\n");
             Console.WriteLine("\n Pendant le jeu, appuyez sur sur les flèches pour déplacer le curseur");
             Console.WriteLine("\n  appuyez sur \"Echap\" pour annuler la selection d'une pièce");
             Console.WriteLine("\n  appuyez sur \"Suppr\" pour supprimer le mot en cours d'écriture");
             Console.WriteLine("\n  appuyez sur \"Entrée\" pour valider");
-           
+
             Console.ReadLine();
 
 
@@ -151,11 +152,11 @@ namespace scrabble
             while (!partieFinie)
             {
                 int numJoueur = 0;
-
+                afficheScore(tabJoueur, nbJoueurs);
                 compteFinTour = 0;
-                while (numJoueur <= nbJoueurs - 1)
+                while (numJoueur < nbJoueurs)
                 {
-
+                    
                     Console.Clear();
                     Console.Write("\n\nC'est au tour de {0}\n", tabJoueur[numJoueur].nom);
                     pioche(ref tabMains, ref tabLettre, numJoueur, rndNumbers, ref piocheVide);
@@ -217,7 +218,6 @@ namespace scrabble
                         {
                             Console.Write("\nOk !\n");
                             tabJoueur[numJoueur].point = score + tabJoueur[numJoueur].point;
-                            afficheScore(tabJoueur, nbJoueurs);
                         }
 
                         if (défausse == "oui")
@@ -348,6 +348,9 @@ namespace scrabble
                         }
                     }
                 }
+
+                tabJoueur[i].classement = 1+i;
+
 
 
 
@@ -789,7 +792,7 @@ namespace scrabble
                 int motcpttriple = 1;
                 int scoreMot = 0;
                 bool lettreposé = false;
-                int verifscrabble=0;
+                int verifscrabble = 0;
 
 
                 // on cherche la première lettre ( la plus à gauche)
@@ -847,16 +850,16 @@ namespace scrabble
                         motsposés[l] = motAvérifier;
                         l++;
                     }
-                    verifscrabble=0;
-                 while ( verifscrabble < 7&&tabMains[numJoueur, verifscrabble].nom == ' ' )
-                {
-                     verifscrabble++;
-                    if (verifscrabble == 7)
-                     {
-                         score = score + 50;
-                         Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
-                     }
-                 }
+                    verifscrabble = 0;
+                    while (verifscrabble < 7 && tabMains[numJoueur, verifscrabble].nom == ' ')
+                    {
+                        verifscrabble++;
+                        if (verifscrabble == 7)
+                        {
+                            score = score + 50;
+                            Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
+                        }
+                    }
                 }
 
 
@@ -926,19 +929,19 @@ namespace scrabble
                         l++;
 
                     }
-                    verifscrabble=0;
+                    verifscrabble = 0;
                     while (verifscrabble < 7 && tabMains[numJoueur, verifscrabble].nom == ' ')
-                {
-                     verifscrabble++;
-                    if (verifscrabble == 7)
-                     {
-                         score = score + 50;
-                         Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
-                     }
-                 }
+                    {
+                        verifscrabble++;
+                        if (verifscrabble == 7)
+                        {
+                            score = score + 50;
+                            Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
+                        }
+                    }
                 }
 
-                
+
 
 
             }
@@ -1198,11 +1201,7 @@ namespace scrabble
 
         public static void afficheScore(JOUEUR[] tabJoueur, int nbJoueurs)
         {
-
-            // le tri ne marche pas !
-
-            JOUEUR[] tabscore = new JOUEUR[nbJoueurs];
-            JOUEUR temp;
+            int temp;
             bool permut;
 
             do
@@ -1212,25 +1211,23 @@ namespace scrabble
                 for (int i = 0; i < tabJoueur.Length - 1; i++)
                 {
                     // Teste si 2 éléments successifs sont dans le bon ordre ou non
-                    if (tabJoueur[i].point > tabJoueur[i + 1].point)
+                    if (tabJoueur[i].point < tabJoueur[i + 1].point)
                     {
                         // s'ils ne le sont pas on échange leurs positions
-                        temp = tabJoueur[i];
-                        tabJoueur[i] = tabJoueur[i + 1];
-                        tabJoueur[i + 1] = temp;
+                        temp = tabJoueur[i].classement;
+                        tabJoueur[i].classement = tabJoueur[i + 1].classement;
+                        tabJoueur[i + 1].classement = temp;
                         permut = true;
                     }
                 }
             } while (permut);
 
-            int j = nbJoueurs - 1;
+            int j = 0;
             Console.Write("\n Tableau des scores:\n");
-            int t = 1;
-            while (j >= 0)
+            while (j < nbJoueurs)
             {
-                Console.WriteLine("A la place {0}: {1} avec {2} points\n", t, tabJoueur[j].nom, tabJoueur[j].point);
-                t++;
-                j--;
+                Console.WriteLine("le joueur {0} avec {1} points est classé {2}\n", tabJoueur[j].nom, tabJoueur[j].point, tabJoueur[j].classement);
+                j++;
             }
 
             Console.ReadLine();
