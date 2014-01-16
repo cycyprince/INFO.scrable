@@ -39,8 +39,14 @@ namespace scrabble
             Console.WriteLine("           *    *              *  *       *      *    *     *    *     *    *           *        ");
             Console.WriteLine("           *    *              *    *     *      *    *     *    *     *    *           *        ");
             Console.WriteLine(" ***********    **********     *      *   *      *    ******     ******     ********    *******  ");
-
-            Console.Write("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! \n\n appuyez sur entrée");
+            
+            Console.WriteLine("\n THOMAS F. ET CYRIL H., ELEVE EN 1ere ANNEE A L'ENSC, VOUS PRESENTE LEUR VERSION DU SCRABBLE. ENJOY & HAVE FUN!! ");
+            Console.Write("\n_________________________________________________________________________________________________________________\n");
+            Console.WriteLine("\n Pendant le jeu, appuyez sur sur les flèches pour déplacer le curseur");
+            Console.WriteLine("\n  appuyez sur \"Echap\" pour annuler la selection d'une pièce");
+            Console.WriteLine("\n  appuyez sur \"Suppr\" pour supprimer le mot en cours d'écriture");
+            Console.WriteLine("\n  appuyez sur \"Entrée\" pour valider");
+           
             Console.ReadLine();
 
 
@@ -52,7 +58,7 @@ namespace scrabble
             System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Tetris.wav");
             player.Play();
             Console.Title = "LE SCRABBLE par THOMAS FAUQUIGNON et CYRIL HATCHI 1A ENSC";
-            Console.SetWindowSize(150, 58);
+
 
             bool partieFinie = false;
 
