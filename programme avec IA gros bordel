@@ -195,18 +195,18 @@ namespace scrabble
                             {
                                 Console.WriteLine("\n La case du milieu doit être utilisée au premier tour! next \n");
                                 Console.ReadLine();
-                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                             }
                             if (checkAttaché)
                             {
                                 Console.WriteLine("\n Le mot doit être lié à un mot déjà présent sur le tableau! next \n ");
-                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                                 Console.ReadLine();
                             }
 
                             if (!existe)
                             {
-                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                                 Console.Write("\n Le mot n'existe pas ! Next \n");
                                 Console.ReadLine();
                             }
@@ -637,7 +637,7 @@ namespace scrabble
                 choixlettre(tabMains, numJoueur, tabcurseur, ref lettre, tabJoueur, tabLettre, défausse);
                 if (lettre.nom == '$')// si l'utilisateur a choisi de supprimer
                 {
-                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                    motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                     verifhorizontal = false;
                     verifvertical = false;
                     compte = 0;
@@ -689,7 +689,7 @@ namespace scrabble
                             if (touche.Key == ConsoleKey.Delete)
                             {
                                 score = 0;
-                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                                 verifhorizontal = false;
                                 verifvertical = false;
                                 compte = 0;
@@ -951,7 +951,7 @@ namespace scrabble
 
         }
 
-        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int numJoueur, int[,] tabverif, ref int score)
+        public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int numJoueur, ref int[,] tabverif, ref int score)
         {
             int j = 0;
             score = 0;
@@ -981,18 +981,18 @@ namespace scrabble
             if (tabcurseur[7, 7].nom == ' ' && lettre.nom == '&')
             {
 
-                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
+                motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                 check1ereCase = false;
             }
 
             //vérification que le mot soit "attaché" à un autre
             checkAttaché = true;
-
+             int i = 0;
             if (check1ereCase)// si la première case est remplie
             {
                 if (tabVérif[7, 7] == 1)
                 {
-                    int i = 0;
+                    i = 0;
                     while (i < 7 && checkAttaché)
                     {
                         if (positionLettre[i, 0] - 1 >= 0)
@@ -1004,17 +1004,19 @@ namespace scrabble
                         }
                         i++;
                     }
+                }
 
                     if (!checkAttaché)
                     {
                         i = 0;
                         while (i < 7)
                         {
-                            tabVérif[positionLettre[i, 0], positionLettre[i, 0]] = 1;
+                            tabVérif[positionLettre[i, 0], positionLettre[i, 1]] = 1;
                             i++;
                         }
                     }
-                }
+                
+                
 
                 if (tabVérif[7, 7] == 0)
                 {
@@ -1029,24 +1031,21 @@ namespace scrabble
 
 
             }
-
-
             //vérification que le mot est dans le dictionnaire
             if (check1ereCase && !checkAttaché)
             {
                 bool existe = true;
 
-                for (int i = 0; i < 8 && existe; i++)// si un des mots formé n'existe pas, le mot posé est refusé
+                for (int x = 0; x < 8 && existe; x++)// si un des mots formé n'existe pas, le mot posé est refusé
                 {
-                    if (mot[i] != null)
+                    if (mot[x] != null)
                     {
-                        existe = vérifMot(mot[i]);
+                        existe = vérifMot(mot[x]);
                     }
                     if (!existe)
                     {
-                        Console.Write(" \n le mot {0} n'existe pas", mot[i]);
-                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, tabVérif, ref score);
-                        Console.ReadLine();
+                        Console.Write(" \n le mot {0} n'existe pas", mot[x]);
+                        motRefuse(ref tabcurseur, tabLettre, ref tabMains, ref positionLettre, numJoueur, ref tabVérif, ref score);
                     }
                 }
             }
