@@ -87,6 +87,7 @@ namespace scrabble
             }
             return nb;
         }
+
         public static string demandeOUI_NON()
         {
             string réponse;
@@ -100,7 +101,7 @@ namespace scrabble
             } while (réponse != "oui" && réponse != "non");
 
             return réponse;
-        }
+        }//fonction qui demande une réponse oui ou non
 
         public static void JOUER(ref bool partieFinie, System.Media.SoundPlayer player)
         {
@@ -156,7 +157,7 @@ namespace scrabble
                 compteFinTour = 0;
                 while (numJoueur < nbJoueurs)
                 {
-                    
+
                     Console.Clear();
                     Console.Write("\n\nC'est au tour de {0}\n", tabJoueur[numJoueur].nom);
                     pioche(ref tabMains, ref tabLettre, numJoueur, rndNumbers, ref piocheVide);
@@ -349,7 +350,7 @@ namespace scrabble
                     }
                 }
 
-                tabJoueur[i].classement = 1+i;
+                tabJoueur[i].classement = 1 + i;
 
 
 
@@ -425,7 +426,7 @@ namespace scrabble
             }
 
 
-        }
+        }//fonction qui va initialiser toutes les tableaux nécéssaires au fonctionnement du jeu
 
         public static void afficheMain(ref PIECE[,] tabMains, int numJoueur, JOUEUR[] tabJoueur, PIECE[] tabLettre)
         {
@@ -457,7 +458,7 @@ namespace scrabble
             }
             Console.Write("|");
             Console.Write("\n              =============================\n");
-        }
+        }//va afficher la main du joueur
 
         public static bool vérifMot(string mot_a_trouver)
         {
@@ -478,7 +479,7 @@ namespace scrabble
             }
             monStreamReader.Close();
             return existe;
-        }
+        }//va vérifier si le mot est présent dan sle dico ou non
 
         public static void affichecurseur(PIECE[,] tabcurseur, int k, int l)
         {
@@ -536,7 +537,7 @@ namespace scrabble
             Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine("  A   B   C   D   E   F   G   H   I   J   K   L   M   N   O");
 
-        }
+        }//va afficher le curseur pour positionner une lettre
 
         public static void choixlettre(PIECE[,] tabMains, int numJoueur, PIECE[,] tabcurseur, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
         {
@@ -615,7 +616,7 @@ namespace scrabble
             }
 
 
-        }
+        }//va permettre de coisir une lettre de notre main
 
         public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int numJoueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, ref bool verifhorizontal, ref bool verifvertical, ref string défausse, ref int a, ref int b, ref int compteFinTour)
         {
@@ -724,7 +725,7 @@ namespace scrabble
 
 
 
-        }
+        }// va permettre de positionner une lettre sur le plateau de jeu
 
         public static void pioche(ref PIECE[,] tabMains, ref PIECE[] tabLettre, int numJoueur, Random rndNumbers, ref bool piocheVide)
         {
@@ -768,7 +769,7 @@ namespace scrabble
                 j++;
 
             }
-        }
+        }// va permettre de remplir les cases vides de la main d'un joueur avec les lettres de la pioche
 
         public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score, PIECE[,] tabMains, int numJoueur)
         {
@@ -949,7 +950,7 @@ namespace scrabble
             { tabcoef[positionLettre[h, 0], positionLettre[h, 1]] = 1; }// une fois que les scores des différents mots formés on été calculés on écrase les différents coefficients qui ne pourront plus être utilisés
             return motsposés;
 
-        }
+        }//nous donne le mot posé sur le plateau ainsi que les mots formés avec les lettres adjacentes
 
         public static void motRefuse(ref PIECE[,] tabcurseur, PIECE[] tabLettre, ref PIECE[,] tabMains, ref int[,] positionLettre, int numJoueur, ref int[,] tabverif, ref int score)
         {
@@ -968,7 +969,7 @@ namespace scrabble
                 j++;
             }
             positionLettre = new int[7, 2];
-        }
+        }//va permettre d'effacer le mot posé si il n'est pas bon et va renvoyer les lettres dans la main du joueur
 
         public static void vérification(ref PIECE[,] tabcurseur, int[,] tabcoef, ref JOUEUR[] tabJoueur, PIECE[] tabLettre, PIECE lettre, ref int[,] tabVérif, ref PIECE[,] tabMains, ref int[,] positionLettre, int numJoueur, ref bool verifvertical, ref bool verifhorizontal, out int compte, out bool check1ereCase, ref bool checkAttaché, string[] mot, ref int score)
         {
@@ -987,7 +988,7 @@ namespace scrabble
 
             //vérification que le mot soit "attaché" à un autre
             checkAttaché = true;
-             int i = 0;
+            int i = 0;
             if (check1ereCase)// si la première case est remplie
             {
                 if (tabVérif[7, 7] == 1)
@@ -1006,17 +1007,17 @@ namespace scrabble
                     }
                 }
 
-                    if (!checkAttaché)
+                if (!checkAttaché)
+                {
+                    i = 0;
+                    while (i < 7)
                     {
-                        i = 0;
-                        while (i < 7)
-                        {
-                            tabVérif[positionLettre[i, 0], positionLettre[i, 1]] = 1;
-                            i++;
-                        }
+                        tabVérif[positionLettre[i, 0], positionLettre[i, 1]] = 1;
+                        i++;
                     }
-                
-                
+                }
+
+
 
                 if (tabVérif[7, 7] == 0)
                 {
@@ -1049,10 +1050,10 @@ namespace scrabble
                     }
                 }
             }
-        }
+        }//effectue les vérifications pour savoir si le mot est bon : si il est attaché à un mot déjà présent / si la case du milieu est remplie / si le mot existe dans le dictionnaire
 
-        public static bool verifIA(PIECE[,] tabcurseur, JOUEUR[] tabJoueur, PIECE[] tabLettre, int a, int b, int[] espaceLibre, PIECE LettreDisponible, string motAposer, out int[] positionLettre, out bool horizontal)
-        {// fonction qui  vérifie si un mot rentre dans l'espace disponible sur la grille.
+        public static bool verifIA(PIECE[,] tabcurseur, JOUEUR[] tabJoueur, PIECE[] tabLettre, int a, int b, int[] espaceLibre, PIECE LettreDisponible, string motAposer, out int[] positionLettre, out bool horizontal)// fonction qui  vérifie si un mot rentre dans l'espace disponible sur la grille.
+        {
             bool verif = false;
             bool verif1 = true;
             bool verif2 = true;
