@@ -173,7 +173,7 @@ namespace scrabble
                         {
 
                             positionnerPiece(tabcurseur, tabMains, numJoueur, tabJoueur, tabcoef, tabLettre, ref lettre, ref positionLettre, ref tabVérif, ref verifhorizontal, ref verifvertical, ref défausse, ref a, ref  b, ref compteFinTour);
-                            mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score);
+                            mot = motPosé(tabcurseur, positionLettre, verifhorizontal, verifvertical, tabcoef, out score, tabMains, numJoueur);
                             vérification(ref tabcurseur, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, numJoueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                             finPartie(ref partieFinie, tabMains, numJoueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
                         }
@@ -767,7 +767,7 @@ namespace scrabble
             }
         }
 
-        public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score)
+        public static string[] motPosé(PIECE[,] tabcurseur, int[,] positionLettre, bool verifhorizontal, bool verifvertical, int[,] tabcoef, out int score, PIECE[,] tabMains, int numJoueur)
         {
 
 
@@ -789,6 +789,7 @@ namespace scrabble
                 int motcpttriple = 1;
                 int scoreMot = 0;
                 bool lettreposé = false;
+                int verifscrabble=0;
 
 
                 // on cherche la première lettre ( la plus à gauche)
@@ -846,7 +847,16 @@ namespace scrabble
                         motsposés[l] = motAvérifier;
                         l++;
                     }
-
+                    verifscrabble=0;
+                 while ( verifscrabble < 7&&tabMains[numJoueur, verifscrabble].nom == ' ' )
+                {
+                     verifscrabble++;
+                    if (verifscrabble == 7)
+                     {
+                         score = score + 50;
+                         Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
+                     }
+                 }
                 }
 
 
@@ -916,8 +926,19 @@ namespace scrabble
                         l++;
 
                     }
-
+                    verifscrabble=0;
+                    while (verifscrabble < 7 && tabMains[numJoueur, verifscrabble].nom == ' ')
+                {
+                     verifscrabble++;
+                    if (verifscrabble == 7)
+                     {
+                         score = score + 50;
+                         Console.WriteLine(" SCRABBLE !!!!!!   +50 points");
+                     }
+                 }
                 }
+
+                
 
 
             }
