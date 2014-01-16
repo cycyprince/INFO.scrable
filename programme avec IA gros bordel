@@ -608,85 +608,6 @@ namespace scrabble
 
         }
 
-         public static void choixlettre(PIECE[,] tabMains, int numJoueur, PIECE[,] tabcurseur, ref PIECE lettre, JOUEUR[] tabJoueur, PIECE[] tabLettre, string défausse)
-        {
-            char[] curseur = new char[8];
-            for (int l = 0; l < 8; l++)
-            {
-                curseur[l] = ' ';
-            }
-            ConsoleKeyInfo touche; // touche entrée pour déplacer le curseur
-            curseur[0] = '*';
-            int i = 0;
-            int j = 0;
-            do
-            {
-
-                afficheMain(ref tabMains, numJoueur, tabJoueur, tabLettre);// affiche le tableau et la main
-                Console.Write("              ");// ajustement du curseur sous la main
-                for (i = 0; i < 8; i++)
-                {
-                    Console.Write(' ');
-                    Console.Write(' ');
-                    Console.Write(curseur[i]);
-                    Console.Write(' ');
-                }// affichage du tableau curseur
-                touche = Console.ReadKey();//demande un caractère
-                if (touche.Key == ConsoleKey.RightArrow && j < 7)// si flèche de droite
-                {
-                    curseur[j] = ' ';
-                    curseur[j + 1] = '*';
-                    j++;
-
-                }
-                if (touche.Key == ConsoleKey.LeftArrow && j > 0)// si flèche de gauche
-                {
-                    curseur[j - 1] = '*';
-                    curseur[j] = ' ';
-                    j--;
-                }
-                Console.Clear();
-                affichecurseur(tabcurseur, -1, -1);//affichage du tableau sans curseur
-            }
-
-            while (touche.Key != ConsoleKey.Delete && touche.Key != ConsoleKey.Enter && j >= 0 && j < 8);
-            if (j == 7)
-            { lettre = tabLettre[28]; }// correspond à la validation
-            else
-            {
-                if (touche.Key == ConsoleKey.Delete)// correspond à la suppression
-                { lettre = tabLettre[29]; }
-                else
-                {
-                    lettre = tabMains[numJoueur, j];
-                    if (lettre.nom == tabLettre[26].nom)// si le joueur a choisi le joker
-                    {
-                        Console.Write(" par quelle lettre voulez-vous remplacer le joker?");
-                        bool ok = false;
-                        while (!ok)
-                        {
-                            try
-                            {
-                                lettre.nom = char.Parse(Console.ReadLine());// le joueur doit entrer une lettre
-                                ok = true;
-                            }
-
-                            catch (Exception) // si ce n'est pas une lettre, il doit réessayer
-                            { Console.WriteLine("ce n'est pas une lettre, veuillez réessayer"); }
-                        }
-                    }
-
-                    tabMains[numJoueur, j] = tabLettre[27];//va effacer la case
-                    if (défausse == "oui")// si la lettre choisie est pour la reposer dans la pioche
-                    {
-                        tabMains[numJoueur, j].nb_restant = tabMains[numJoueur, j].nb_restant + 1;
-                    }
-                }
-            }
-
-
-        }
-
         public static void positionnerPiece(PIECE[,] tabcurseur, PIECE[,] tabMains, int numJoueur, JOUEUR[] tabJoueur, int[,] tabcoef, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref int[,] tabVérif, ref bool verifhorizontal, ref bool verifvertical, ref string défausse, ref int a, ref int b, ref int compteFinTour)
         {
             ConsoleKeyInfo touche;
@@ -911,7 +832,7 @@ namespace scrabble
                 {
                     string motAvérifier = new string(motPosé);
                     motAvérifier = motAvérifier.Substring(0, compteLettre);
-                    
+
                     if (motAvérifier.Length > 1)
                     {
                         scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
@@ -921,7 +842,7 @@ namespace scrabble
                     }
 
                 }
-               
+
 
 
 
@@ -980,16 +901,16 @@ namespace scrabble
                 {
                     string motAvérifier = new string(motPosé);
                     motAvérifier = motAvérifier.Substring(0, compteLettre);
-                    
+
                     if (motAvérifier.Length > 1)
-                    { 
+                    {
                         scoreMot = scoreMot * motcptdouble * motcpttriple;// le score est multiplié par les coefficients mot compte double et tripple qui valent 1 si aucune lettre n'est sur une de ces cases.
                         score = score + scoreMot;
                         motsposés[l] = motAvérifier;
                         l++;
 
                     }
-                   
+
                 }
 
 
