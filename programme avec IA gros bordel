@@ -269,21 +269,6 @@ namespace scrabble
                 Console.ReadLine();
 
             }
-            Console.Write("\n PARTIE FINIE, VOICI LE CLASSEMENT \n");
-            afficheScore(tabJoueur, nbJoueurs);
-            Console.ReadLine();
-            Console.Write("\nVoulez vous rejouer ?(oui/non)\n");
-            string réponse = demandeOUI_NON();
-            if (réponse == "oui")
-            {
-                partieFinie = false;
-                JOUER(ref partieFinie, player);
-            }
-            else
-            { 
-                Console.Write("\nMERCI ET A BIENTOT !!\n");
-            }
-            
         }
 
         public static void initialisation(ref PIECE[] tabLettre, ref PIECE[,] tabMains, int nbJoueurs, ref JOUEUR[] tabJoueur, ref int[,] tabcoef, ref int[,] tabVérif, ref PIECE[,] plateau)//fonction qui va initialiser toutes les tableaux nécéssaires au fonctionnement du jeu
