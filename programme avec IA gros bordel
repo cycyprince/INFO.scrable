@@ -143,8 +143,6 @@ namespace scrabble
             bool mainVide = true;
             bool mainPleine = true;
             int compteFinTour;
-            int a = 0;
-            int b = 0;
             string défausse;
             int score = 0;
             int compte = 0;
@@ -174,7 +172,7 @@ namespace scrabble
                         if (défausse == "non")
                         {
 
-                            positionnerPiece(plateau, tabMains, numJoueur, tabJoueur, tabLettre, ref lettre, ref positionLettre, ref verifhorizontal, ref verifvertical,défausse, ref a, ref  b, ref compteFinTour);
+                            positionnerPiece(plateau, tabMains, numJoueur, tabJoueur, tabLettre, ref lettre, ref positionLettre, ref verifhorizontal, ref verifvertical,défausse, ref compteFinTour);
                             mot = motPosé(plateau, positionLettre, verifhorizontal, verifvertical, tabcoef, out score, tabMains, numJoueur);
                             vérification(ref plateau, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, numJoueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                             finPartie(ref partieFinie, tabMains, numJoueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
@@ -632,14 +630,14 @@ namespace scrabble
 
         }
 
-        public static void positionnerPiece(PIECE[,] plateau, PIECE[,] tabMains, int numJoueur, JOUEUR[] tabJoueur, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref bool verifhorizontal, ref bool verifvertical, string défausse, ref int a, ref int b, ref int compteFinTour)// va permettre de positionner une lettre sur le plateau de jeu
+        public static void positionnerPiece(PIECE[,] plateau, PIECE[,] tabMains, int numJoueur, JOUEUR[] tabJoueur, PIECE[] tabLettre, ref PIECE lettre, ref int[,] positionLettre, ref bool verifhorizontal, ref bool verifvertical, string défausse, ref int compteFinTour)// va permettre de positionner une lettre sur le plateau de jeu
         {
             ConsoleKeyInfo touche;
             int compte = 0;
             int score = 0;
             lettre.nom = ' ';
-            a = 0;
-            b = 0;
+            int a = 0;
+            int b = 0;
             positionLettre = new int[7, 2];// enregistre les positions des pièces posées pendant le tour
 
             verifhorizontal = false;
