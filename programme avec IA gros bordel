@@ -178,7 +178,7 @@ namespace scrabble
                             mot = motPosé(plateau, positionLettre, verifhorizontal, verifvertical, tabcoef, out score, tabMains, numJoueur);
                             vérification(ref plateau, tabcoef, ref tabJoueur, tabLettre, lettre, ref tabVérif, ref tabMains, ref positionLettre, numJoueur, ref verifvertical, ref verifhorizontal, out compte, out check1ereCase, ref checkAttaché, mot, ref score);
                             finPartie(ref partieFinie, tabMains, numJoueur, ref mainVide, piocheVide, ref tabJoueur, nbJoueurs);
-                        }
+                       
 
                         int i = 0;
                         while (i < 7 && mainPleine)
@@ -211,6 +211,7 @@ namespace scrabble
                                 Console.Write("\n Le mot n'existe pas ! Next \n");
                                 Console.ReadLine();
                             }
+                        } 
                         }
 
 
@@ -942,7 +943,8 @@ namespace scrabble
             score = 0;
             for (int i = 0; i < 7 && plateau[positionLettre[i, 0], positionLettre[i, 1]].nom != ' '; i++)
             {
-                while (tabMains[numJoueur, j].nom != ' ')
+                j = 0;
+                while (tabMains[numJoueur, j].nom != ' ' && j<7)
                 { j++; }
                 if (plateau[positionLettre[i, 0], positionLettre[i, 1]].val == 0)
                 { tabMains[numJoueur, j] = tabLettre[26]; }
